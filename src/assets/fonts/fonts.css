@@ -1,0 +1,44 @@
+@font-face {
+	font-family: 'Pecita';
+	src: url('./pecita/Pecita.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'HaveHeartOne';
+	src: url('./have-heart/have-heart-one.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'HaveHeartSwash';
+	src: url('./have-heart/have-heart-swash.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'HaveHeartTwo';
+	src: url('./have-heart/have-heart-two.otf') format('opentype');
+}
+@font-face {
+	font-family: 'Kalam';
+	src: url('./kalam/Kalam-Bold.ttf') format('truetype'),
+		url('./kalam/Kalam-Light.ttf') format('truetype'),
+		url('./kalam/Kalam-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Centra';
+	src: url('./centra/CentraNo2-Bold.ttf') format('truetype'),
+		url('./centra/CentraNo2-Medium.ttf') format('truetype'),
+		url('./centra/CentraNo2-Book.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Poppins';
+	src: url('./poppins/Poppins-Light.ttf') format('truetype'),
+		url('./poppins/Poppins-Regular.ttf') format('truetype'),
+		url('./poppins/Poppins-Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'SulphurPoint';
+	src: url('./sulphur_point/SulphurPoint-Light.ttf') format('truetype'),
+		url('./sulphur_point/SulphurPoint-Regular.ttf') format('truetype'),
+		url('./sulphur_point/SulphurPoint-Bold.ttf') format('truetype');
+}
