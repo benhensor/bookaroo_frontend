@@ -1,72 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+} from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { AuthProvider } from './context/AuthContext'
+import { UserProvider } from './context/UserContext'
+import { BooksProvider } from './context/BooksContext'
+import { MessagesProvider } from './context/MessagesContext'
+import Header from './components/header/Header'
+import Home from './pages/Home'
+import Listing from './pages/Listing'
+import Contact from './pages/Contact'
+import Browse from './pages/Browse'
+import Book from './pages/Book'
+import Login from './components/login/Login'
+import Register from './components/register/Register'
+import Dashboard from './pages/Dashboard'
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
+
+const queryClient = new QueryClient()
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState({ title: '', description: '' });
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`);
-    const data = await response.json();
-    setTasks(data);
-  };
-
-  const handleInputChange = (e) => {
-    setNewTask({ ...newTask, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newTask),
-    });
-    setNewTask({ title: '', description: '' });
-    fetchTasks();
-  };
-
-  const handleDelete = async (id) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/api/tasks/${id}`, {
-      method: 'DELETE',
-    });
-    fetchTasks();
-  };
-
-  return (
-    <div className="App">
-      <h1>Task Manager</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={newTask.title}
-          onChange={handleInputChange}
-          placeholder="Task title"
-          required
-        />
-        <input
-          type="text"
-          name="description"
-          value={newTask.description}
-          onChange={handleInputChange}
-          placeholder="Task description"
-        />
-        <button type="submit">Add Task</button>
-      </form>
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
-            {task.title} - {task.description}
-            <button onClick={() => handleDelete(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+	return (
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+					<BooksProvider>
+						<UserProvider>
+							<MessagesProvider>
+								<Router>
+									<Header />
+									<main>
+										<Routes>
+											<Route path="/register" element={<Register />} />
+											<Route path="/login" element={<Login />} />
+											<Route path="/dashboard" element={
+												<ProtectedRoute>
+													<Dashboard />
+												</ProtectedRoute>
+											} />
+											<Route path="/list" element={
+												<ProtectedRoute>
+													<Listing />
+												</ProtectedRoute>
+											} />
+											<Route path="/contact" element={
+												<ProtectedRoute>
+													<Contact />
+												</ProtectedRoute>
+											} />
+											<Route path="/browse" element={
+												<ProtectedRoute>
+													<Browse />
+												</ProtectedRoute>
+											} />
+											<Route path="/book" element={
+												<ProtectedRoute>
+													<Book />
+												</ProtectedRoute>
+											} />
+											<Route path="*" element={<Home />}/>
+										</Routes>
+									</main>
+								</Router>
+							</MessagesProvider>
+						</UserProvider>
+					</BooksProvider>
+			</AuthProvider>
+		</QueryClientProvider>
+	)
 }
 
-export default App;
+export default App
