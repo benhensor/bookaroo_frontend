@@ -12,49 +12,45 @@ const Register = () => {
 	const navigate = useNavigate()
 
 	const registerUser = async (values) => {
-    // console.log('registering:', values)
-    try {
-      const { email, username, postcode, password } = values
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/auth/register`,
-        { email, username, postcode, password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      // console.log(res.data)
-      navigate('/login')
-    } catch (error) {
-      console.error(error.response.data)
-    }
-  }
+		// console.log('registering:', values)
+		try {
+			const { email, username, postcode, password } = values
+			await axios.post(
+				`${process.env.REACT_APP_API_URL}/api/auth/register`,
+				{ email, username, postcode, password },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			// console.log(res.data)
+			navigate('/login')
+		} catch (error) {
+			console.error(error.response.data)
+		}
+	}
 
+	const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
+		useFormik({
+			initialValues: {
+				email: '',
+				username: '',
+				postcode: '',
+				password: '',
+				confirmPassword: '',
+			},
+			validationSchema: registerSchema,
+			onSubmit: registerUser,
+		})
 
-	const { values, handleSubmit, handleBlur, handleChange, touched, errors } = useFormik({
-		initialValues: {
-      email: '',
-			username: '',
-			postcode: '',
-			password: '',
-      confirmPassword: '',
-		},
-    validationSchema: registerSchema,
-		onSubmit: registerUser,
-  })
-
-  // console.log(errors)
+	// console.log(errors)
 
 	return (
 		<section>
 			<Content>
 				<h1>Register</h1>
-				<form
-					onSubmit={handleSubmit}
-					method="post"
-					autoComplete="off"
-				>
+				<form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"
 						name="hidden"
@@ -64,21 +60,21 @@ const Register = () => {
 					<InputGroup>
 						<label htmlFor="email">Email</label>
 						<input
-              id="email"
+							id="email"
 							type="email"
 							value={values.email}
 							onChange={handleChange}
 							onBlur={handleBlur}
 							placeholder={
-								errors.email &&
-								touched.email
+								errors.email && touched.email
 									? errors.email
-									: 'Choose a username'
+									: 'Email'
 							}
 							className={
-								errors.username &&
-								touched.username
-									? 'error'
+								touched.email
+									? errors.email
+										? 'error'
+										: 'valid'
 									: ''
 							}
 						/>
@@ -86,21 +82,21 @@ const Register = () => {
 					<InputGroup>
 						<label htmlFor="username">Username</label>
 						<input
-              id="username"
+							id="username"
 							type="text"
 							value={values.username}
 							onChange={handleChange}
 							onBlur={handleBlur}
 							placeholder={
-								errors.username &&
-								touched.username
+								errors.username && touched.username
 									? errors.username
 									: 'Choose a username'
 							}
 							className={
-								errors.username &&
 								touched.username
-									? 'error'
+									? errors.username
+										? 'error'
+										: 'valid'
 									: ''
 							}
 						/>
@@ -108,21 +104,21 @@ const Register = () => {
 					<InputGroup>
 						<label htmlFor="postcode">Location</label>
 						<input
-              id="postcode"
+							id="postcode"
 							type="text"
 							value={values.postcode}
 							onChange={handleChange}
 							onBlur={handleBlur}
 							placeholder={
-								errors.postcode &&
-								touched.postcode
+								errors.postcode && touched.postcode
 									? errors.postcode
 									: 'Enter your post code'
 							}
 							className={
-								errors.postcode &&
 								touched.postcode
-									? 'error'
+									? errors.postcode
+										? 'error'
+										: 'valid'
 									: ''
 							}
 						/>
@@ -130,21 +126,21 @@ const Register = () => {
 					<InputGroup>
 						<label htmlFor="password">Password</label>
 						<input
-              id="password"
+							id="password"
 							type="password"
 							value={values.password}
 							onChange={handleChange}
 							onBlur={handleBlur}
 							placeholder={
-								errors.password &&
-								touched.password
+								errors.password && touched.password
 									? errors.password
 									: 'Password'
 							}
 							className={
-								errors.password &&
 								touched.password
-									? 'error'
+									? errors.password
+										? 'error'
+										: 'valid'
 									: ''
 							}
 						/>
@@ -152,7 +148,7 @@ const Register = () => {
 					<InputGroup>
 						<label htmlFor="password">Confirm Password</label>
 						<input
-              id="confirmPassword"
+							id="confirmPassword"
 							type="password"
 							value={values.confirmPassword}
 							onChange={handleChange}
@@ -164,9 +160,10 @@ const Register = () => {
 									: 'Confirm Password'
 							}
 							className={
-								errors.confirmPassword &&
 								touched.confirmPassword
-									? 'error'
+									? errors.confirmPassword
+										? 'error'
+										: 'valid'
 									: ''
 							}
 						/>

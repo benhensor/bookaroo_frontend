@@ -106,23 +106,30 @@ const GlobalStyles = createGlobalStyle`
 	}
 
   input, select, textarea {
-    width: 100%;
-		padding: var(--sm);
-		font-size: 1.4rem;
-		border: 1px solid #ccc;
-		border-radius: var(--xs);
-    &:focus {
-      outline: none;
-      border-color: var(--accentGreen);
-    }
-	}
-
-  .error {
-    border-color: var(--softRed); 
-    &::placeholder {
-      color: var(--softRed); 
-    }
+  width: 100%;
+  padding: var(--sm);
+  font-size: 1.4rem;
+  border: 1px solid #ccc;
+  border-radius: var(--xs);
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+  
+  &:focus {
+    outline: none;
+    border-color: var(--accentGreen); /* Default focus state color */
   }
+  
+  &.valid {
+    border-color: var(--accentGreen); /* Valid state */
+  }
+
+  &.error {
+    border-color: var(--softRed); /* Error state */
+  }
+
+  &.error::placeholder {
+    color: var(--softRed); /* Error state placeholder color */
+  }
+}
 
   select, option {
     overflow: hidden;
