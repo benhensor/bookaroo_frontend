@@ -1,114 +1,185 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Button from '../buttons/Button';
-import { Content } from '../../assets/styles/GlobalStyles';
-import { P, InputGroup } from '../../assets/styles/RegisterStyles';
+import React from 'react'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { registerSchema } from '../../schemas/index'
+import SubmitButton from '../buttons/SubmitButton'
+import LinkButton from '../buttons/LinkButton'
+import { Content } from '../../assets/styles/GlobalStyles'
+import { P, InputGroup } from '../../assets/styles/RegisterStyles'
 
 const Register = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate()
 
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, 'Username must be at least 3 characters')
-      .max(20, 'Username cannot exceed 20 characters')
-      .required('Username is required'),
-    password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-      )
-      .required('Password is required'),
-    location: Yup.string()
-      .min(2, 'Location must be at least 2 characters')
-      .max(50, 'Location cannot exceed 50 characters')
-      .required('Location is required'),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-      location: '',
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, values, {
+	const registerUser = async (values) => {
+    // console.log('registering:', values)
+    try {
+      const { email, username, postcode, password } = values
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/auth/register`,
+        { email, username, postcode, password },
+        {
           headers: {
             'Content-Type': 'application/json',
           },
-        });
-        console.log(res.data);
-        navigate('/login');
-      } catch (error) {
-        console.error(error.response.data);
-      }
-    },
-  });
+        }
+      )
+      // console.log(res.data)
+      navigate('/login')
+    } catch (error) {
+      console.error(error.response.data)
+    }
+  }
 
-  return (
-    <section>
-      <Content>
-        <h1>Register</h1>
-        <form onSubmit={formik.handleSubmit} method="post" autoComplete="off">
-          <input autoComplete="off" name="hidden" type="text" style={{ display: 'none' }} />
-          <InputGroup>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Username"
-              required
-            />
-            {formik.touched.username && formik.errors.username ? (
-              <div style={{ color: 'red' }}>{formik.errors.username}</div>
-            ) : null}
-          </InputGroup>
-          <InputGroup>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Password"
-              required
-            />
-            {formik.touched.password && formik.errors.password ? (
-              <div style={{ color: 'red' }}>{formik.errors.password}</div>
-            ) : null}
-          </InputGroup>
-          <InputGroup>
-            <label htmlFor="location">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formik.values.location}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Location"
-              required
-            />
-            {formik.touched.location && formik.errors.location ? (
-              <div style={{ color: 'red' }}>{formik.errors.location}</div>
-            ) : null}
-          </InputGroup>
-          <Button type="action" text="Submit" />
-        </form>
-        <P>
-          Already have an account? &nbsp;<Button type="word" to="/login" text="Sign In" />
-        </P>
-      </Content>
-    </section>
-  );
-};
 
-export default Register;
+	const { values, handleSubmit, handleBlur, handleChange, touched, errors } = useFormik({
+		initialValues: {
+      email: '',
+			username: '',
+			postcode: '',
+			password: '',
+      confirmPassword: '',
+		},
+    validationSchema: registerSchema,
+		onSubmit: registerUser,
+  })
+
+  // console.log(errors)
+
+	return (
+		<section>
+			<Content>
+				<h1>Register</h1>
+				<form
+					onSubmit={handleSubmit}
+					method="post"
+					autoComplete="off"
+				>
+					<input
+						autoComplete="off"
+						name="hidden"
+						type="text"
+						style={{ display: 'none' }}
+					/>
+					<InputGroup>
+						<label htmlFor="email">Email</label>
+						<input
+              id="email"
+							type="email"
+							value={values.email}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							placeholder={
+								errors.email &&
+								touched.email
+									? errors.email
+									: 'Choose a username'
+							}
+							className={
+								errors.username &&
+								touched.username
+									? 'error'
+									: ''
+							}
+						/>
+					</InputGroup>
+					<InputGroup>
+						<label htmlFor="username">Username</label>
+						<input
+              id="username"
+							type="text"
+							value={values.username}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							placeholder={
+								errors.username &&
+								touched.username
+									? errors.username
+									: 'Choose a username'
+							}
+							className={
+								errors.username &&
+								touched.username
+									? 'error'
+									: ''
+							}
+						/>
+					</InputGroup>
+					<InputGroup>
+						<label htmlFor="postcode">Location</label>
+						<input
+              id="postcode"
+							type="text"
+							value={values.postcode}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							placeholder={
+								errors.postcode &&
+								touched.postcode
+									? errors.postcode
+									: 'Enter your post code'
+							}
+							className={
+								errors.postcode &&
+								touched.postcode
+									? 'error'
+									: ''
+							}
+						/>
+					</InputGroup>
+					<InputGroup>
+						<label htmlFor="password">Password</label>
+						<input
+              id="password"
+							type="password"
+							value={values.password}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							placeholder={
+								errors.password &&
+								touched.password
+									? errors.password
+									: 'Password'
+							}
+							className={
+								errors.password &&
+								touched.password
+									? 'error'
+									: ''
+							}
+						/>
+					</InputGroup>
+					<InputGroup>
+						<label htmlFor="password">Confirm Password</label>
+						<input
+              id="confirmPassword"
+							type="password"
+							value={values.confirmPassword}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							placeholder={
+								errors.confirmPassword &&
+								touched.confirmPassword
+									? errors.confirmPassword
+									: 'Confirm Password'
+							}
+							className={
+								errors.confirmPassword &&
+								touched.confirmPassword
+									? 'error'
+									: ''
+							}
+						/>
+					</InputGroup>
+					<SubmitButton text="Submit" />
+				</form>
+				<P>
+					Already have an account? &nbsp;
+					<LinkButton to="/login" text="Sign In" />
+				</P>
+			</Content>
+		</section>
+	)
+}
+
+export default Register

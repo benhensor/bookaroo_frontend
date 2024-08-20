@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 import { Link } from 'react-router-dom'
 
-export default function Button({ type, text, onClick, to, state }) {
+export default function Button({ id, text, onClick, to, state }) {
 
 	const mobile = useWindowWidth() < 768
 
@@ -13,9 +13,9 @@ export default function Button({ type, text, onClick, to, state }) {
 		}
 	}
 
-	// Define styles and props for different button types
-	const getButtonStyles = (type) => {
-		switch (type) {
+	// Define styles and props for different button ids
+	const getButtonStyles = (id) => {
+		switch (id) {
 			case 'action':
 				return {
 					as: 'button',
@@ -24,6 +24,7 @@ export default function Button({ type, text, onClick, to, state }) {
 					color: 'var(--blkGreen)',
 					width: '100%',
           fontSize: '1.2rem',
+					type: text.toLowerCase() === 'submit' ? 'submit' : 'button',
 				}
 			case 'link':
 				return {
@@ -45,6 +46,7 @@ export default function Button({ type, text, onClick, to, state }) {
 					width: mobile ? '130px' : '150px',
 					padding: '.6rem var(--md)',
 					fontSize: '1.2rem',
+					type: 'button',
 				}
 			case 'delete':
 				return {
@@ -54,6 +56,7 @@ export default function Button({ type, text, onClick, to, state }) {
 					color: 'white',
 					width: '100%',
 					fontSize: '1.2rem',
+					type: 'button',
 				}
 			case 'word':
 				return {
@@ -96,11 +99,12 @@ export default function Button({ type, text, onClick, to, state }) {
 					backgroundColor: 'grey',
 					backgroundHoverColor: 'darkgrey',
 					color: 'white',
+					type: 'button',
 				}
 		}
 	}
 
-	// Get styles based on the type
+	// Get styles based on the id
 	const {
 		as,
 		backgroundColor,
@@ -111,7 +115,7 @@ export default function Button({ type, text, onClick, to, state }) {
 		width,
 		padding,
 		textDecoration,
-	} = getButtonStyles(type)
+	} = getButtonStyles(id)
 
 	// Return the button or link with appropriate styles
 	return (

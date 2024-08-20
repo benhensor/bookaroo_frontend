@@ -17,7 +17,7 @@ export default function Home() {
           <p>Simply create an account, list your books and connect with other Bookaroos to swap or donate!</p>
         </Info>
         <Button
-          type="link"
+          id="link"
           to="/register"
           text="Get Started"
         >

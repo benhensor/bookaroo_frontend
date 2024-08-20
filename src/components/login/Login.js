@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import SubmitButton from '../buttons/SubmitButton'
+import LinkButton from '../buttons/LinkButton'
 import Button from '../buttons/Button'
 import { Content } from '../../assets/styles/GlobalStyles'
-import { P } from '../../assets/styles/LoginStyles'
+import { P, InputGroup } from '../../assets/styles/LoginStyles'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -37,25 +39,33 @@ const Login = () => {
 			<Content>
 				<h1>Login</h1>
 				<form onSubmit={onSubmit}>
-					<input
-						type="email"
-						name="email"
-						value={email}
-						onChange={onChange}
-						placeholder="Email"
-						required
-					/>
-					<input
-						type="password"
-						name="password"
-						value={password}
-						onChange={onChange}
-						placeholder="Password"
-						required
-					/>
-					<Button type="action" text="Login" />
+					<InputGroup>
+						<label htmlFor="email">Email</label>
+						<input
+							type="email"
+							name="email"
+							value={email}
+							onChange={onChange}
+							placeholder="Email"
+							required
+						/>
+					</InputGroup>
+					<InputGroup>
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							name="password"
+							value={password}
+							onChange={onChange}
+							placeholder="Password"
+							required
+						/>
+					</InputGroup>
+					<SubmitButton text="Login" />
 				</form>
-				<P>Don't have an account? &nbsp;<Button type="word" to="/register" text="Register" /></P>
+				<P>Don't have an account? &nbsp;
+					<LinkButton to="/register" text="Register" />
+				</P>
 				
 			</Content>
 		</section>

@@ -28,6 +28,7 @@ const GlobalStyles = createGlobalStyle`
     --black: #000;
     --danger: #ff4d4d;
     --dangerDk: #cc0000;
+    --softRed: #cc000050;
 
     // Fonts
 
@@ -115,6 +116,13 @@ const GlobalStyles = createGlobalStyle`
       border-color: var(--accentGreen);
     }
 	}
+
+  .error {
+    border-color: var(--softRed); 
+    &::placeholder {
+      color: var(--softRed); 
+    }
+  }
 
   select, option {
     overflow: hidden;

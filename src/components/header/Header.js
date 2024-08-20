@@ -56,7 +56,7 @@ export default function Header() {
 				</LogoContainer>
 				<UserControls>
 					{!user && (
-						<Button type="link" text="Login" to='/login' />
+						<Button id="link" text="Login" to='/login' />
 					)}
 					<MenuIcon isOpen={isOpen} onClick={toggleMenu}/>
 				</UserControls>
@@ -68,15 +68,15 @@ export default function Header() {
 					{user.username}
 				</MenuItem>
 				<MenuItem>
-					<Button type="word" text="Messages" onClick={handleEditProfile} />
+					<Button id="word" text="Messages" onClick={handleEditProfile} />
 					{unreadMessagesCount > 0 &&
 						<Notification>{unreadMessagesCount}</Notification>}
 				</MenuItem>
 				<MenuItem>
-					<Button type="word" text="Edit Profile" onClick={handleEditProfile} />
+					<Button id="word" text="Edit Profile" onClick={handleEditProfile} />
 				</MenuItem>
 				<MenuItem>
-					<Button type="word" text="Sign Out" onClick={handleLogout} />
+					<Button id="word" text="Sign Out" onClick={handleLogout} />
 				</MenuItem>
 			</UserMenu>
 		)}
