@@ -1,65 +1,88 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { loginSchema } from '../../schemas/index'
 import SubmitButton from '../buttons/SubmitButton'
 import LinkButton from '../buttons/LinkButton'
-import Button from '../buttons/Button'
 import { Content } from '../../assets/styles/GlobalStyles'
-import { P, InputGroup } from '../../assets/styles/LoginStyles'
+import { P, InputGroup, Error } from '../../assets/styles/LoginStyles'
 
 const Login = () => {
 	const navigate = useNavigate()
 	const { login } = useAuth()
-	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
-	})
 
-	const { email, password } = formData
+	const handleLogin = async (values) => {
+    try {
+      await login(values);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
 
-	const onChange = (e) =>
-		setFormData({ ...formData, [e.target.name]: e.target.value })
-
-	const onSubmit = async (e) => {
-		e.preventDefault()
-		try {
-			await login({
-				email,
-				password,
-			})
-			console.log('Logged in successfully')
-			navigate('/dashboard')
-		} catch (error) {
-			console.error('Error during login:', error.message);
-		} 
-	}
+	const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
+		useFormik({
+			initialValues: {
+				email: '',
+				password: '',
+			},
+			validationSchema: loginSchema,
+			onSubmit: handleLogin,
+		})
 
 	return (
 		<section>
 			<Content>
 				<h1>Login</h1>
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit} method="post" autoComplete="off">
+					<input
+						autoComplete="off"
+						name="hidden"
+						type="text"
+						style={{ display: 'none' }}
+					/>
 					<InputGroup>
 						<label htmlFor="email">Email</label>
 						<input
+							id="email"
 							type="email"
-							name="email"
-							value={email}
-							onChange={onChange}
+							value={values.email || ''}
+							onChange={handleChange}
+							onBlur={handleBlur}
 							placeholder="Email"
-							required
+							className={
+								touched.email
+									? errors.email
+										? 'error'
+										: 'valid'
+									: ''
+							}
 						/>
+						{errors.email && touched.email && (
+              <Error className="error">{errors.email}</Error>
+            )}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="password">Password</label>
 						<input
+							id="password"
 							type="password"
-							name="password"
-							value={password}
-							onChange={onChange}
+							value={values.password || ''}
+							onChange={handleChange}
+							onBlur={handleBlur}
 							placeholder="Password"
-							required
+							className={
+								touched.password
+									? errors.password
+										? 'error'
+										: 'valid'
+									: ''
+							}
 						/>
+            {errors.password && touched.password && (
+              <Error className="error">{errors.password}</Error>
+            )}
 					</InputGroup>
 					<SubmitButton text="Login" />
 				</form>

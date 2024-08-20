@@ -8,7 +8,8 @@ import CollapsibleItem from '../components/dashboard/CollapsibleItem'
 import Genre from '../components/dashboard/Genre'
 import Message from '../components/message/Message'
 import Carousel from '../components/carousel/Carousel'
-import Button from '../components/buttons/Button'
+import LinkButton from '../components/buttons/LinkButton'
+import DashboardButton from '../components/buttons/DashboardButton'
 import {
 	Container,
 	DashboardHeader,
@@ -243,8 +244,7 @@ export default function Dashboard() {
 						>
 							<Header>
 								<h3>Update your details...</h3>
-								<Button
-									type="word"
+								<DashboardButton
 									text="Done"
 									onClick={handleToggleDropdown}
 								/>
@@ -305,13 +305,13 @@ export default function Dashboard() {
 									onChange={handleInputChange}
 									required
 								/>
-								<Button
+								<DashboardButton
 									type="action"
 									text="Submit"
 									onClick={handleSaveUserDetails}
 								>
 									Save
-								</Button>
+								</DashboardButton>
 							</form>
 						</Dropdown>
 					</CollapsibleItem>
@@ -321,14 +321,13 @@ export default function Dashboard() {
 					<h2>Controls</h2>
 					<Controls>
 						{/* Browse available books */}
-						<Button
-							type="dashboard"
+						<LinkButton
 							to="/browse"
 							text="Browse available books"
 						/>
 
 						{/* List your books */}
-						<Button
+						<LinkButton
 							type="dashboard"
 							to="/list"
 							text="Create a listing"
@@ -354,7 +353,7 @@ export default function Dashboard() {
 							>
 								<Header>
 									<h3>Preferences</h3>
-									<Button
+									<DashboardButton
 										type="word"
 										text="Done"
 										onClick={handleSavePreferences}

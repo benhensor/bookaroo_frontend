@@ -32,6 +32,15 @@ const GlobalStyles = createGlobalStyle`
 
     // Fonts
 
+    // Font sizes
+    --fs-xxs: 1.2rem;
+    --fs-xs: 1.4rem;
+    --fs-sm: 1.6rem;
+    --fs-md: 2rem;
+    --fs-lg: 2.4rem;
+    --fs-xl: 3.2rem;
+    --fs-xxl: 4.6rem;
+
     // Spacing
     --xxs: .2rem;
     --xs: .4rem;
