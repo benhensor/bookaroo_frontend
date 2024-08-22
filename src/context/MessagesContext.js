@@ -7,9 +7,13 @@ const MessagesContext = createContext()
 
 export const MessagesProvider = ({ children }) => {
 	const queryClient = useQueryClient()
-	const { user } = useAuth()
+	const { user, isAuthenticated } = useAuth()
 
 	const fetchMessages = async () => {
+		// Check if the user is authenticated before making the API call
+		if (!isAuthenticated || !user) {
+			throw new Error('User not authenticated')
+		}
 		console.log('messages context:', user)
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
@@ -26,13 +30,9 @@ export const MessagesProvider = ({ children }) => {
 		isError,
 	} = useQuery(
 		['messages', user?.id],
-		async () => {
-			const token = sessionStorage.getItem('authToken')
-			if (!token) throw new Error('User not authenticated')
-			return fetchMessages()
-		},
+		fetchMessages,
 		{
-			enabled: !!user?.id, // Only run the query if the user is defined
+			enabled: !!user?.id && isAuthenticated, // Only run the query if the user is defined and authenticated
 			refetchOnWindowFocus: false,
 			refetchOnMount: true,
 			staleTime: Infinity, // This prevents automatic refetches
@@ -40,6 +40,9 @@ export const MessagesProvider = ({ children }) => {
 	)
 
   const getAllMessages = async () => {
+    if (!isAuthenticated || !user) {
+      throw new Error('User not authenticated')
+    }
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/messages/all`,
@@ -59,7 +62,7 @@ export const MessagesProvider = ({ children }) => {
     'messages',
     getAllMessages,
     {
-      enabled: !!user?.id,
+      enabled: !!user?.id && isAuthenticated,
       refetchOnWindowFocus: false,
       refetchOnMount: true,
       staleTime: Infinity,
