@@ -20,7 +20,7 @@ import {
 } from '../../assets/styles/HeaderStyles'
 
 export default function Header() {
-	const { user, isAuthenticated, logout } = useAuth()
+	const { user, logout } = useAuth()
 	// const { messages } = useMessages()
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
@@ -29,11 +29,12 @@ export default function Header() {
 
 	const mobile = useWindowWidth() < 768
 
-	useEffect(() => {
-		if (user) {
-			console.log(`${user.username} is still logged in`, user, isAuthenticated)
-		}
-	}, [user, isAuthenticated])
+	// debugging
+	// useEffect(() => {
+	// 	if (user) {
+	// 		console.log(`${user.username} is still logged in`, user, isAuthenticated)
+	// 	}
+	// }, [user, isAuthenticated])
 
 
 	const toggleMenu = useCallback(() => {

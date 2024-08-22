@@ -12,11 +12,11 @@ export const BooksProvider = ({ children }) => {
   const [bookOwner, setBookOwner] = useState(null);
 
   // Debugging
-  useEffect(() => {
-    if (user) {
-      console.log('Books context mounted:', user, isAuthenticated);
-    }
-  }, [user, isAuthenticated]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log('Books context mounted:', user, isAuthenticated);
+  //   }
+  // }, [user, isAuthenticated]);
 
 
 
@@ -29,7 +29,7 @@ export const BooksProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log('all books:', data);
+      // console.log('all books:', data);
       if (Array.isArray(data)) {
         setAllBooks(data);
       } else {

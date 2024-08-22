@@ -7,7 +7,6 @@ import { useBooks } from '../../context/BooksContext'
 import { calcDistance } from '../../utils/calculateDistance'
 import Heart from '../../icons/Heart'
 import ThumbnailButton from '../buttons/ThumbnailButton'
-import Button from '../buttons/Button'
 import {
 	BookContainer,
 	BookCoverContainer,

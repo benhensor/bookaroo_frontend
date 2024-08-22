@@ -48,10 +48,11 @@ export default function Dashboard() {
 	})
 
 	useEffect(() => {
-		if (user) {
-			console.log(`${user.username} logged in`, user, isAuthenticated)
+		if (likedBooks) {
+			// console.log(`${user.username} logged in`, user, isAuthenticated)
+			console.log(`liked books in dashboard:`, likedBooks)
 		}
-	}, [user, isAuthenticated])
+	}, [likedBooks])
 
 	useEffect(() => {
 		if (user) {
@@ -189,12 +190,12 @@ export default function Dashboard() {
 	
 	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
 
-	useEffect(() => {
-		console.log('Dashboard Render:');
-		console.log('User:', user);
-		console.log('IsAuthenticated:', isAuthenticated);
-		console.log('IsLoading:', isLoading);
-	}, [user, isAuthenticated, isLoading]);
+	// useEffect(() => {
+	// 	console.log('Dashboard Render:');
+	// 	console.log('User:', user);
+	// 	console.log('IsAuthenticated:', isAuthenticated);
+	// 	console.log('IsLoading:', isLoading);
+	// }, [user, isAuthenticated, isLoading]);
 	
 	if (isLoading) {
 		return (

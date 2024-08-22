@@ -9,7 +9,6 @@ export const UserProvider = ({ children }) => {
 	const { user, setUser } = useAuth()
 	const queryClient = useQueryClient()
 
-
 	// User context handles user preferences, liked books, listed books adn recommendations
 	const updateUserDetails = async (updatedUser) => {
 		try {
@@ -36,14 +35,21 @@ export const UserProvider = ({ children }) => {
 					withCredentials: true,
 				}
 			)
-			setUser((prevUser) => ({ ...prevUser, preferences: response.data.preferences }))
+			setUser((prevUser) => ({
+				...prevUser,
+				preferences: response.data.preferences,
+			}))
 			queryClient.invalidateQueries('currentUser') // Refetch user data to update preferences
-			return { success: true, message: 'Preferences updated successfully!' }
+			return {
+				success: true,
+				message: 'Preferences updated successfully!',
+			}
 		} catch (error) {
 			console.error('Error updating user preferences:', error)
 			return {
 				success: false,
-				message: 'An error occurred while updating your preferences. Please try again.',
+				message:
+					'An error occurred while updating your preferences. Please try again.',
 			}
 		}
 	}
@@ -64,21 +70,18 @@ export const UserProvider = ({ children }) => {
 		}
 	}
 
-
 	// Fetch liked books based on the IDs in the user's `likedBooks` array
-	const fetchLikedBooks = async () => {
-		if (!user || !user.likedBooks || user.likedBooks.length === 0) {
-			return []
-		}
+	const fetchLikedBooks = async (userId) => {
+		console.log('Fetching liked books...')
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_API_URL}/api/books/allbooks`,
+				`${process.env.REACT_APP_API_URL}/api/users/liked`,
 				{
 					withCredentials: true,
-					params: { ids: user.likedBooks.join(',') }, // Assuming API accepts a comma-separated list of book IDs
+					params: { userId },
 				}
 			)
-
+			console.log('Liked books:', response.data)
 			return response.data
 		} catch (error) {
 			console.error('Error fetching liked books:', error)
@@ -87,66 +90,58 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const {
-    data: likedBooks,
-    isLoading: likedBooksLoading,
-    isError: likedBooksError,
-    refetch: refetchLikedBooks,
-  } = useQuery(['likedBooks', user?.id], fetchLikedBooks, {
-    enabled: !!user, // Ensures the query only runs if a user is logged in
-    onSuccess: (data) => {
-      // console.log('Liked books:', data);
-    },
-    onError: (error) => {
-      console.error('Error fetching liked books:', error);
-    },
-  });
+		data: likedBooks,
+		isLoading: likedBooksLoading,
+		isError: likedBooksError,
+		refetch: refetchLikedBooks,
+	} = useQuery(['likedBooks', user?.id], fetchLikedBooks, {
+		enabled: !!user, // Ensures the query only runs if a user is logged in
+		onSuccess: (data) => {
+			// console.log('Liked books:', data);
+		},
+		onError: (error) => {
+			console.error('Error fetching liked books:', error)
+		},
+	})
 
-  // Mutation to like a book (add to likedBooks array)
-  const likeMutation = useMutation(
+	// Mutation to like a book (add to likedBooks array)
+	const likeMutation = useMutation(
     async (bookId) => {
-      await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/users/like`,
-        { bookId },
-        { withCredentials: true }
-      );
+        await axios.put(
+            `${process.env.REACT_APP_API_URL}/api/users/like`,
+            { bookId },
+            { withCredentials: true }
+        );
     },
     {
-      onSuccess: (_, bookId) => {
-        // Directly update user state to provide immediate feedback
-        setUser((prevUser) => ({
-          ...prevUser,
-          likedBooks: [...prevUser.likedBooks, bookId],
-        }));
-        queryClient.invalidateQueries(['likedBooks', user?.id]); // Refetch liked books after a successful like
-        queryClient.invalidateQueries('currentUser'); // Refetch user data to update likedBooks array
-      },
-    }
-  );
+        onSuccess: () => {
+				// console.log('Book liked successfully', likedBooks);
+				queryClient.invalidateQueries(['likedBooks', user?.id]) // Refetch liked books after a successful like
+				queryClient.invalidateQueries('currentUser') // Refetch user data to update likedBooks array
+			},
+		}
+	)
 
-  // Mutation to unlike a book (remove from likedBooks array)
-  const unlikeMutation = useMutation(
+	// Mutation to unlike a book (remove from likedBooks array)
+	const unlikeMutation = useMutation(
     async (bookId) => {
-      await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/users/unlike`,
-        { bookId },
-        { withCredentials: true }
-      );
+        await axios.put(
+            `${process.env.REACT_APP_API_URL}/api/users/unlike`,
+            { bookId },
+            { withCredentials: true }
+        );
     },
     {
-      onSuccess: (_, bookId) => {
-        // Directly update user state to provide immediate feedback
-        setUser((prevUser) => ({
-          ...prevUser,
-          likedBooks: prevUser.likedBooks.filter((id) => id !== bookId),
-        }));
-        queryClient.invalidateQueries(['likedBooks', user?.id]); // Refetch liked books after a successful unlike
-        queryClient.invalidateQueries('currentUser'); // Refetch user data to update likedBooks array
-      },
-    }
-  );
+        onSuccess: () => {
+				// console.log('Book unliked successfully', likedBooks);
+				queryClient.invalidateQueries(['likedBooks', user?.id]) // Refetch liked books after a successful unlike
+				queryClient.invalidateQueries('currentUser') // Refetch user data to update likedBooks array
+			},
+		}
+	)
 
-  const likeBook = (bookId) => likeMutation.mutate(bookId);
-  const unlikeBook = (bookId) => unlikeMutation.mutate(bookId);
+	const likeBook = (bookId) => likeMutation.mutate(bookId)
+	const unlikeBook = (bookId) => unlikeMutation.mutate(bookId)
 
 	useEffect(() => {
 		if (user) {

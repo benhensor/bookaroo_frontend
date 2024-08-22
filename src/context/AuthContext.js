@@ -10,11 +10,11 @@ export const AuthProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (user) {
-      console.log(`${user.username} logged in`, user, isAuthenticated);
-    }
-  }, [user, isAuthenticated]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(`${user.username} logged in`, user, isAuthenticated);
+  //   }
+  // }, [user, isAuthenticated]);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
           withCredentials: true,
         });
-        console.log('Authenticated:', data);
+        // console.log('Authenticated:', data);
         setUser(data);
         setIsAuthenticated(true);
       } catch (error) {
