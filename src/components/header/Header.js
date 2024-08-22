@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { useMessages } from '../../context/MessagesContext'
+// import { useMessages } from '../../context/MessagesContext'
 import { useQueryClient } from 'react-query'
+import { useWindowWidth } from '../../utils/useWindowWidth'
+import LinkButton from '../buttons/LinkButton'
 import Button from '../buttons/Button'
 import Logo from '../../assets/images/bookarooLogo.webp'
 import MenuIcon from '../../icons/MenuIcon'
@@ -18,12 +20,20 @@ import {
 } from '../../assets/styles/HeaderStyles'
 
 export default function Header() {
-	const { user, logout } = useAuth()
-	const { messages } = useMessages()
+	const { user, isAuthenticated, logout } = useAuth()
+	// const { messages } = useMessages()
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const [isOpen, setIsOpen] = useState(false)
-	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+	// const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+
+	const mobile = useWindowWidth() < 768
+
+	useEffect(() => {
+		if (user) {
+			console.log(`${user.username} is still logged in`, user, isAuthenticated)
+		}
+	}, [user, isAuthenticated])
 
 
 	const toggleMenu = useCallback(() => {
@@ -38,9 +48,10 @@ export default function Header() {
 
 
 	const handleLogout = () => {
-		setIsOpen(false)
+		console.log('Logging out...')
 		queryClient.removeQueries('messages')
 		logout()
+		setIsOpen(false)
 		navigate('/')
 	}
 
@@ -55,10 +66,18 @@ export default function Header() {
 					<p>Bookaroo</p>
 				</LogoContainer>
 				<UserControls>
+					{!mobile && user && (
+						<>
+							<LinkButton text="Browse" to='/browse' />
+							<LinkButton text="New Listing" to='/list' />
+						</>
+					)}
+					{mobile && user && (
+						<MenuIcon isOpen={isOpen} onClick={toggleMenu}/>
+					)}
 					{!user && (
 						<Button id="link" text="Login" to='/login' />
 					)}
-					<MenuIcon isOpen={isOpen} onClick={toggleMenu}/>
 				</UserControls>
 				
 			</Container>
@@ -68,9 +87,16 @@ export default function Header() {
 					{user.username}
 				</MenuItem>
 				<MenuItem>
+					<LinkButton text="Browse" to='/browse' />
+				</MenuItem>
+				<MenuItem>
+					<LinkButton text="New Listing" to='/list' />
+				</MenuItem>
+				<MenuItem>
 					<Button id="word" text="Messages" onClick={handleEditProfile} />
-					{unreadMessagesCount > 0 &&
-						<Notification>{unreadMessagesCount}</Notification>}
+					{/* {unreadMessagesCount > 0 &&
+						<Notification>{unreadMessagesCount}</Notification>
+					} */}
 				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Edit Profile" onClick={handleEditProfile} />

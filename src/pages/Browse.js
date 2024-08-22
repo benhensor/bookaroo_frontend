@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useBooks } from '../context/BooksContext'
-import Button from '../components/buttons/Button'
+import LinkButton from '../components/buttons/LinkButton'
 import { PageHeader } from '../assets/styles/GlobalStyles'
 import BooksGallery from '../components/books/BooksGallery'
 import Carousel from '../components/carousel/Carousel'
@@ -84,7 +84,7 @@ export default function Browse() {
 			<Controls ref={ref} $isScrolled={isScrolled}>
 				<PageHeader style={{ maxWidth: '100rem' }}>
 					<h1>Browse</h1>
-					<Button type="word" to="/dashboard" text="Return" />
+					<LinkButton to="/dashboard" text="Return" />
 				</PageHeader>
 				<SearchBar>
           <label htmlFor="search-input" className="visually-hidden">

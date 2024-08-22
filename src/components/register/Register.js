@@ -1,34 +1,22 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
 import { registerSchema } from '../../schemas/index'
-import SubmitButton from '../buttons/SubmitButton'
+import SubmitButton from '../buttons/ActionButton'
 import LinkButton from '../buttons/LinkButton'
 import { Content } from '../../assets/styles/GlobalStyles'
 import { P, InputGroup, Error } from '../../assets/styles/RegisterStyles'
 
 const Register = () => {
 	const navigate = useNavigate()
+	const { registerUser } = useAuth()
 
-	const registerUser = async (values) => {
+	const handleRegisterUser = async () => {
 		// console.log('registering:', values)
-		try {
-			const { email, username, postcode, password } = values
-			const response = await axios.post(
-				`${process.env.REACT_APP_API_URL}/api/auth/register`,
-				{ email, username, postcode, password },
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			)
-			console.log(`${response.data.username} has been registered`)
-			navigate('/login')
-		} catch (error) {
-			console.error(error.response.data)
-		}
+		registerUser(values)
+		navigate('/login')
 	}
 
 	const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
@@ -41,7 +29,7 @@ const Register = () => {
 				confirmPassword: '',
 			},
 			validationSchema: registerSchema,
-			onSubmit: registerUser,
+			onSubmit: handleRegisterUser,
 		})
 
 	// console.log(errors)
@@ -65,7 +53,7 @@ const Register = () => {
 							value={values.email || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder='Email'
+							placeholder="Email"
 							className={
 								touched.email
 									? errors.email
@@ -74,9 +62,9 @@ const Register = () => {
 									: ''
 							}
 						/>
-            {errors.email && touched.email && (
-              <Error className="error">{errors.email}</Error>
-            )}
+						{errors.email && touched.email && (
+							<Error className="error">{errors.email}</Error>
+						)}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="username">Username</label>
@@ -86,7 +74,7 @@ const Register = () => {
 							value={values.username || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder='Choose a username'
+							placeholder="Choose a username"
 							className={
 								touched.username
 									? errors.username
@@ -95,9 +83,9 @@ const Register = () => {
 									: ''
 							}
 						/>
-            {errors.username && touched.username && (
-              <Error className="error">{errors.username}</Error>
-            )}
+						{errors.username && touched.username && (
+							<Error className="error">{errors.username}</Error>
+						)}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="postcode">Location</label>
@@ -107,7 +95,7 @@ const Register = () => {
 							value={values.postcode || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder='Enter your post code'
+							placeholder="Enter your post code"
 							className={
 								touched.postcode
 									? errors.postcode
@@ -116,9 +104,9 @@ const Register = () => {
 									: ''
 							}
 						/>
-            {errors.postcode && touched.postcode && (
-              <Error className="error">{errors.postcode}</Error>
-            )}
+						{errors.postcode && touched.postcode && (
+							<Error className="error">{errors.postcode}</Error>
+						)}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="password">Password</label>
@@ -128,7 +116,7 @@ const Register = () => {
 							value={values.password || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder='Password'
+							placeholder="Password"
 							className={
 								touched.password
 									? errors.password
@@ -137,9 +125,9 @@ const Register = () => {
 									: ''
 							}
 						/>
-            {errors.password && touched.password && (
-              <Error className="error">{errors.password}</Error>
-            )}
+						{errors.password && touched.password && (
+							<Error className="error">{errors.password}</Error>
+						)}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="password">Confirm Password</label>
@@ -149,7 +137,7 @@ const Register = () => {
 							value={values.confirmPassword}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder='Confirm Password'
+							placeholder="Confirm Password"
 							className={
 								touched.confirmPassword
 									? errors.confirmPassword
@@ -158,9 +146,11 @@ const Register = () => {
 									: ''
 							}
 						/>
-            {errors.confirmPassword && touched.confirmPassword && (
-              <Error className="error">{errors.confirmPassword}</Error>
-            )}
+						{errors.confirmPassword && touched.confirmPassword && (
+							<Error className="error">
+								{errors.confirmPassword}
+							</Error>
+						)}
 					</InputGroup>
 					<SubmitButton text="Submit" />
 				</form>

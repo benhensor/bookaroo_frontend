@@ -10,17 +10,11 @@ export const MessagesProvider = ({ children }) => {
 	const { user } = useAuth()
 
 	const fetchMessages = async () => {
-		const token = sessionStorage.getItem('authToken')
-		if (!token) {
-			throw new Error('User not authenticated')
-		}
-		// console.log(token)
+		console.log('messages context:', user)
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
 			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+				withCredentials: true,
 			}
 		)
 		return data
@@ -46,15 +40,11 @@ export const MessagesProvider = ({ children }) => {
 	)
 
   const getAllMessages = async () => {
-    const token = sessionStorage.getItem('authToken')
-    if (!token) throw new Error('User not authenticated')
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/messages/all`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         }
       )
       return data
@@ -81,13 +71,10 @@ export const MessagesProvider = ({ children }) => {
 
 	const deleteMessage = useMutation(
 		async (messageId) => {
-			const token = sessionStorage.getItem('authToken')
 			await axios.delete(
 				`${process.env.REACT_APP_API_URL}/api/messages/delete/${messageId}`,
 				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
+					withCredentials: true,
 				}
 			)
 		},
@@ -117,14 +104,11 @@ export const MessagesProvider = ({ children }) => {
 
 	const markAsRead = useMutation(
 		async (messageId) => {
-			const token = sessionStorage.getItem('authToken')
 			await axios.put(
 				`${process.env.REACT_APP_API_URL}/api/messages/mark/${messageId}`,
 				{},
 				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
+					withCredentials: true,
 				}
 			)
 		},
@@ -158,14 +142,11 @@ export const MessagesProvider = ({ children }) => {
 
 	const markAsUnread = useMutation(
 		async (messageId) => {
-			const token = sessionStorage.getItem('authToken')
 			await axios.put(
 				`${process.env.REACT_APP_API_URL}/api/messages/unread/${messageId}`,
 				{},
 				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
+					withCredentials: true,
 				}
 			)
 		},
@@ -201,14 +182,11 @@ export const MessagesProvider = ({ children }) => {
 
 	const sendMessage = useMutation(
 		async (messageData) => {
-			const token = sessionStorage.getItem('authToken')
 			await axios.post(
 				`${process.env.REACT_APP_API_URL}/api/messages/send`,
 				messageData,
 				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
+					withCredentials: true,
 				}
 			)
 		},

@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { loginSchema } from '../../schemas/index'
-import SubmitButton from '../buttons/SubmitButton'
+import SubmitButton from '../buttons/ActionButton'
 import LinkButton from '../buttons/LinkButton'
 import { Content } from '../../assets/styles/GlobalStyles'
 import { P, InputGroup, Error } from '../../assets/styles/LoginStyles'
@@ -13,13 +13,13 @@ const Login = () => {
 	const { login } = useAuth()
 
 	const handleLogin = async (values) => {
-    try {
-      await login(values);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
+		try {
+			await login(values)
+			navigate('/dashboard')
+		} catch (error) {
+			console.error('Login failed:', error)
+		}
+	}
 
 	const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
 		useFormik({
@@ -60,8 +60,8 @@ const Login = () => {
 							}
 						/>
 						{errors.email && touched.email && (
-              <Error className="error">{errors.email}</Error>
-            )}
+							<Error className="error">{errors.email}</Error>
+						)}
 					</InputGroup>
 					<InputGroup>
 						<label htmlFor="password">Password</label>
@@ -80,16 +80,16 @@ const Login = () => {
 									: ''
 							}
 						/>
-            {errors.password && touched.password && (
-              <Error className="error">{errors.password}</Error>
-            )}
+						{errors.password && touched.password && (
+							<Error className="error">{errors.password}</Error>
+						)}
 					</InputGroup>
 					<SubmitButton text="Login" />
 				</form>
-				<P>Don't have an account? &nbsp;
+				<P>
+					Don't have an account? &nbsp;
 					<LinkButton to="/register" text="Register" />
 				</P>
-				
 			</Content>
 		</section>
 	)

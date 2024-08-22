@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useUser } from '../../context/UserContext'
 import { useBooks } from '../../context/BooksContext'
-import { useMessages } from '../../context/MessagesContext'
+// import { useMessages } from '../../context/MessagesContext'
 import { calcDistance } from '../../utils/calculateDistance'
 import Heart from '../../icons/Heart'
+import ThumbnailButton from '../buttons/ThumbnailButton'
 import Button from '../buttons/Button'
 import {
 	BookContainer,
@@ -22,7 +23,7 @@ export default function Thumbnail({ book }) {
 	const { user } = useAuth()
 	const { deleteListing } = useUser()
 	const { setBook, setBookOwner } = useBooks()
-	const { messagesAll } = useMessages()
+	// const { messagesAll } = useMessages()
 	const [isHovered, setIsHovered] = useState(false)
 	const [distance, setDistance] = useState(null)
 	const [hasContacted, setHasContacted] = useState(false)
@@ -41,17 +42,17 @@ export default function Thumbnail({ book }) {
 
 
 	// check if user has contacted the book owner
-	useEffect(() => {
-		if (messagesAll && book) {
-			const contacted = messagesAll.some(
-				(message) =>
-					message.senderId === user.id && message.bookId === book.id
-			)
-			setHasContacted(contacted)
-		} else {
-			setHasContacted(false)
-		}
-	}, [messagesAll, book, user])
+	// useEffect(() => {
+	// 	if (messagesAll && book) {
+	// 		const contacted = messagesAll.some(
+	// 			(message) =>
+	// 				message.senderId === user.id && message.bookId === book.id
+	// 		)
+	// 		setHasContacted(contacted)
+	// 	} else {
+	// 		setHasContacted(false)
+	// 	}
+	// }, [messagesAll, book, user])
 
 
 
@@ -109,8 +110,7 @@ export default function Thumbnail({ book }) {
 					</BookCover>
 					{user.id === book.userId && (
 						<Controls $isHovered={isHovered}>
-							<Button
-								type="thumbnail"
+							<ThumbnailButton
 								text="Delete"
 								onClick={handleDeleteClick}
 								width="150px"
@@ -120,8 +120,7 @@ export default function Thumbnail({ book }) {
 					{user.id !== book.userId && (
 						<Controls $isHovered={isHovered}>
 							<ButtonContainer>
-								<Button
-									type="thumbnail"
+								<ThumbnailButton
 									text={hasContacted ? 'Follow up?' : 'Contact'}
 									onClick={handleContactClick}
 								/>

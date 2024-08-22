@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useUser } from '../context/UserContext'
 import axios from 'axios'
-import Button from '../components/buttons/Button'
+import ActionButton from '../components/buttons/ActionButton'
+import LinkButton from '../components/buttons/LinkButton'
 import { PageHeader } from '../assets/styles/GlobalStyles'
 import { Block, ErrorMessage, SuccessMessage } from '../assets/styles/ListingStyles'
 
@@ -174,7 +175,7 @@ export default function Listing() {
 		<section>
 			<PageHeader>
 				<h1>List a book...</h1>
-				<Button type="word" to="/dashboard" text="Return" />
+				<LinkButton to="/dashboard" text="Return" />
 			</PageHeader>
 
 			<Block>
@@ -187,7 +188,7 @@ export default function Listing() {
 							placeholder="Search by title, author, or ISBN"
 							onChange={(e) => setSearchTerm(e.target.value)}
 						/>
-						<Button type="action" text="Search" />
+						<ActionButton text="Search" />
 					</label>
 					{error && <ErrorMessage>{error}</ErrorMessage>}
 					{message && <SuccessMessage>{message}</SuccessMessage>}
@@ -282,7 +283,7 @@ export default function Listing() {
 										required
 									/>
 								</label>
-								<Button type="action" text="Submit" />
+								<ActionButton text="Submit" />
 							</>
 						)}
 					</form>

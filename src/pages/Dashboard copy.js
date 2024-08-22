@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useUser } from '../context/UserContext'
 import { useBooks } from '../context/BooksContext'
+import { useUser } from '../context/UserContext'
 import { useMessages } from '../context/MessagesContext'
 import { categories } from '../utils/categories'
 import CollapsibleItem from '../components/dashboard/CollapsibleItem'
@@ -25,10 +25,11 @@ import {
 
 
 export default function Dashboard() {
-	const { user, isAuthenticated, isLoading } = useAuth()
-	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
+	const { user, isAuthenticated, isLoading, updateUserPreferences, updateUserDetails } =
+		useAuth()
 	const { usersBooks, recommendations, loading } = useBooks()
-	const { messages, isMessagesLoading, isError } = useMessages()
+	const { likedBooks, likedBooksLoading } = useUser()
+	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
 	const [activeDropdown, setActiveDropdown] = useState(false)
 	const [selectedPreferences, setSelectedPreferences] = useState([])
 	const [openMessage, setOpenMessage] = useState(null)
@@ -52,6 +53,12 @@ export default function Dashboard() {
 			console.log(`${user.username} logged in`, user, isAuthenticated)
 		}
 	}, [user, isAuthenticated])
+
+	useEffect(() => {
+		if (user) {
+			refreshMessages()
+		}
+	}, [user, refreshMessages])
 
 	useEffect(() => {
 		if (user) {
@@ -151,6 +158,7 @@ export default function Dashboard() {
 	}
 
 	const toggleMessage = (messageId) => {
+		markAsRead(messageId)
 		setOpenMessage(openMessage === messageId ? null : messageId)
 	}
 
@@ -182,21 +190,28 @@ export default function Dashboard() {
 		return (
 			<MessagingContainer>
 				<h2>Messages</h2>
-				
+				{messages?.map((message, i) => (
+					<div key={message.id}>
+						{i === 0 && <hr />}
+						<Message
+							message={message}
+							isOpen={openMessage === message.id}
+							onToggle={() => toggleMessage(message.id)}
+						/>
+						{messages.length > 1 ? (
+							<hr />
+						) : (
+							''
+						)}
+					</div>
+				))}
 			</MessagingContainer>
 		)
 	}
 	
 	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
-
-	useEffect(() => {
-		console.log('Dashboard Render:');
-		console.log('User:', user);
-		console.log('IsAuthenticated:', isAuthenticated);
-		console.log('IsLoading:', isLoading);
-	}, [user, isAuthenticated, isLoading]);
 	
-	if (isLoading) {
+	if (isLoading || isMessagesLoading) {
 		return (
 			<section>
 				<div>Loading...</div>
@@ -204,7 +219,7 @@ export default function Dashboard() {
 		)
 	}
 
-	if (!user || !isAuthenticated)
+	if (!user)
 		return (
 			<section>
 				<div>No user data available</div>
@@ -344,7 +359,24 @@ export default function Dashboard() {
 							isActive={activeDropdown === 'messages'}
 							text={
 								<p>
-									You have no new messages
+									{isMessagesLoading ? (
+										'Loading messages...'
+									) : isError ? (
+										'Error loading messages'
+									) : (
+										<>
+											You have&nbsp;
+											{unreadMessagesCount === 0 ? (
+												'no'
+												) : (
+												<span>{unreadMessagesCount}</span>
+											)}
+											&nbsp;unread&nbsp;
+											{unreadMessagesCount === 1
+												? 'message'
+												: 'messages'}
+										</>
+									)}
 								</p>
 							}
 						/>

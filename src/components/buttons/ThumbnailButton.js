@@ -11,7 +11,7 @@ export default function ThumbnailButton({ text, onClick }) {
 			onClick(event)
 		}
 	}
-  const deleteBtn = text === 'Delete'
+  const deleteBtn = text === 'Delete' 
 
   return (
     <Button
@@ -26,9 +26,9 @@ export default function ThumbnailButton({ text, onClick }) {
 }
 
 const Button = styled.button`
-  background-color: ${props => props.deleteBtn ? 'var(--dangerDk)' : 'var(--accentGreen)'};
-  color: ${props => props.deleteBtn ? 'var(--white)' : 'var(--blkGreen)'};
-  width: ${props => props.mobile ? '130px' : '150px'};
+  background-color: ${({ $deleteBtn }) => $deleteBtn ? 'var(--dangerDk)' : 'var(--dkGreen)'};
+  color: var(--white);
+  width: ${({ $mobile }) => $mobile ? '130px' : '150px'};
   padding: .6rem var(--md);
   font-size: 1.2rem;
   border: none;
@@ -37,6 +37,7 @@ const Button = styled.button`
   cursor: pointer;
   border-radius: var(--xs);
   &:hover {
-    background-color: ${props => props.deleteBtn ? 'var(--danger)' : 'var(--accentLtGreen)'};
+    background-color: ${({ $deleteBtn }) => $deleteBtn ? 'var(--danger)' : 'var(--accentLtGreen)'};
+    color: ${({ $deleteBtn }) => $deleteBtn ? 'var(--white)' : 'var(--blkGreen)'};
   }
-`
+`;

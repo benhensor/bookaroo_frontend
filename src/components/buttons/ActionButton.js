@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 
-export default function SubmitButton({ text, onClick }) {
+export default function ActionButton({ text, onClick }) {
   const mobile = useWindowWidth() < 768
 
 	const handleClick = (event) => {

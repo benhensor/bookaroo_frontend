@@ -34,36 +34,36 @@ function App() {
 								<main>
 									<Routes>
 										{/* PUBLIC ROUTES */}
+										<Route path="*" element={<Home />}/>
 										<Route path="/register" element={<Register />} />
 										<Route path="/login" element={<Login />} />
-										<Route path="*" element={<Home />}/>
 
 										{/* PROTECTED ROUTES */}
-														<Route path="/dashboard" element={
-															<ProtectedRoute>
-																<Dashboard />
-															</ProtectedRoute>
-														} />
-														<Route path="/list" element={
-															<ProtectedRoute>
-																<Listing />
-															</ProtectedRoute>
-														} />
-														<Route path="/contact" element={
-															<ProtectedRoute>
-																<Contact />
-															</ProtectedRoute>
-														} />
-														<Route path="/browse" element={
-															<ProtectedRoute>
-																<Browse />
-															</ProtectedRoute>
-														} />
-														<Route path="/book" element={
-															<ProtectedRoute>
-																<Book />
-															</ProtectedRoute>
-														} />
+										<Route path="/dashboard" element={
+											<ProtectedRoute>
+												<Dashboard />
+											</ProtectedRoute>
+										} />
+										<Route path="/list" element={
+											<ProtectedRoute>
+												<Listing />
+											</ProtectedRoute>
+										} />
+										<Route path="/contact" element={
+											<ProtectedRoute>
+												<Contact />
+											</ProtectedRoute>
+										} />
+										<Route path="/browse" element={
+											<ProtectedRoute>
+												<Browse />
+											</ProtectedRoute>
+										} />
+										<Route path="/book" element={
+											<ProtectedRoute>
+												<Book />
+											</ProtectedRoute>
+										} />
 									</Routes>
 								</main>
 							</Router>

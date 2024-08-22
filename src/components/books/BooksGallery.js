@@ -7,9 +7,11 @@ import { GalleryContainer, CarouselWrapper } from '../../assets/styles/BooksGall
 export default function BooksGallery() {
   
   const { user } = useAuth()
-  const { books } = useBooks()
+  const { allBooks } = useBooks()
 
-  const booksFiltered = books.filter((book) => book.userId !== user.id)
+  console.log('BooksGallery:', allBooks)
+
+  const booksFiltered = allBooks.filter((book) => book.userId !== user.id)
 
   // Get unique categories from the books array
   const getUniqueCategories = (booksFiltered) => {

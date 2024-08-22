@@ -1,116 +1,171 @@
-import React, { createContext, useState, useCallback, useMemo } from 'react'
-import { useAuth } from './AuthContext'
-import axios from 'axios'
-import { useQuery } from 'react-query'
+import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useAuth } from './AuthContext';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
-const BooksContext = createContext()
+const BooksContext = createContext();
 
 export const BooksProvider = ({ children }) => {
-	const { user, isAuthenticated, searchUsers } = useAuth()
-	const [book, setBook] = useState(null)
-	const [bookOwner, setBookOwner] = useState(null)
+  const { user, isAuthenticated } = useAuth();
+  const [allBooks, setAllBooks] = useState([]);
+  const [book, setBook] = useState(null);
+  const [bookOwner, setBookOwner] = useState(null);
 
-	// Fetch books and user details
-	const fetchBooks = async () => {
-		const token = sessionStorage.getItem('authToken')
-		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/api/books/all`,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		)
-
-		// Fetch user details for each book in parallel
-		const booksWithUserDetails = await Promise.all(
-			data.map(async (book) => {
-				const userDetail = await searchUsers(book.userId)
-				return { ...book, user: userDetail }
-			})
-		)
-
-		return booksWithUserDetails.sort(() => Math.random() - 0.5)
-	}
-
-	// Use `useQuery` to manage the books fetching
-	const {
-		data: books = [],
-		isLoading,
-		error,
-		refetch,
-	} = useQuery('books', fetchBooks, {
-		enabled: isAuthenticated, // Only run the query when the user is authenticated
-		retry: 3, // Retry failed requests up to 3 times
-		staleTime: 1000 * 60 * 5, // Cache data for 5 minutes
-		cacheTime: 1000 * 60 * 10, // Cache data for 10 minutes
-	})
-
-	// Derived state for userBooks and recommendations using useMemo
-	const userBooks = useMemo(
-		() => books.filter((book) => book.userId === user?.id),
-		[books, user?.id]
-	)
-
-	const recommendations = useMemo(
-		() =>
-			user?.preferences && user.preferences.length > 0
-				? books.filter(
-						(book) =>
-							book.userId !== user?.id &&
-							book.category.some((category) =>
-								user.preferences.includes(category)
-							)
-				  )
-				: [],
-		[books, user?.id, user?.preferences]
-	)
+  // Debugging
+  useEffect(() => {
+    if (user) {
+      console.log('Books context mounted:', user, isAuthenticated);
+    }
+  }, [user, isAuthenticated]);
 
 
-	const getBookById = useCallback(
-		(id) => books.find((book) => book.id === id),
-		[books]
-	)
-	
 
-	// Function to search for books locally
-	const searchBooks = useCallback(
-		(query) => {
-			if (!query.trim()) return []
+  // Fetch all books from the API 
+  const getAllBooks = useCallback(async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/books/allbooks`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log('all books:', data);
+      if (Array.isArray(data)) {
+        setAllBooks(data);
+      } else {
+        console.error('Unexpected books format:', data);
+        setAllBooks([]); // Reset to an empty array if the data is unexpected
+      }
+    } catch (error) {
+      console.error('Error fetching books:', error);
+      setAllBooks([]); // Reset to an empty array in case of error
+    }
+  }, []);
+  
 
-			const lowercaseQuery = query.toLowerCase()
-			return books.filter(
-				(book) =>
-					book.title.toLowerCase().includes(lowercaseQuery) ||
-					book.author.toLowerCase().includes(lowercaseQuery) ||
-					book.category.some((cat) =>
-						cat.toLowerCase().includes(lowercaseQuery)
-					)
-			)
-		},
-		[books]
-	)
 
-	return (
-		<BooksContext.Provider
-			value={{
-				book,
-				books,
-				bookOwner,
-				recommendations,
-				userBooks,
-				setBook,
-				setBookOwner,
-				getBookById,
-				searchBooks,
-				refetchBooks: refetch, // Use `refetch` to manually refetch books
-				loading: isLoading,
-				error,
-			}}
-		>
-			{children}
-		</BooksContext.Provider>
-	)
-}
 
-export const useBooks = () => React.useContext(BooksContext)
+  // Fetch books on mount when the user is authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      getAllBooks();
+    }
+  }, [isAuthenticated, getAllBooks]);
+
+
+
+  // Derived state for userBooks and recommendations using useMemo
+  const usersBooks = useMemo(
+    () => allBooks.filter((book) => book.userId === user?.id),
+    [allBooks, user?.id]
+  );
+
+  const recommendations = useMemo(
+    () =>
+      user?.preferences && user.preferences.length > 0
+        ? allBooks.filter(
+            (book) =>
+              book.userId !== user?.id &&
+              book.category.some((category) =>
+                user.preferences.includes(category)
+              )
+          )
+        : [],
+    [allBooks, user?.id, user?.preferences]
+  );
+
+  const getBookById = useCallback(
+    (id) => allBooks.find((book) => book.id === id),
+    [allBooks]
+  );
+
+  // Function to search for books locally
+  const searchBooks = useCallback(
+    (query) => {
+      if (!query.trim()) return [];
+
+      const lowercaseQuery = query.toLowerCase();
+      return allBooks.filter(
+        (book) =>
+          book.title.toLowerCase().includes(lowercaseQuery) ||
+          book.author.toLowerCase().includes(lowercaseQuery) ||
+          book.category.some((cat) =>
+            cat.toLowerCase().includes(lowercaseQuery)
+          )
+      );
+    },
+    [allBooks]
+  );
+
+
+  // create a listing
+  const createListing = async (listingData) => {
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/books/newlisting`,
+        listingData,
+        {
+          withCredentials: true,
+        }
+      );
+      return { success: true, message: 'Book listed successfully!' };
+    } catch (error) {
+      console.error('Error submitting book listing:', error);
+      return {
+        success: false,
+        message:
+          error.response?.data?.message || 'An error occurred while submitting your listing. Please try again.',
+      };
+    }
+  };
+  
+  // delete a listing
+  const deleteListing = async (bookId) => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/books/delete/${bookId}`,
+        {
+          withCredentials: true,
+          params: { bookId },
+        }
+      );
+      await getAllBooks(); // Refetch the books data after
+      return { success: true, message: 'Book deleted successfully!' };
+    } catch (error) {
+      console.error('Error deleting book listing:', error);
+      return {
+        success: false,
+        message:
+          error.response?.data?.message || 'An error occurred while deleting the book. Please try again.',
+      };
+    }
+  };
+  
+
+
+
+  return (
+    <BooksContext.Provider
+      value={{
+        book,
+        allBooks,
+        bookOwner,
+        recommendations,
+        usersBooks,
+        setBook,
+        setBookOwner,
+        getBookById,
+        searchBooks,
+        createListing,
+        deleteListing,
+        refetchBooks: getAllBooks, // Refetch books
+        loading: !allBooks.length && isAuthenticated, // Simple loading state based on data presence
+        error: null, // Handle this based on the getAllBooksWithUserDetails try/catch block
+      }}
+    >
+      {children}
+    </BooksContext.Provider>
+  );
+};
+
+export const useBooks = () => React.useContext(BooksContext);

@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 
 export default function LinkButton({ text, to, onClick}) {
 
-  const noBackground = text === 'Sign In' || text === 'Register'
+  const types = ['Sign In', 'Register', 'Return', 'Browse', 'New Listing', 'Done', 'Sign Out']
+
+  const noBackground = types.includes(text)
   const signOut = text === 'Sign Out'
 
   const handleClick = (event) => {
@@ -30,7 +32,7 @@ const StyledLink = styled(Link)`
   color: ${props => props.$signOut ? 'var(--dangerDk)' : 'var(--dkGreen)'};
   font-size: inherit;
   border: none;
-  display: inline-block;
+  display: block;
   text-align: center;
   cursor: pointer;
   border-radius: var(--xs);
