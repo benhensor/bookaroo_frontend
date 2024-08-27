@@ -16,7 +16,7 @@ export const MessagesProvider = ({ children }) => {
 			throw new Error('User not authenticated')
 		}
 		// console.log('messages context:', user)
-		const data = await axios.get(
+		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
 			{
 				withCredentials: true,
