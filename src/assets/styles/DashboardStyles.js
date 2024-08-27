@@ -116,4 +116,5 @@ export const Dropdown = styled.div`
 
 export const CarouselContainer = styled.div`
 	position: relative;
+	background-color: var(--offWhite);
 `

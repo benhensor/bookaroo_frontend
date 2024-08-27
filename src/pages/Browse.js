@@ -23,6 +23,12 @@ export default function Browse() {
 
 	const resultsRef = useRef(null)
 
+
+
+	useEffect(() => {
+		console.log(searchResults)
+	}, [searchResults])
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (window.scrollY > 50) {
@@ -41,6 +47,7 @@ export default function Browse() {
       try {
         setError(null) // Clear any previous errors
         const results = await searchBooks(query)
+				console.log(results)
         setSearchResults(results)
         if (results.length === 0) {
           setError('No results found. Please try a different search term.')

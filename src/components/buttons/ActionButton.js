@@ -10,7 +10,7 @@ export default function ActionButton({ text, onClick }) {
 			onClick(event)
 		}
 	}
-  const deleteBtn = text === 'Delete'
+  const deleteBtn = text === 'Delete' || text === 'Delete this listing'
   return (
     <Button
       type='submit'

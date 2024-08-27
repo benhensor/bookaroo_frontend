@@ -72,7 +72,7 @@ export const UserProvider = ({ children }) => {
 
 	// Fetch liked books based on the IDs in the user's `likedBooks` array
 	const fetchLikedBooks = async (userId) => {
-		console.log('Fetching liked books...')
+		// console.log('Fetching liked books...')
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/users/liked`,
@@ -81,7 +81,7 @@ export const UserProvider = ({ children }) => {
 					params: { userId },
 				}
 			)
-			console.log('Liked books:', response.data)
+			// console.log('Liked books:', response.data)
 			return response.data
 		} catch (error) {
 			console.error('Error fetching liked books:', error)

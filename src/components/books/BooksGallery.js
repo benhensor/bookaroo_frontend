@@ -9,7 +9,7 @@ export default function BooksGallery() {
   const { user } = useAuth()
   const { allBooks } = useBooks()
 
-  console.log('BooksGallery:', allBooks)
+  // console.log('BooksGallery:', allBooks)
 
   const booksFiltered = allBooks.filter((book) => book.userId !== user.id)
 

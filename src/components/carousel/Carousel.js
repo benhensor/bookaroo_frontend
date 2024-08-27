@@ -4,7 +4,7 @@ import { useWindowWidth } from '../../utils/useWindowWidth'
 import Thumbnail from '../books/Thumbnail'
 import Chevron from '../../icons/Chevron'
 
-export default function Carousel({ books, title }) {
+export default function Carousel({ books = [], title }) {
   const [currentIndex, setCurrentIndex] = useState(0)
 	const [leftChevronVisible, setLeftChevronVisible] = useState(false)
   const [rightChevronVisible, setRightChevronVisible] = useState(false)
@@ -20,6 +20,9 @@ export default function Carousel({ books, title }) {
 	}
 
   // console.log('books:', title, books)
+  // useEffect(() => {
+  //   console.log('search into carousel:', books)
+  // }, [books])
 
 	const booksPerPage = getbooksPerPage()
 
@@ -45,7 +48,9 @@ export default function Carousel({ books, title }) {
     }
   }, [books])
 
-
+  // useEffect(() => {
+  //   console.log('unique books:', uniquebooks)
+  // }, [uniquebooks])
 
   // useEffect(() => {
   //   console.log('message', message)
@@ -125,7 +130,7 @@ export default function Carousel({ books, title }) {
             </ChevronContainer>
 
             <BooksViewport>
-              <BooksWrapper $offset={currentIndex / booksPerPage}>
+              <BooksWrapper $offset={currentIndex / booksPerPage} $isEmpty={isEmpty}>
                 {uniquebooks.map((book) => (
                   <BookPreview key={book.id}>
                     <Thumbnail book={book} />

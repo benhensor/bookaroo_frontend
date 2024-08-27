@@ -2,11 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useMessages } from '../context/MessagesContext'
-import { useBooks } from '../context/BooksContext'
+import { useUser } from '../context/UserContext'
 import { formatDate } from '../utils/formatDate'
 import { PageHeader, Content } from '../assets/styles/GlobalStyles'
 import ExchangePreview from '../components/books/ExchangePreview'
-import Button from '../components/buttons/Button'
+import LinkButton from '../components/buttons/LinkButton'
+import ActionButton from '../components/buttons/ActionButton'
 import {
 	Layout,
 	ContactFormContainer,
@@ -20,12 +21,32 @@ export default function Contact() {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const { user } = useAuth()
-	const { book, bookOwner, setBook, setBookOwner } = useBooks()
+	const { getUserById } = useUser()
 	const { sendMessage } = useMessages()
-	const [message, setMessage] = useState('')
+	const book = location.state?.book || null
 	const messageData = useMemo(() => location.state?.message || {}, [location.state?.message])
+	const [recipient, setRecipient] = useState(null)
+	const [message, setMessage] = useState('')
 
+	useEffect(() => {
+			console.log('book:', book)
+	}, [book])
 
+	// Fetch book owner data when component mounts or when the book changes
+	useEffect(() => {
+		const fetchBookOwner = async () => {
+			try {
+				const owner = await getUserById(book.userId)
+				setRecipient(owner) // Set the book owner in state
+			} catch (error) {
+				console.error('Error fetching book owner:', error)
+			}
+		}
+
+		if (book?.userId) {
+			fetchBookOwner()
+		}
+	}, [book, getUserById])
 
 	useEffect(() => {
 		if (messageData?.createdAt && messageData.sender?.username) {
@@ -49,7 +70,7 @@ export default function Contact() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		if (!book || !bookOwner) {
+		if (!book ) {
 			console.error('Book or book owner is not set');
 			return;
 		}
@@ -72,8 +93,6 @@ export default function Contact() {
 		}
 		try {
 			await sendMessage(newMessageData)
-			setBook(null)
-			setBookOwner(null)
 			navigate('/dashboard')
 		} catch (error) {
 			console.error('Error sending message:', error)
@@ -87,8 +106,7 @@ export default function Contact() {
 		<section>
 			<PageHeader>
 				<h1>Contact</h1>
-				<Button
-					type="word"
+				<LinkButton
 					text="Return"
 					to="/dashboard"
 				/>
@@ -96,7 +114,7 @@ export default function Contact() {
 
 			<Content>
 				<Layout>
-					<ExchangePreview book={book} bookOwner={bookOwner} />
+					<ExchangePreview book={book} bookOwner={recipient} />
 					<ContactFormContainer onSubmit={handleSubmit}>
 						<FormHeader>New Message</FormHeader>
 						<ContactForm>
@@ -104,7 +122,7 @@ export default function Contact() {
 								<label>To:</label>
 								<input
 									type="text"
-									value={bookOwner?.username}
+									value={recipient?.username}
 									readOnly
 								/>
 							</FormField>
@@ -120,8 +138,7 @@ export default function Contact() {
 								onChange={(e) => setMessage(e.target.value)}
 								placeholder="Hi! I'm interested in your book..."
 							/>
-							<Button
-								type="action"
+							<ActionButton
 								text="Send"
 								onClick={handleSubmit}
 							/>

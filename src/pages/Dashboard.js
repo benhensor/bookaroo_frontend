@@ -8,7 +8,6 @@ import CollapsibleItem from '../components/dashboard/CollapsibleItem'
 import Genre from '../components/dashboard/Genre'
 import Message from '../components/message/Message'
 import Carousel from '../components/carousel/Carousel'
-import LinkButton from '../components/buttons/LinkButton'
 import DashboardButton from '../components/buttons/DashboardButton'
 import {
 	Container,
@@ -28,7 +27,7 @@ export default function Dashboard() {
 	const { user, isAuthenticated, isLoading } = useAuth()
 	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
-	const { messages, isMessagesLoading, isError } = useMessages()
+	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
 	const [activeDropdown, setActiveDropdown] = useState(false)
 	const [selectedPreferences, setSelectedPreferences] = useState([])
 	const [openMessage, setOpenMessage] = useState(null)
@@ -48,11 +47,10 @@ export default function Dashboard() {
 	})
 
 	useEffect(() => {
-		if (likedBooks) {
-			// console.log(`${user.username} logged in`, user, isAuthenticated)
-			console.log(`liked books in dashboard:`, likedBooks)
+		if (user) {
+			refreshMessages()
 		}
-	}, [likedBooks])
+	}, [user, refreshMessages])
 
 	useEffect(() => {
 		if (user) {
@@ -152,6 +150,7 @@ export default function Dashboard() {
 	}
 
 	const toggleMessage = (messageId) => {
+		markAsRead(messageId)
 		setOpenMessage(openMessage === messageId ? null : messageId)
 	}
 
@@ -183,7 +182,21 @@ export default function Dashboard() {
 		return (
 			<MessagingContainer>
 				<h2>Messages</h2>
-				
+				{messages?.map((message, i) => (
+					<div key={message.id}>
+						{i === 0 && <hr />}
+						<Message
+							message={message}
+							isOpen={openMessage === message.id}
+							onToggle={() => toggleMessage(message.id)}
+						/>
+						{messages.length > 1 ? (
+							<hr />
+						) : (
+							''
+						)}
+					</div>
+				))}
 			</MessagingContainer>
 		)
 	}
@@ -218,6 +231,7 @@ export default function Dashboard() {
 				<DashboardHeader>
 					<h1>Dashboard</h1>
 					<CollapsibleItem
+						message={false}
 						onClick={() => handleToggleDropdown('userDetails')}
 						isActive={activeDropdown === 'userDetails'}
 						text={`Welcome ${user.username}!`}
@@ -281,20 +295,10 @@ export default function Dashboard() {
 				<Details>
 					<h2>Controls</h2>
 					<Controls>
-						{/* Browse available books */}
-						<LinkButton
-							to="/browse"
-							text="Browse"
-						/>
-
-						{/* List your books */}
-						<LinkButton
-							to="/list"
-							text="New Listing"
-						/>
 
 						{/* Set reading preferences */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('preferences')}
 							isActive={activeDropdown === 'preferences'}
 							text={<p>Reading Preferences</p>}
@@ -334,6 +338,7 @@ export default function Dashboard() {
 
 						{/* View liked books */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('liked')}
 							isActive={activeDropdown === 'liked'}
 							text={<p>Your liked books</p>}
@@ -341,11 +346,29 @@ export default function Dashboard() {
 
 						{/* View messages */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('messages')}
 							isActive={activeDropdown === 'messages'}
 							text={
 								<p>
-									You have no new messages
+									{isMessagesLoading ? (
+										'Loading messages...'
+									) : isError ? (
+										'Error loading messages'
+									) : (
+										<>
+											You have&nbsp;
+											{unreadMessagesCount === 0 ? (
+												'no'
+												) : (
+												<span>{unreadMessagesCount}</span>
+											)}
+											&nbsp;unread&nbsp;
+											{unreadMessagesCount === 1
+												? 'message'
+												: 'messages'}
+										</>
+									)}
 								</p>
 							}
 						/>

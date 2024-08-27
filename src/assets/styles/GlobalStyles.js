@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
     --dkBrown: #5E493D;
 
     --white: #fff;
+    --offWhite: #f8f9fa;
     --black: #000;
     --danger: #ff4d4d;
     --dangerDk: #cc0000;
@@ -73,6 +74,7 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
     line-height: 1.6;
     color: var(--blkGreen);
+    background-color: var(--offWhite);
     overflow-x: hidden;
   }
 

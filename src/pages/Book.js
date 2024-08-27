@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useBooks } from '../context/BooksContext'
 import { useUser } from '../context/UserContext'
 import axios from 'axios'
+import ActionButton from '../components/buttons/ActionButton'
+import LinkButton from '../components/buttons/LinkButton'
 import Button from '../components/buttons/Button'
 import { useWindowWidth } from '../utils/useWindowWidth'
 import { PageHeader } from '../assets/styles/GlobalStyles'
@@ -26,16 +27,37 @@ import {
 
 export default function Book() {
 	const navigate = useNavigate()
+	const location = useLocation()
 	const { user } = useAuth()
-	const { deleteListing } = useUser()
-	const { book, bookOwner } = useBooks()
+	const { getUserById, deleteListing } = useUser()
+	const [book, setBook] = useState(location.state?.book || null)
+	const [bookOwner, setBookOwner] = useState(null)
 	const [bookDescription, setBookDescription] = useState(null)
 	const windowSize = useWindowWidth()
 
-
+	// Redirect to a safe location if book state is not available
 	useEffect(() => {
-		console.log('Book:', book, 'Book Owner:', bookOwner)
-	}, [book, bookOwner])
+		if (!book) {
+				navigate(-1); // or any other fallback route
+		}
+}, [book, navigate]);
+
+	// Fetch book owner data when component mounts or when the book changes
+	useEffect(() => {
+		const fetchBookOwner = async () => {
+			try {
+				const owner = await getUserById(book.userId)
+				setBookOwner(owner) // Set the book owner in state
+			} catch (error) {
+				console.error('Error fetching book owner:', error)
+			}
+		}
+
+		if (book?.userId) {
+			fetchBookOwner()
+		}
+	}, [book, getUserById])
+
 
 	useEffect(() => {
 		if (book?.isbn) {
@@ -54,9 +76,14 @@ export default function Book() {
 		}
 	}, [book])
 
+	// useEffect(() => {
+	// 	console.log('book:', book, 'bookOwner:', bookOwner)
+	// }, [book, bookOwner])
 
 
-	const handleBackClick = () => navigate(-1)
+	const handleBackClick = () => {
+		setBook(null)	
+	}
 
 	const handleContactClick = () => navigate('/contact')
 
@@ -69,14 +96,14 @@ export default function Book() {
 
 
 
-	if (!book || !bookOwner) return null
+	if (!book) return null
 
 
 
 	return (
 		<section>
 			<PageHeader style={{ margin: 'var(--lg) 0' }}>
-				<Button type="word" text="Back" onClick={handleBackClick} />
+				<LinkButton text="Back" onClick={handleBackClick} />
 			</PageHeader>
 			<Row>
 				<Category>
@@ -99,23 +126,25 @@ export default function Book() {
 							</BookInfo>
 						</div>
 						{user.id !== book.userId ? (
+							bookOwner && (
+								<OwnersNotes>
+									<h3>{bookOwner.username}'s Notes</h3>
+									<p>This copy is in <span>{book.condition}</span> condition.</p>
+									<blockquote>"{book.notes}"</blockquote>
+									<ButtonContainer>
+										<ActionButton text={`Contact ${bookOwner.username}`} onClick={handleContactClick} />
+									</ButtonContainer>
+								</OwnersNotes>
+							)
+						) : (
 							<OwnersNotes>
-								<h3>{bookOwner.username}'s Notes</h3>
+								<h3>Your Notes</h3>
 								<p>This copy is in <span>{book.condition}</span> condition.</p>
 								<blockquote>"{book.notes}"</blockquote>
 								<ButtonContainer>
-									<Button type="action" text={`Contact ${bookOwner.username}`} onClick={handleDeleteClick} />
+									<ActionButton text="Delete this listing" onClick={handleDeleteClick} />
 								</ButtonContainer>
 							</OwnersNotes>
-						) : (
-							<OwnersNotes>
-							<h3>Your Notes</h3>
-							<p>This copy is in <span>{book.condition}</span> condition.</p>
-							<blockquote>"{book.notes}"</blockquote>
-							<ButtonContainer>
-								<Button type="delete" text="Delete this listing" onClick={handleContactClick} />
-							</ButtonContainer>
-						</OwnersNotes>
 						)}
 					</BookInfoContainer>
 				</BookDetailsContainer>

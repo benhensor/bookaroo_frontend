@@ -8,8 +8,6 @@ const BooksContext = createContext();
 export const BooksProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth();
   const [allBooks, setAllBooks] = useState([]);
-  const [book, setBook] = useState(null);
-  const [bookOwner, setBookOwner] = useState(null);
 
   // Debugging
   // useEffect(() => {
@@ -75,7 +73,12 @@ export const BooksProvider = ({ children }) => {
   );
 
   const getBookById = useCallback(
-    (id) => allBooks.find((book) => book.id === id),
+    (id) => {
+      console.log('Getting book by ID:', id);
+      const book = allBooks.find((book) => book.id === id);
+      console.log('Found book:', book);
+      return book;
+    },
     [allBooks]
   );
 
@@ -147,13 +150,9 @@ export const BooksProvider = ({ children }) => {
   return (
     <BooksContext.Provider
       value={{
-        book,
         allBooks,
-        bookOwner,
         recommendations,
         usersBooks,
-        setBook,
-        setBookOwner,
         getBookById,
         searchBooks,
         createListing,
