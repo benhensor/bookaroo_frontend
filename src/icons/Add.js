@@ -16,11 +16,9 @@ export default function Add() {
 }
 
 const SVG = styled.svg`
-	position: absolute;
-	top: 0;
-	left: 0;
-  width: 100%;
-  height: 100%;
+	margin-right: var(--sm);
+	height: 1.75rem;
+	width: 1.75rem;
   fill: var(--dkGreen);
   transition: var(--fast);
   &:hover {

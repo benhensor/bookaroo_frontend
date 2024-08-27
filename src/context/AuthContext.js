@@ -10,11 +10,7 @@ export const AuthProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(`${user.username} logged in`, user, isAuthenticated);
-  //   }
-  // }, [user, isAuthenticated]);
+  
 
   useEffect(() => {
     const checkAuthStatus = async () => {

@@ -151,7 +151,8 @@ export default function Carousel({ books = [], title }) {
 
 const CarouselContainer = styled.div`
   z-index: 1000;
-  margin-bottom: var(--lg);
+  padding-bottom: var(--lg);
+  border-bottom: 1px solid var(--ltGreen);
 `
 
 const CarouselWrapper = styled.div`

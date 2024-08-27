@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const GalleryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
 `
 
 export const CarouselWrapper = styled.div`

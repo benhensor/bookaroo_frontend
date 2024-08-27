@@ -63,6 +63,15 @@ export const UserControls = styled.div`
 	cursor: pointer;
 `
 
+export const NavItem = styled.div`
+	display: flex;
+	align-items: center;
+`
+
+export const UserIcon = styled.div`
+
+`
+
 export const UserMenu = styled.div`
 	outline: 1px solid var(--greyGreen);
 	position: absolute;
@@ -91,7 +100,7 @@ export const MenuItem = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	&:first-child {
-		margin-bottom: var(--sm);
+		margin-bottom: ${({ $mobile }) => ($mobile ? 'var(--sm)' : '0')};
 	}
 `
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '../components/buttons/Button'
-import Task from '../components/Task'
 import {
   Container,
   Info,
@@ -9,7 +8,6 @@ import {
 export default function Home() {
   return (
     <section>
-      <Task />
       <Container>
         <Info>
           <h1>Welcome to Bookaroo!</h1>

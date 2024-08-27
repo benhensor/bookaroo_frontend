@@ -100,18 +100,16 @@ export default function Browse() {
           <SearchInput
             type="search"
             id="search-input"
-            placeholder="Search..."
+            placeholder="Search for a title, author or genre..."
             onChange={event => setQuery(event.target.value)}
             value={query}
           />
         </SearchBar>
 				{renderSearchContent()}
 			</Controls>
-			<section style={{ marginTop: '23rem' }}>
 				<Display >
 					<BooksGallery />
 				</Display>
-			</section>
 		</>
 	)
 }

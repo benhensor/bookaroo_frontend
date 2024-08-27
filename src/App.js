@@ -19,6 +19,7 @@ import Login from './components/login/Login'
 import Register from './components/register/Register'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
+import Footer from './components/footer/Footer'
 
 const queryClient = new QueryClient()
 
@@ -44,7 +45,7 @@ function App() {
 												<Dashboard />
 											</ProtectedRoute>
 										} />
-										<Route path="/list" element={
+										<Route path="/listings" element={
 											<ProtectedRoute>
 												<Listing />
 											</ProtectedRoute>
@@ -66,6 +67,7 @@ function App() {
 										} />
 									</Routes>
 								</main>
+								<Footer />
 							</Router>
 						</MessagesProvider>
 					</UserProvider>

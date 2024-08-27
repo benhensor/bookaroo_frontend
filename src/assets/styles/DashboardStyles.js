@@ -2,8 +2,23 @@ import styled from 'styled-components';
 
 export const DashboardHeader = styled.div`
 	display: flex;
-	flex-direction: column;
+	justify-content: space-between;
 	padding-top: var(--lg);
+	> div {
+		display: flex;
+		&:first-child {
+			flex-direction: column;
+			gap: 0;
+		}
+		gap: var(--lg);
+		align-items: flex-start;
+
+	}
+`
+
+export const NavItem = styled.div`
+	display: flex;
+	align-items: center;
 `
 
 export const Container = styled.div`
@@ -62,7 +77,7 @@ export const Feedback = styled.p`
 	text-align: center;
 `
 
-export const Controls = styled.div`
+export const Options = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;

@@ -7,7 +7,6 @@ export const Controls = styled.div`
 	max-height: 100%;
 	z-index: 100;
 	background-color: var(--white);
-	padding-top: var(--lg);
 	box-shadow: ${(props) =>
 		props.$isScrolled ? '0 5px 5px rgba(0, 0, 0, 0.1)' : 'none'};
 	transition: var(--slow);
@@ -24,7 +23,7 @@ export const SearchBar = styled.div`
 	width: 100%;
 	margin: 0 auto var(--lg) auto;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	border-radius: var(--xs);
 	label {
@@ -48,7 +47,7 @@ export const SearchBar = styled.div`
 `
 
 export const SearchInput = styled.input`
-	width: 100%;
+	max-width: 50rem;
 	padding-right: 2.5rem; /* Adds space for the icon */
 	border-radius: none;
 `
@@ -70,7 +69,11 @@ export const ErrorMessage = styled.div`
 `
 
 export const Display = styled.div`
-  transition: max-height 0.5s ease, opacity 0.5s ease;
-
-  overflow: hidden;
+	padding-top: 15rem;
+	max-width: 100rem;
+	margin: 0 auto;
+	height: calc(100vh - 15rem);
+	scroll-behavior: smooth;
+  overflow-y: auto; /* Allow vertical scrolling */
 `
+

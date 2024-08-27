@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-// import { useMessages } from '../../context/MessagesContext'
+import { useMessages } from '../../context/MessagesContext'
 import { useQueryClient } from 'react-query'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 import LinkButton from '../buttons/LinkButton'
@@ -14,6 +14,7 @@ import {
 	LogoContainer,
 	LogoBackground,
 	UserControls,
+	NavItem,
 	UserMenu,
 	MenuItem,
 	Notification,
@@ -21,11 +22,11 @@ import {
 
 export default function Header() {
 	const { user, logout } = useAuth()
-	// const { messages } = useMessages()
+	const { messages } = useMessages()
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const [isOpen, setIsOpen] = useState(false)
-	// const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
 
 	const mobile = useWindowWidth() < 768
 
@@ -69,8 +70,11 @@ export default function Header() {
 				<UserControls>
 					{!mobile && user && (
 						<>
-							<LinkButton text="Browse" to='/browse' />
-							<LinkButton text="New Listing" to='/list' />
+							<NavItem
+								onClick={toggleMenu}
+							>
+								{user.username}
+							</NavItem>
 						</>
 					)}
 					{mobile && user && (
@@ -84,20 +88,24 @@ export default function Header() {
 			</Container>
 		{isOpen && (
 			<UserMenu $isActive={isOpen}>
-				<MenuItem>
-					{user.username}
-				</MenuItem>
+				{mobile &&
+					<MenuItem
+						$mobile={mobile}
+					>
+					{user.username
+				}
+				</MenuItem>}
 				<MenuItem>
 					<LinkButton text="Browse" to='/browse' />
 				</MenuItem>
 				<MenuItem>
-					<LinkButton text="New Listing" to='/list' />
+					<LinkButton text="New Listing" to='/listings' />
 				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Messages" onClick={handleEditProfile} />
-					{/* {unreadMessagesCount > 0 &&
+					{unreadMessagesCount > 0 &&
 						<Notification>{unreadMessagesCount}</Notification>
-					} */}
+					}
 				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Edit Profile" onClick={handleEditProfile} />

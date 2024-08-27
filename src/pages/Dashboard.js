@@ -9,13 +9,15 @@ import Genre from '../components/dashboard/Genre'
 import Message from '../components/message/Message'
 import Carousel from '../components/carousel/Carousel'
 import DashboardButton from '../components/buttons/DashboardButton'
+import LinkButton from '../components/buttons/LinkButton'
 import {
 	Container,
 	DashboardHeader,
+	NavItem,
 	Details,
 	MessagingContainer,
 	Feedback,
-	Controls,
+	Options,
 	Dropdown,
 	Header,
 	CarouselContainer,
@@ -229,72 +231,82 @@ export default function Dashboard() {
 		<section>
 			<Container>
 				<DashboardHeader>
-					<h1>Dashboard</h1>
-					<CollapsibleItem
-						message={false}
-						onClick={() => handleToggleDropdown('userDetails')}
-						isActive={activeDropdown === 'userDetails'}
-						text={`Welcome ${user.username}!`}
-					>
-						<Dropdown
-							ref={userDetailsRef}
-							$isClicked={activeDropdown === 'userDetails'}
-							$position="absolute"
-							$top="100%"
-							$left="0"
-							$transform="none"
-							$width="fit-content"
-							$padding="var(--sm)"
-							$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
-							$border="1px solid var(--ltGreen)"
+					<div>
+						<h1>Dashboard</h1>
+						<CollapsibleItem
+							message={false}
+							onClick={() => handleToggleDropdown('userDetails')}
+							isActive={activeDropdown === 'userDetails'}
+							text={`Welcome ${user.username}!`}
 						>
-							<Header>
-								<h3>Update your details...</h3>
-								<DashboardButton
-									text="Done"
-									onClick={handleToggleDropdown}
-								/>
-							</Header>
-							<form>
-								<label htmlFor='username'>Username</label>
-								<input
-									type="text"
-									name="username"
-									value={formValues.username}
-									onChange={handleInputChange}
-									required
-								/>
-								<label htmlFor='email'>Email</label>
-								<input
-									type="email"
-									name="email"
-									value={formValues.email}
-									onChange={handleInputChange}
-									required
-								/>
-								<label htmlFor='postcode'>Location</label>
-								<input
-									type="text"
-									name="postCode"
-									value={formValues.postcode}
-									onChange={handleInputChange}
-									required
-								/>
-								<DashboardButton
-									type="action"
-									text="Submit"
-									onClick={handleSaveUserDetails}
-								>
-									Save
-								</DashboardButton>
-							</form>
-						</Dropdown>
-					</CollapsibleItem>
+							<Dropdown
+								ref={userDetailsRef}
+								$isClicked={activeDropdown === 'userDetails'}
+								$position="absolute"
+								$top="100%"
+								$left="0"
+								$transform="none"
+								$width="fit-content"
+								$padding="var(--sm)"
+								$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
+								$border="1px solid var(--ltGreen)"
+							>
+								<Header>
+									<h3>Update your details...</h3>
+									<DashboardButton
+										text="Done"
+										onClick={handleToggleDropdown}
+									/>
+								</Header>
+								<form>
+									<label htmlFor='username'>Username</label>
+									<input
+										type="text"
+										name="username"
+										value={formValues.username}
+										onChange={handleInputChange}
+										required
+									/>
+									<label htmlFor='email'>Email</label>
+									<input
+										type="email"
+										name="email"
+										value={formValues.email}
+										onChange={handleInputChange}
+										required
+									/>
+									<label htmlFor='postcode'>Location</label>
+									<input
+										type="text"
+										name="postCode"
+										value={formValues.postcode}
+										onChange={handleInputChange}
+										required
+									/>
+									<DashboardButton
+										type="action"
+										text="Submit"
+										onClick={handleSaveUserDetails}
+									>
+										Save
+									</DashboardButton>
+								</form>
+							</Dropdown>
+						</CollapsibleItem>
+					</div>
+					<div>
+						<NavItem>
+							<LinkButton text="BROWSE" to='/browse' />
+						</NavItem>
+						<NavItem>
+							<LinkButton text="NEW LISTING" to='/listings' />
+						</NavItem>
+					</div>
 				</DashboardHeader>
 
 				<Details>
-					<h2>Controls</h2>
-					<Controls>
+					<h2>Options</h2>
+					<Options>
 
 						{/* Set reading preferences */}
 						<CollapsibleItem
@@ -372,7 +384,7 @@ export default function Dashboard() {
 								</p>
 							}
 						/>
-					</Controls>
+					</Options>
 				</Details>
 
 				<Dropdown
