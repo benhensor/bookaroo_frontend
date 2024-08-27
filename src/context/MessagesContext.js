@@ -10,6 +10,7 @@ export const MessagesProvider = ({ children }) => {
 	const { user, isAuthenticated } = useAuth()
 
 	const fetchMessages = async () => {
+		console.log('fetchMessages:', user, isAuthenticated)
 		// Check if the user is authenticated before making the API call
 		if (!isAuthenticated || !user) {
 			throw new Error('User not authenticated')
@@ -59,7 +60,7 @@ export const MessagesProvider = ({ children }) => {
   }
 
   const { data: messagesAll } = useQuery(
-    'messages',
+    'allMessages', user?.id,
     getAllMessages,
     {
       enabled: !!user?.id && isAuthenticated,

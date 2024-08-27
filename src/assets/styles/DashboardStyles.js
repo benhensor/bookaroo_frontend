@@ -12,7 +12,15 @@ export const DashboardHeader = styled.div`
 		}
 		gap: var(--lg);
 		align-items: flex-start;
-
+	}
+	@media only screen and (max-width: 499px) {
+		> div {
+			&:last-child {
+				flex-direction: column;
+				align-items: flex-end;
+				gap: var(--sm);
+			}
+		}
 	}
 `
 
