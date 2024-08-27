@@ -16,13 +16,15 @@ export const MessagesProvider = ({ children }) => {
 			throw new Error('User not authenticated')
 		}
 		// console.log('messages context:', user)
-		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
-			{
-				withCredentials: true,
-			}
-		)
-		return data
+		if (user && isAuthenticated) {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
+				{
+					withCredentials: true,
+				}			
+			)
+			return data
+		}
 	}
 
 	const {
@@ -60,7 +62,7 @@ export const MessagesProvider = ({ children }) => {
   }
 
   const { data: messagesAll } = useQuery(
-    'allMessages', user?.id,
+    ['allMessages', user?.id],
     getAllMessages,
     {
       enabled: !!user?.id && isAuthenticated,
