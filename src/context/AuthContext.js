@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
         setIsAuthenticated(true);
       } catch (error) {
-        console.log('Not authenticated', error);
         console.error('Not authenticated', error);
         setUser(null);
         setIsAuthenticated(false);
