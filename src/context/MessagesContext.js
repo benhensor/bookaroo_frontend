@@ -10,13 +10,13 @@ export const MessagesProvider = ({ children }) => {
 	const { user, isAuthenticated } = useAuth()
 
 	const fetchMessages = async () => {
-		console.log('fetchMessages:', user, isAuthenticated)
 		// Check if the user is authenticated before making the API call
 		// if (!isAuthenticated || !user) {
-		// 	throw new Error('User not authenticated')
-		// }
-		// console.log('messages context:', user)
-		if (user && isAuthenticated) {
+			// 	throw new Error('User not authenticated')
+			// }
+			// console.log('messages context:', user)
+			if (user && isAuthenticated) {
+			console.log('fetchMessages:', user, isAuthenticated)
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/messages/inbox`,
 				{
