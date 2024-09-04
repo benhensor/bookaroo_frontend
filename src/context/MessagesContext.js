@@ -17,7 +17,7 @@ export const MessagesProvider = ({ children }) => {
 			// console.log('messages context:', user)
 			if (user && isAuthenticated) {
 			console.log('fetchMessages:', user, isAuthenticated)
-			const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/messages/inbox`, { withCredentials: true })
+			const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/messages/inbox`, { credentials: 'include' })
 			return data
 		}
 	}
@@ -45,7 +45,7 @@ export const MessagesProvider = ({ children }) => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/messages/all`,
         {
-          withCredentials: true
+          credentials: 'include',
         }
       )
       return data
@@ -75,7 +75,7 @@ export const MessagesProvider = ({ children }) => {
 			await axios.delete(
 				`${process.env.REACT_APP_API_URL}/api/messages/delete/${messageId}`,
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 		},
@@ -109,7 +109,7 @@ export const MessagesProvider = ({ children }) => {
 				`${process.env.REACT_APP_API_URL}/api/messages/mark/${messageId}`,
 				{},
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 		},
@@ -147,7 +147,7 @@ export const MessagesProvider = ({ children }) => {
 				`${process.env.REACT_APP_API_URL}/api/messages/unread/${messageId}`,
 				{},
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 		},
@@ -187,7 +187,7 @@ export const MessagesProvider = ({ children }) => {
 				`${process.env.REACT_APP_API_URL}/api/messages/send`,
 				messageData,
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 		},

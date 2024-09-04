@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
 				`${process.env.REACT_APP_API_URL}/api/users/update`,
 				updatedUser,
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 			setUser(res.data)
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
 				`${process.env.REACT_APP_API_URL}/api/users/preferences`,
 				{ preferences },
 				{
-					withCredentials: true,
+					credentials: 'include',
 				}
 			)
 			setUser((prevUser) => ({
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/users/${userId}`,
 				{
-					withCredentials: true,
+					credentials: 'include',
 					params: { userId },
 				}
 			)
@@ -77,7 +77,7 @@ export const UserProvider = ({ children }) => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/users/liked`,
 				{
-					withCredentials: true,
+					credentials: 'include',
 					params: { userId },
 				}
 			)
@@ -110,7 +110,7 @@ export const UserProvider = ({ children }) => {
         await axios.put(
             `${process.env.REACT_APP_API_URL}/api/users/like`,
             { bookId },
-            { withCredentials: true }
+            { credentials: 'include' }
         );
     },
     {
@@ -128,7 +128,7 @@ export const UserProvider = ({ children }) => {
         await axios.put(
             `${process.env.REACT_APP_API_URL}/api/users/unlike`,
             { bookId },
-            { withCredentials: true }
+            { credentials: 'include' }
         );
     },
     {

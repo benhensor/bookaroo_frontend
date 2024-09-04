@@ -12,25 +12,27 @@ export const AuthProvider = ({ children }) => {
 
   
 
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
+          credentials: 'include',
+        });
+        console.log('Authenticated:', data);
+        setUser(data);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Not authenticated', error);
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const checkAuthStatus = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
-        withCredentials: true,
-      });
-      console.log('Authenticated:', data);
-      setUser(data);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error('Not authenticated', error);
-      setUser(null);
-      setIsAuthenticated(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+    checkAuthStatus();
+  }, []);
 
 
 
@@ -59,7 +61,7 @@ export const AuthProvider = ({ children }) => {
           `${process.env.REACT_APP_API_URL}/api/auth/login`,
           credentials,
           {
-            withCredentials: true,  // Include cookies with the request
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/logout`,
         credentials,
         {
-          withCredentials: true,  // Include cookies with the request
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -110,7 +112,6 @@ export const AuthProvider = ({ children }) => {
 			user,
 			isAuthenticated,
 			isLoading, // React Query's loading state
-      checkAuthStatus,
       registerUser,
 			login,
 			logout,
