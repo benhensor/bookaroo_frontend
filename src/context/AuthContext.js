@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(true);
       try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
-          credentials: 'include',
+          withCredentials: true,
         });
         console.log('Authenticated:', data);
         setUser(data);
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
           `${process.env.REACT_APP_API_URL}/api/auth/login`,
           credentials,
           {
-            credentials: 'include',
+            withCredentials: true,  // Include cookies with the request
             headers: {
               'Content-Type': 'application/json',
             },
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/logout`,
         credentials,
         {
-          credentials: 'include',
+          withCredentials: true,  // Include cookies with the request
           headers: {
             'Content-Type': 'application/json',
           },

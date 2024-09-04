@@ -24,7 +24,7 @@ export const BooksProvider = ({ children }) => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/books/allbooks`,
         {
-          credentials: 'include',
+          withCredentials: true,
         }
       );
       // console.log('all books:', data);
@@ -108,7 +108,7 @@ export const BooksProvider = ({ children }) => {
         `${process.env.REACT_APP_API_URL}/api/books/newlisting`,
         listingData,
         {
-          credentials: 'include',
+          withCredentials: true,
         }
       );
       return { success: true, message: 'Book listed successfully!' };
@@ -128,7 +128,7 @@ export const BooksProvider = ({ children }) => {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/books/delete/${bookId}`,
         {
-          credentials: 'include',
+          withCredentials: true,
           params: { bookId },
         }
       );
