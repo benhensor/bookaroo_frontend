@@ -72,8 +72,10 @@ export const Display = styled.div`
 	padding-top: 15rem;
 	max-width: 100rem;
 	margin: 0 auto;
-	height: calc(100vh - 15rem);
 	scroll-behavior: smooth;
   overflow-y: auto; /* Allow vertical scrolling */
+	@media only screen and (max-width: 999px) {
+		padding: 15rem var(--md);
+	}
 `
 
