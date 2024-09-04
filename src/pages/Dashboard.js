@@ -26,7 +26,7 @@ import {
 
 
 export default function Dashboard() {
-	const { user, isAuthenticated, isLoading } = useAuth()
+	const { user, isAuthenticated, isLoading, checkAuthStatus } = useAuth()
 	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
 	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
@@ -49,6 +49,13 @@ export default function Dashboard() {
 	})
 
 	useEffect(() => {
+		if (user) {
+			checkAuthStatus()
+		}
+	}, [user, checkAuthStatus])
+
+	useEffect(() => {
+		console.log('Dashboard Render:', user);
 		if (user) {
 			refreshMessages()
 		}

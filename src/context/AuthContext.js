@@ -12,27 +12,25 @@ export const AuthProvider = ({ children }) => {
 
   
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
-          withCredentials: true,
-        });
-        console.log('Authenticated:', data);
-        setUser(data);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Not authenticated', error);
-        setUser(null);
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
-    checkAuthStatus();
-  }, []);
+  const checkAuthStatus = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/current`, {
+        withCredentials: true,
+      });
+      console.log('Authenticated:', data);
+      setUser(data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Not authenticated', error);
+      setUser(null);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
 
 
@@ -112,6 +110,7 @@ export const AuthProvider = ({ children }) => {
 			user,
 			isAuthenticated,
 			isLoading, // React Query's loading state
+      checkAuthStatus,
       registerUser,
 			login,
 			logout,
