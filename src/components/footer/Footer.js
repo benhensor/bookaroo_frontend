@@ -1,52 +1,35 @@
 import React from 'react'
-import { useAuth } from '../../context/AuthContext'
 import Browse from '../../icons/Browse'
 import Listings from '../../icons/Listings'
 import Messages from '../../icons/Messages'
-import LogOut from '../../icons/LogOut'
-import { 
-  FooterContainer,
-  NavBar,
-  NavItem,
+import Profile from '../../icons/Profile'
+import {
+	FooterContainer,
+	NavBar,
+	NavItem,
 } from '../../assets/styles/FooterStyles'
 
-export default function Footer() {
+export default function Footer({ handlePageChange, activePage }) {
+	// const handleClick = () => {
+	//   console.log('Footer clicked')
+	// }
 
-  const { user, isAuthenticated } = useAuth()
-
-  const handleClick = () => {
-    console.log('Footer clicked')
-  }
-
-  
-  return (
-    <>
-      {isAuthenticated && user && (
-        <FooterContainer>
-          <NavBar>
-            <NavItem>
-              <Browse
-                onClick={handleClick}
-              />
-            </NavItem>
-            <NavItem>
-              <Listings
-                onClick={handleClick}
-              />
-            </NavItem>
-            <NavItem>
-              <Messages
-                onClick={handleClick}
-              />
-            </NavItem>
-            <NavItem>
-              <LogOut
-                onClick={handleClick}
-              />
-            </NavItem>
-          </NavBar>
-        </FooterContainer>
-      )}
-    </>
-  )
+	return (
+		<FooterContainer>
+			<NavBar>
+				<NavItem onClick={() => handlePageChange('Browse')}>
+					<Browse isActive={activePage === 'Browse'} />
+				</NavItem>
+				<NavItem onClick={() => handlePageChange('Listings')}>
+					<Listings isActive={activePage === 'Listings'} />
+				</NavItem>
+				<NavItem onClick={() => handlePageChange('Messages')}>
+					<Messages isActive={activePage === 'Messages'} />
+				</NavItem>
+				<NavItem onClick={() => handlePageChange('Profile')}>
+					<Profile isActive={activePage === 'Profile'} />
+				</NavItem>
+			</NavBar>
+		</FooterContainer>
+	)
 }

@@ -8,13 +8,21 @@ import CollapsibleItem from '../components/dashboard/CollapsibleItem'
 import Genre from '../components/dashboard/Genre'
 import Message from '../components/message/Message'
 import Carousel from '../components/carousel/Carousel'
+import ProfileControls from '../components/controls/ProfileControls'
+import ListingControls from '../components/controls/ListingControls'
+import MessageControls from '../components/controls/MessageControls'
+import BrowseControls from '../components/controls/BrowseControls'
+import BooksGallery from '../components/books/BooksGallery'
+import BookDetail from '../components/books/BookDetail'
+import Listing from '../components/listing/Listing'
 import DashboardButton from '../components/buttons/DashboardButton'
-import LinkButton from '../components/buttons/LinkButton'
+import Footer from '../components/footer/Footer'
 import {
-	Container,
+	DashboardContainer,
+	DashboardContent,
+	PageContainer,
 	DashboardHeader,
-	NavItem,
-	Details,
+	DashboardControls,
 	MessagingContainer,
 	Feedback,
 	Options,
@@ -30,6 +38,7 @@ export default function Dashboard() {
 	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
 	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
+	const [activePage, setActivePage] = useState('Profile')
 	const [activeDropdown, setActiveDropdown] = useState(false)
 	const [selectedPreferences, setSelectedPreferences] = useState([])
 	const [openMessage, setOpenMessage] = useState(null)
@@ -37,6 +46,8 @@ export default function Dashboard() {
 	const preferencesRef = useRef(null)
 	const likedRef = useRef(null)
 	const messagesRef = useRef(null)
+
+
 
 	const [formValues, setFormValues] = useState({
 		username: '',
@@ -49,11 +60,14 @@ export default function Dashboard() {
 	})
 	
 
+
 	useEffect(() => {
 		if (user) {
 			refreshMessages()
 		}
 	}, [user, refreshMessages])
+
+
 
 	useEffect(() => {
 		if (user) {
@@ -70,6 +84,82 @@ export default function Dashboard() {
 		}
 	}, [user])
 
+
+
+	const handlePageChange = (page) => {
+		setActivePage(page)
+	}
+
+
+	const renderActivePage = () => {
+		switch (activePage) {
+			case 'Browse':
+				return (
+					<BooksGallery />
+				)
+			case 'Listings':
+				return (
+					<Listing />
+				)
+			case 'Messages':
+				return renderMessages()
+			case 'Profile':
+				return renderProfile()
+			default:
+				return renderProfile()
+		}
+	}
+
+
+	const renderActiveControls = () => {
+		switch (activePage) {
+			case 'Browse':
+				return (
+					<BrowseControls />
+				)
+			case 'Listings':
+				return (
+					<ListingControls />
+				)
+			case 'Messages':
+				return (
+					<MessageControls />
+				)
+			case 'Profile':
+				return (
+					<ProfileControls />
+				)
+			default:
+				return (
+					<></>
+				)
+		}
+	}
+
+
+
+	
+
+	const renderBrowse = () => {
+		return (
+			<BooksGallery />
+		)
+	}
+
+
+	const renderListings = () => {
+		return (
+			<Listing />
+		)
+	}
+
+
+	const renderProfile = () => {
+		return null
+	}
+
+
+
 	const handleInputChange = (e) => {
 		const { name, value } = e.target
 		setFormValues((prevValues) => ({
@@ -77,6 +167,8 @@ export default function Dashboard() {
 			[name]: value,
 		}))
 	}
+
+
 
 	const handleSaveUserDetails = useCallback(() => {
 		if (!user) return
@@ -106,6 +198,8 @@ export default function Dashboard() {
 			})
 	}, [formValues, updateUserDetails, user])
 
+
+
 	const handleGenreSelect = (genre) => {
 		setSelectedPreferences((prevPreferences) => {
 			if (prevPreferences.includes(genre)) {
@@ -115,6 +209,8 @@ export default function Dashboard() {
 			}
 		})
 	}
+
+
 
 	const handleSavePreferences = useCallback(() => {
 
@@ -144,6 +240,8 @@ export default function Dashboard() {
 			})
 	}, [selectedPreferences, updateUserPreferences, user])
 
+
+
 	const handleToggleDropdown = (dropdownName) => {
 		if (activeDropdown === dropdownName) {
 			setActiveDropdown(false)
@@ -152,10 +250,14 @@ export default function Dashboard() {
 		}
 	}
 
+
+
 	const toggleMessage = (messageId) => {
 		markAsRead(messageId)
 		setOpenMessage(openMessage === messageId ? null : messageId)
 	}
+
+
 
 	const renderCarousel = (books, title, loading) => {
 		if (loading) {
@@ -168,6 +270,8 @@ export default function Dashboard() {
 			</CarouselContainer>
 		)
 	}
+
+
 
 	const renderMessages = () => {
 		if (isMessagesLoading) {
@@ -206,12 +310,7 @@ export default function Dashboard() {
 	
 	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
 
-	// useEffect(() => {
-	// 	console.log('Dashboard Render:');
-	// 	console.log('User:', user);
-	// 	console.log('IsAuthenticated:', isAuthenticated);
-	// 	console.log('IsLoading:', isLoading);
-	// }, [user, isAuthenticated, isLoading]);
+	
 	
 	if (isLoading) {
 		return (
@@ -229,197 +328,26 @@ export default function Dashboard() {
 		)
 
 	return (
-		<section>
-			<Container>
+		<>		
+			<DashboardContainer>
+				
 				<DashboardHeader>
-					<div>
-						<h1>Dashboard</h1>
-						<CollapsibleItem
-							message={false}
-							onClick={() => handleToggleDropdown('userDetails')}
-							isActive={activeDropdown === 'userDetails'}
-							text={`Welcome ${user.username}!`}
-						>
-							<Dropdown
-								ref={userDetailsRef}
-								$isClicked={activeDropdown === 'userDetails'}
-								$position="absolute"
-								$top="100%"
-								$left="0"
-								$transform="none"
-								$width="fit-content"
-								$padding="var(--sm)"
-								$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
-								$border="1px solid var(--ltGreen)"
-							>
-								<Header>
-									<h3>Update your details...</h3>
-									<DashboardButton
-										text="Done"
-										onClick={handleToggleDropdown}
-									/>
-								</Header>
-								<form>
-									<label htmlFor='username'>Username</label>
-									<input
-										type="text"
-										name="username"
-										value={formValues.username}
-										onChange={handleInputChange}
-										required
-									/>
-									<label htmlFor='email'>Email</label>
-									<input
-										type="email"
-										name="email"
-										value={formValues.email}
-										onChange={handleInputChange}
-										required
-									/>
-									<label htmlFor='postcode'>Location</label>
-									<input
-										type="text"
-										name="postCode"
-										value={formValues.postcode}
-										onChange={handleInputChange}
-										required
-									/>
-									<DashboardButton
-										type="action"
-										text="Submit"
-										onClick={handleSaveUserDetails}
-									>
-										Save
-									</DashboardButton>
-								</form>
-							</Dropdown>
-						</CollapsibleItem>
-					</div>
-					<div>
-						<NavItem>
-							<LinkButton text="BROWSE" to='/browse' />
-						</NavItem>
-						<NavItem>
-							<LinkButton text="NEW LISTING" to='/listings' />
-						</NavItem>
-					</div>
+					<h1>{activePage}</h1>
 				</DashboardHeader>
 
-				<Details>
-					<h2>Options</h2>
-					<Options>
+				<DashboardControls>
+					{renderActiveControls()}
+				</DashboardControls>
 
-						{/* Set reading preferences */}
-						<CollapsibleItem
-							message={false}
-							onClick={() => handleToggleDropdown('preferences')}
-							isActive={activeDropdown === 'preferences'}
-							text={<p>Reading Preferences</p>}
-						>
-							<Dropdown
-								ref={preferencesRef}
-								$isClicked={activeDropdown === 'preferences'}
-								$position="absolute"
-								$top="40%"
-								$left="0"
-								$transform="none"
-								$width="fit-content"
-								$padding="var(--sm)"
-								$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
-								$border="1px solid var(--ltGreen)"
-							>
-								<Header>
-									<h3>Preferences</h3>
-									<DashboardButton
-										type="word"
-										text="Done"
-										onClick={handleSavePreferences}
-									/>
-								</Header>
-								{categories.map((genre) => (
-									<Genre
-										key={genre}
-										name={genre}
-										isSelected={selectedPreferences.includes(
-											genre
-										)}
-										onSelect={handleGenreSelect}
-									/>
-								))}
-							</Dropdown>
-						</CollapsibleItem>
+				<DashboardContent>
 
-						{/* View liked books */}
-						<CollapsibleItem
-							message={false}
-							onClick={() => handleToggleDropdown('liked')}
-							isActive={activeDropdown === 'liked'}
-							text={<p>Your liked books</p>}
-						/>
-
-						{/* View messages */}
-						<CollapsibleItem
-							message={false}
-							onClick={() => handleToggleDropdown('messages')}
-							isActive={activeDropdown === 'messages'}
-							text={
-								<p>
-									{isMessagesLoading ? (
-										'Loading messages...'
-									) : isError ? (
-										'Error loading messages'
-									) : (
-										<>
-											You have&nbsp;
-											{unreadMessagesCount === 0 ? (
-												'no'
-												) : (
-												<span>{unreadMessagesCount}</span>
-											)}
-											&nbsp;unread&nbsp;
-											{unreadMessagesCount === 1
-												? 'message'
-												: 'messages'}
-										</>
-									)}
-								</p>
-							}
-						/>
-					</Options>
-				</Details>
-
-				<Dropdown
-					ref={messagesRef}
-					$isClicked={activeDropdown === 'messages'}
-					$position="normal"
-					$top="0"
-					$left="0"
-					$transform="none"
-					$width="100%"
-					$padding="0"
-					$boxShadow="none"
-					$border="none"
-				>
-					{renderMessages()}
-				</Dropdown>
-			</Container>
-
-			<Dropdown
-				ref={likedRef}
-				$isClicked={activeDropdown === 'liked'}
-				$position="normal"
-				$top="0"
-				$left="0"
-				$transform="none"
-				$width="100%"
-				$padding="0"
-				$boxShadow="none"
-				$border="none"
-			>
-				{renderCarousel(likedBooks, 'Liked Books', likedBooksLoading)}
-			</Dropdown>
-			{renderCarousel(usersBooks, 'Your Listings', loading)}
-			{renderCarousel(recommendations, 'Recommended for You', loading)}
-		</section>
+					<PageContainer>
+						{renderActivePage()}
+					</PageContainer>
+					
+				</DashboardContent>
+				<Footer handlePageChange={handlePageChange} activePage={activePage} />
+			</DashboardContainer>
+		</>
 	)
 }

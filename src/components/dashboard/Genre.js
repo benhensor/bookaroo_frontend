@@ -40,6 +40,9 @@ const Container = styled.div`
   &:hover {
     background-color: var(--ltGreen);
   }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 const Name = styled.p`

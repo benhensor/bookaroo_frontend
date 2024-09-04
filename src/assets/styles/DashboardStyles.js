@@ -1,44 +1,51 @@
 import styled from 'styled-components';
 
-export const DashboardHeader = styled.div`
+export const DashboardContainer = styled.div`
+	height: calc(100vh - 5.8rem);
+	width: 100%;
+	margin: 0 auto;
 	display: flex;
-	justify-content: space-between;
-	padding-top: var(--lg);
-	> div {
-		display: flex;
-		&:first-child {
-			flex-direction: column;
-			gap: 0;
-		}
-		gap: var(--lg);
-		align-items: flex-start;
+	flex-direction: column;
+`
+
+export const DashboardContent = styled.section`
+	width: 100%;
+	overflow-y: auto;
+`
+
+export const DashboardHeader = styled.div`
+	max-width: 100rem;
+	width: 100%;
+	margin: 0 auto;
+	padding: var(--lg) 0 0 0;
+	@media only screen and (max-width: 999px) {
+		padding: var(--sm) var(--md) 0 var(--md);
 	}
-	@media only screen and (max-width: 499px) {
-		> div {
-			&:last-child {
-				flex-direction: column;
-				align-items: flex-end;
-				gap: var(--sm);
-			}
-		}
+	@media only screen and (max-width: 450px) {
+		padding: var(--sm) var(--sm) 0 var(--sm);
+	}
+`
+
+export const DashboardControls = styled.div`
+	display: flex;
+`
+
+export const PageContainer = styled.div`
+	flex-grow: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	@media only screeen and (max-width: 999px) {
+		padding: var(--sm) var(--md);
+	}
+	@media only screeen and (max-width: 450px) {
+		padding: var(--sm);
 	}
 `
 
 export const NavItem = styled.div`
 	display: flex;
 	align-items: center;
-`
-
-export const Container = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	gap: var(--sm);
-	margin-bottom: var(--lg);
-	@media only screen and (max-width: 768px) {
-		flex-direction: column;
-	}
 `
 
 export const Details = styled.div`

@@ -78,8 +78,7 @@ export const Controls = styled.div`
 	justify-content: center;
 	gap: var(--sm);
 	padding: var(--sm) 1.3rem;
-	background-color: var(--white);
-	visibility: ${(props) => (props.$isHovered ? 'visible' : 'hidden')};
+	background-color: var(--offWhite);
 	transform: translateY(${(props) => (props.$isHovered ? '0' : '100%')});
 	transition: var(--fast);
 	animation: ${(props) => (props.$isHovered ? slideUpAnimation : 'none')} 0.3s
