@@ -2,12 +2,11 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import axios from 'axios'
 import { registerSchema } from '../../schemas/index'
 import SubmitButton from '../buttons/ActionButton'
 import LinkButton from '../buttons/LinkButton'
 import { Content } from '../../assets/styles/GlobalStyles'
-import { P, InputGroup, Error } from '../../assets/styles/RegisterStyles'
+import { P, InputGroup, Error } from '../../assets/styles/RegisterLoginStyles'
 
 const Register = () => {
 	const navigate = useNavigate()
@@ -155,8 +154,7 @@ const Register = () => {
 					<SubmitButton text="Submit" />
 				</form>
 				<P>
-					Already have an account? &nbsp;
-					<LinkButton to="/login" text="Sign In" />
+					Already have an account? &nbsp; <LinkButton to="/login" text="Sign In" />
 				</P>
 			</Content>
 		</section>

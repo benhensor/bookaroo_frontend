@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const P = styled.p`
-margin-top: var(--sm);
+  margin-top: var(--sm);
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  display: flex;
 `
 
 export const InputGroup = styled.div`

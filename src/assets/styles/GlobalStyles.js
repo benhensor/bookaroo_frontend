@@ -111,7 +111,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
     flex-direction: column;
     gap: var(--sm);
-		font-size: 1.2rem;
+		font-size: clamp(1rem, 2vw, 1.4rem);
 		margin-bottom: var(--xs);
     overflow: hidden;
 	}
@@ -119,7 +119,7 @@ const GlobalStyles = createGlobalStyle`
   input, select, textarea {
   width: 100%;
   padding: var(--sm);
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
   border: 1px solid #ccc;
   border-radius: var(--xs);
   transition: border-color 0.3s ease; /* Smooth transition for border color */
@@ -164,12 +164,14 @@ const GlobalStyles = createGlobalStyle`
       padding: var(--sm) var(--md);
     }
   }
+  @media only screen and (max-width: 768px) {
+    form {
+      width: 66%;
+    }
+  }
   @media only screen and (max-width: 450px) {
     section {
       padding: var(--sm);
-    }
-    form {
-      width: 100%;
     }
   }
 `
@@ -190,6 +192,9 @@ export const Content = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: var(--lg);
+  @media only screen and (max-width: 768px) {
+    gap: var(--md);
+  }
 `
 
 export default GlobalStyles

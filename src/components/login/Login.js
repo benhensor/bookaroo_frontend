@@ -6,7 +6,7 @@ import { loginSchema } from '../../schemas/index'
 import SubmitButton from '../buttons/ActionButton'
 import LinkButton from '../buttons/LinkButton'
 import { Content } from '../../assets/styles/GlobalStyles'
-import { P, InputGroup, Error } from '../../assets/styles/LoginStyles'
+import { P, InputGroup, Error } from '../../assets/styles/RegisterLoginStyles'
 
 const Login = () => {
 	const navigate = useNavigate()
