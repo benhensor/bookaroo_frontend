@@ -1,9 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
 import Browse from '../../icons/Browse'
 import Listings from '../../icons/Listings'
 import Messages from '../../icons/Messages'
 import LogOut from '../../icons/LogOut'
+import { 
+  FooterContainer,
+  NavBar,
+  NavItem,
+} from '../../assets/styles/FooterStyles'
 
 export default function Footer() {
 
@@ -39,25 +43,3 @@ export default function Footer() {
     </FooterContainer>
   )
 }
-
-const FooterContainer = styled.footer`
-  background-color: var(--blkGreen);
-  color: var(--white);
-  padding: var(--lg) var(--md);
-  text-align: center;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-`
-
-const NavBar = styled.nav`
-  max-width: 100rem;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-around;
-`
-
-const NavItem = styled.div`
-  display: flex;
-  align-items: center;
-`

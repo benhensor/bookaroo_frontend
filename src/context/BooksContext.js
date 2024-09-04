@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
-import { useQuery } from 'react-query';
 
 const BooksContext = createContext();
 
