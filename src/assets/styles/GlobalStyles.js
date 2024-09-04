@@ -79,7 +79,12 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1 {
-    font-size: 3.2rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
     font-weight: 700;
   }
 
