@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import { useWindowWidth } from '../../utils/useWindowWidth'
+import LinkButton from '../buttons/LinkButton'
 import Thumbnail from '../books/Thumbnail'
 import Chevron from '../../icons/Chevron'
 
@@ -48,19 +49,6 @@ export default function Carousel({ books = [], title }) {
     }
   }, [books])
 
-  // useEffect(() => {
-  //   console.log('unique books:', uniquebooks)
-  // }, [uniquebooks])
-
-  // useEffect(() => {
-  //   console.log('message', message)
-  // }, [message])
-  // useEffect(() => {
-  //   if (title === 'Liked Books') {
-  //     console.log('liked carousel', books)
-  //   }
-  // }, [title, books])
-
 
 
   const handleNext = () => {
@@ -102,6 +90,18 @@ export default function Carousel({ books = [], title }) {
 
 
 
+  const renderButton = () => {
+    if (title === 'Your Listings') {
+      return <LinkButton to="/listings" text="Add New" />
+    }
+    if (title === 'Recommended for You') {
+      return <LinkButton to="/browse" text="View All" />
+    }
+    return null
+  }
+
+
+
   // Debugging
   // useEffect(() => {
   //   console.log(title, books[0])
@@ -117,7 +117,10 @@ export default function Carousel({ books = [], title }) {
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      <h2>{title}</h2>
+      <Header>
+        <h2>{title}</h2>
+        {renderButton()}
+      </Header>
       <CarouselWrapper>
         {isEmpty ? (
           <ErrorMessage>{message}</ErrorMessage>
@@ -152,7 +155,13 @@ export default function Carousel({ books = [], title }) {
 const CarouselContainer = styled.div`
   z-index: 1000;
   padding-bottom: var(--lg);
-  border-bottom: 1px solid var(--ltGreen);
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
 `
 
 const CarouselWrapper = styled.div`

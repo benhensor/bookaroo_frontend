@@ -1,19 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 
-export default function Listings({ onClick }) {
+export default function Listings({ isActive }) {
 
-  const navigate = useNavigate()
 
-	const handleOnClick = () => {
-		if (onClick) {
-			navigate('/listings')
-		}
-	}
 
 	return (
-		<Container onClick={handleOnClick}>
+		<Container
+			$isactive={isActive}
+		>
 			<svg
 				width="800px"
 				height="800px"
@@ -38,7 +33,7 @@ const Container = styled.div`
 		height: 3rem;
 		transition: var(--fast);
 		path {
-			stroke: var(--white);
+			stroke: ${(props) => (props.$isactive ? 'var(--accentGreen)' : 'var(--white)')};
 			stroke-width: 1.5;
 			stroke-linecap: round;
 			stroke-linejoin: round;

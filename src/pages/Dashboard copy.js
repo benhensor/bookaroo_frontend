@@ -1,22 +1,23 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useBooks } from '../context/BooksContext'
 import { useUser } from '../context/UserContext'
+import { useBooks } from '../context/BooksContext'
 import { useMessages } from '../context/MessagesContext'
 import { categories } from '../utils/categories'
 import CollapsibleItem from '../components/dashboard/CollapsibleItem'
 import Genre from '../components/dashboard/Genre'
 import Message from '../components/message/Message'
 import Carousel from '../components/carousel/Carousel'
-import LinkButton from '../components/buttons/LinkButton'
 import DashboardButton from '../components/buttons/DashboardButton'
+import LinkButton from '../components/buttons/LinkButton'
 import {
 	Container,
 	DashboardHeader,
+	NavItem,
 	Details,
 	MessagingContainer,
 	Feedback,
-	Controls,
+	Options,
 	Dropdown,
 	Header,
 	CarouselContainer,
@@ -25,10 +26,9 @@ import {
 
 
 export default function Dashboard() {
-	const { user, isAuthenticated, isLoading, updateUserPreferences, updateUserDetails } =
-		useAuth()
+	const { user, isAuthenticated, isLoading } = useAuth()
+	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
-	const { likedBooks, likedBooksLoading } = useUser()
 	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
 	const [activeDropdown, setActiveDropdown] = useState(false)
 	const [selectedPreferences, setSelectedPreferences] = useState([])
@@ -47,12 +47,7 @@ export default function Dashboard() {
 		city: '',
 		postcode: '',
 	})
-
-	useEffect(() => {
-		if (user) {
-			console.log(`${user.username} logged in`, user, isAuthenticated)
-		}
-	}, [user, isAuthenticated])
+	
 
 	useEffect(() => {
 		if (user) {
@@ -210,8 +205,15 @@ export default function Dashboard() {
 	}
 	
 	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+
+	// useEffect(() => {
+	// 	console.log('Dashboard Render:');
+	// 	console.log('User:', user);
+	// 	console.log('IsAuthenticated:', isAuthenticated);
+	// 	console.log('IsLoading:', isLoading);
+	// }, [user, isAuthenticated, isLoading]);
 	
-	if (isLoading || isMessagesLoading) {
+	if (isLoading) {
 		return (
 			<section>
 				<div>Loading...</div>
@@ -219,7 +221,7 @@ export default function Dashboard() {
 		)
 	}
 
-	if (!user)
+	if (!user || !isAuthenticated)
 		return (
 			<section>
 				<div>No user data available</div>
@@ -230,85 +232,86 @@ export default function Dashboard() {
 		<section>
 			<Container>
 				<DashboardHeader>
-					<h1>Dashboard</h1>
-					<CollapsibleItem
-						onClick={() => handleToggleDropdown('userDetails')}
-						isActive={activeDropdown === 'userDetails'}
-						text={`Welcome ${user.username}!`}
-					>
-						<Dropdown
-							ref={userDetailsRef}
-							$isClicked={activeDropdown === 'userDetails'}
-							$position="absolute"
-							$top="100%"
-							$left="0"
-							$transform="none"
-							$width="fit-content"
-							$padding="var(--sm)"
-							$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
-							$border="1px solid var(--ltGreen)"
+					<div>
+						<h1>Dashboard</h1>
+						<CollapsibleItem
+							message={false}
+							onClick={() => handleToggleDropdown('userDetails')}
+							isActive={activeDropdown === 'userDetails'}
+							text={`Welcome ${user.username}!`}
 						>
-							<Header>
-								<h3>Update your details...</h3>
-								<DashboardButton
-									text="Done"
-									onClick={handleToggleDropdown}
-								/>
-							</Header>
-							<form>
-								<label htmlFor='username'>Username</label>
-								<input
-									type="text"
-									name="username"
-									value={formValues.username}
-									onChange={handleInputChange}
-									required
-								/>
-								<label htmlFor='email'>Email</label>
-								<input
-									type="email"
-									name="email"
-									value={formValues.email}
-									onChange={handleInputChange}
-									required
-								/>
-								<label htmlFor='postcode'>Location</label>
-								<input
-									type="text"
-									name="postCode"
-									value={formValues.postcode}
-									onChange={handleInputChange}
-									required
-								/>
-								<DashboardButton
-									type="action"
-									text="Submit"
-									onClick={handleSaveUserDetails}
-								>
-									Save
-								</DashboardButton>
-							</form>
-						</Dropdown>
-					</CollapsibleItem>
+							<Dropdown
+								ref={userDetailsRef}
+								$isClicked={activeDropdown === 'userDetails'}
+								$position="absolute"
+								$top="100%"
+								$left="0"
+								$transform="none"
+								$width="fit-content"
+								$padding="var(--sm)"
+								$boxShadow="0 0 1rem rgba(0, 0, 0, 0.2)"
+								$border="1px solid var(--ltGreen)"
+							>
+								<Header>
+									<h3>Update your details...</h3>
+									<DashboardButton
+										text="Done"
+										onClick={handleToggleDropdown}
+									/>
+								</Header>
+								<form>
+									<label htmlFor='username'>Username</label>
+									<input
+										type="text"
+										name="username"
+										value={formValues.username}
+										onChange={handleInputChange}
+										required
+									/>
+									<label htmlFor='email'>Email</label>
+									<input
+										type="email"
+										name="email"
+										value={formValues.email}
+										onChange={handleInputChange}
+										required
+									/>
+									<label htmlFor='postcode'>Location</label>
+									<input
+										type="text"
+										name="postCode"
+										value={formValues.postcode}
+										onChange={handleInputChange}
+										required
+									/>
+									<DashboardButton
+										type="action"
+										text="Submit"
+										onClick={handleSaveUserDetails}
+									>
+										Save
+									</DashboardButton>
+								</form>
+							</Dropdown>
+						</CollapsibleItem>
+					</div>
+					<div>
+						<NavItem>
+							<LinkButton text="BROWSE" to='/browse' />
+						</NavItem>
+						<NavItem>
+							<LinkButton text="NEW LISTING" to='/listings' />
+						</NavItem>
+					</div>
 				</DashboardHeader>
 
 				<Details>
-					<h2>Controls</h2>
-					<Controls>
-						{/* Browse available books */}
-						<LinkButton
-							to="/browse"
-							text="Browse"
-						/>
-
-						{/* List your books */}
-						<LinkButton
-							to="/list"
-							text="New Listing"
-						/>
+					<h2>Options</h2>
+					<Options>
 
 						{/* Set reading preferences */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('preferences')}
 							isActive={activeDropdown === 'preferences'}
 							text={<p>Reading Preferences</p>}
@@ -348,6 +351,7 @@ export default function Dashboard() {
 
 						{/* View liked books */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('liked')}
 							isActive={activeDropdown === 'liked'}
 							text={<p>Your liked books</p>}
@@ -355,6 +359,7 @@ export default function Dashboard() {
 
 						{/* View messages */}
 						<CollapsibleItem
+							message={false}
 							onClick={() => handleToggleDropdown('messages')}
 							isActive={activeDropdown === 'messages'}
 							text={
@@ -380,7 +385,7 @@ export default function Dashboard() {
 								</p>
 							}
 						/>
-					</Controls>
+					</Options>
 				</Details>
 
 				<Dropdown

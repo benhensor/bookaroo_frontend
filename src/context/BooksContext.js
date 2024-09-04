@@ -7,6 +7,8 @@ const BooksContext = createContext();
 export const BooksProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth();
   const [allBooks, setAllBooks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchError, setSearchError] = useState(null);
 
   // Debugging
   // useEffect(() => {
@@ -57,6 +59,8 @@ export const BooksProvider = ({ children }) => {
     [allBooks, user?.id]
   );
 
+  
+
   const recommendations = useMemo(
     () =>
       user?.preferences && user.preferences.length > 0
@@ -71,6 +75,8 @@ export const BooksProvider = ({ children }) => {
     [allBooks, user?.id, user?.preferences]
   );
 
+
+
   const getBookById = useCallback(
     (id) => {
       console.log('Getting book by ID:', id);
@@ -80,6 +86,8 @@ export const BooksProvider = ({ children }) => {
     },
     [allBooks]
   );
+
+
 
   // Function to search for books locally
   const searchBooks = useCallback(
@@ -95,6 +103,7 @@ export const BooksProvider = ({ children }) => {
             cat.toLowerCase().includes(lowercaseQuery)
           )
       );
+      
     },
     [allBooks]
   );
@@ -150,10 +159,14 @@ export const BooksProvider = ({ children }) => {
     <BooksContext.Provider
       value={{
         allBooks,
+        searchResults,
+        searchError,
         recommendations,
         usersBooks,
         getBookById,
         searchBooks,
+        setSearchResults,
+        setSearchError,
         createListing,
         deleteListing,
         refetchBooks: getAllBooks, // Refetch books

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export default function LinkButton({ text, to, onClick}) {
 
-  const noBackgroundTypes = ['Sign In', 'Register', 'Return', 'Browse', 'New Listing', 'Done', 'Sign Out', 'Back']
+  const noBackgroundTypes = ['Sign In', 'Register', 'Return', 'Browse', 'New Listing', 'Done', 'Sign Out', 'Back', 'Add New', 'View All']
   const noBackground = noBackgroundTypes.includes(text)
   const dashboardButtons = text === 'BROWSE' || text === 'NEW LISTING'
   const signOut = text === 'Sign Out'

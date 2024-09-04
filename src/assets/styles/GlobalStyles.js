@@ -93,8 +93,6 @@ const GlobalStyles = createGlobalStyle`
     top: 5.8rem;
     width: 100%;
     outline: 1px solid red;
-    height: 100%;
-    overflow-y: auto;
   }
 
   section {
@@ -170,9 +168,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   @media only screen and (max-width: 768px) {
-    form {
-      width: 66%;
-    }
+    
   }
   @media only screen and (max-width: 450px) {
     section {

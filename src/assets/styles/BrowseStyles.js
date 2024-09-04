@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 
 export const Controls = styled.div`
-	position: fixed;
-	top: 5.8rem;
 	width: 100%;
 	max-height: 100%;
 	z-index: 100;
-	background-color: var(--white);
 	box-shadow: ${(props) =>
 		props.$isScrolled ? '0 5px 5px rgba(0, 0, 0, 0.1)' : 'none'};
 	transition: var(--slow);
