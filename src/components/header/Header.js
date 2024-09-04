@@ -39,7 +39,7 @@ export default function Header() {
 
 
 	const toggleMenu = useCallback(() => {
-		setIsOpen((prevIsOpen) => !prevIsOpen)
+		setIsOpen((prev) => !prev)
 	}, [])
 
 
@@ -96,10 +96,10 @@ export default function Header() {
 				}
 				</MenuItem>}
 				<MenuItem>
-					<LinkButton text="Browse" to='/browse' />
+					<LinkButton text="Browse" to='/browse' onClick={() => setIsOpen(prev => !prev)}/>
 				</MenuItem>
 				<MenuItem>
-					<LinkButton text="New Listing" to='/listings' />
+					<LinkButton text="New Listing" to='/listings' onClick={() => setIsOpen(prev => !prev)}/>
 				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Messages" onClick={handleEditProfile} />
