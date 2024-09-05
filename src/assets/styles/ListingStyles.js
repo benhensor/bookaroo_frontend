@@ -1,10 +1,24 @@
 import styled from 'styled-components';
 
+export const ListingsContainer = styled.div`
+  height: calc(100vh - 5.6rem);
+`
+
+export const ListingsHeader = styled.div`
+  padding: var(--lg) 0;
+  @media only screen and (max-width: 999px) {
+		padding: var(--sm) var(--md);
+	}
+	@media only screen and (max-width: 450px) {
+		padding: var(--sm);
+	}
+`
+
 export const Block = styled.div`
-	width: fit-content;
-	margin: 0 auto var(--lg) auto;
+  display: flex;
 	border: 1px solid var(--greyGreen);
 	padding: var(--lg);
+  margin-bottom: var(--sm);
 	@media only screen and (max-width: 450px) {
 		width: 100%;
 	}
@@ -14,7 +28,6 @@ export const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	gap: var(--sm);
-	margin: var(--sm) auto;
 	width: 40rem;
 	overflow-x: hidden;
   label {

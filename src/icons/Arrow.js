@@ -37,6 +37,6 @@ const ArrowWrapper = styled.div`
   svg path {
     transition: stroke 0.3s ease;
     stroke: ${({ $isActive }) =>
-      $isActive ? 'var(--accentGreen)' : 'var(--dkGreen)'};
+      $isActive ? 'var(--accentGreen)' : 'var(--blkGreen)'};
   }
 `

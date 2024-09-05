@@ -3,9 +3,9 @@ import { useAuth } from '../../context/AuthContext'
 import { useUser } from '../../context/UserContext'
 import axios from 'axios'
 import ActionButton from '../buttons/ActionButton'
-import LinkButton from '../buttons/LinkButton'
-import { PageHeader } from '../../assets/styles/GlobalStyles'
 import {
+	ListingsContainer,
+	ListingsHeader,
 	Block,
 	Form,
 	ErrorMessage,
@@ -180,11 +180,14 @@ export default function Listing() {
 	}
 
 	return (
-		<>
+		<ListingsContainer>
+			<ListingsHeader>
+				<h1>List a Book</h1>
+			</ListingsHeader>
 			<Block>
 				<Form onSubmit={handleSearch}>
 					<label>
-						Search Book:
+						Search for a Book:
 						<input
 							type="text"
 							value={searchTerm}
@@ -292,6 +295,6 @@ export default function Listing() {
 					</Form>
 				</Block>
 			)}
-		</>
+		</ListingsContainer>
 	)
 }

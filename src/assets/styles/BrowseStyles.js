@@ -1,11 +1,19 @@
 import styled from 'styled-components';
 
-export const Controls = styled.div`
+export const BrowseContainer = styled.div`
+	height: calc(100vh - 5.6rem);
+`
+
+export const BrowseHeader = styled.div`
+	position: fixed;
+	top: 5.6rem;
+	left: 0;
+	padding: var(--lg) 0;
+	background-color: var(--white);
 	width: 100%;
-	max-height: 100%;
 	z-index: 100;
 	box-shadow: ${(props) =>
-		props.$isScrolled ? '0 5px 5px rgba(0, 0, 0, 0.1)' : 'none'};
+		props.$isScrolled ? '0 5px 15px rgba(0, 0, 0, 0.3)' : 'none'};
 	transition: var(--slow);
 	@media only screen and (max-width: 999px) {
 		padding: var(--sm) var(--md);
@@ -15,10 +23,15 @@ export const Controls = styled.div`
 	}
 `
 
-export const SearchBar = styled.div`
+export const BrowseControls = styled.div`
 	max-width: 100rem;
-	width: 100%;
-	margin: 0 auto var(--lg) auto;
+	margin: 0 auto;
+	h1 {
+		margin-top: 2px;
+	}
+`
+
+export const SearchBar = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -45,13 +58,14 @@ export const SearchBar = styled.div`
 
 export const SearchInput = styled.input`
 	max-width: 50rem;
-	padding-right: 2.5rem; /* Adds space for the icon */
+	padding-right: 2.5rem; 
 	border-radius: none;
 `
 
 export const SearchResults = styled.div`
-	max-width: 100rem;
-	margin: 0 auto;
+
+	width: 100%;
+
 `
 
 export const ErrorMessage = styled.div`
@@ -65,14 +79,24 @@ export const ErrorMessage = styled.div`
   text-align: center;
 `
 
-export const Display = styled.div`
-	padding-top: 15rem;
-	max-width: 100rem;
-	margin: 0 auto;
-	scroll-behavior: smooth;
-  overflow-y: auto; /* Allow vertical scrolling */
+export const GalleryContainer = styled.div`
+	margin-top: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 	@media only screen and (max-width: 999px) {
-		padding: 15rem var(--md);
+		margin-top: 10rem;
+	}
+	@media only screen and (max-width: 450px) {
+		margin-top: 8rem;
 	}
 `
 
+
+export const CarouselWrapper = styled.div`
+  width: 100%;
+  margin-bottom: var(--lg);
+	@media only screen and (max-width: 450px) {
+		margin-bottom: var(--sm);
+	}
+`

@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useBooks } from '../context/BooksContext'
-import LinkButton from '../components/buttons/LinkButton'
-import { PageHeader } from '../assets/styles/GlobalStyles'
-import BooksGallery from '../components/books/BooksGallery'
-import Carousel from '../components/carousel/Carousel'
+import { useBooks } from '../../context/BooksContext'
+import LinkButton from '../buttons/LinkButton'
+import { PageHeader } from '../../assets/styles/GlobalStyles'
+import BooksGallery from '../books/BooksGallery'
+import Carousel from '../carousel/Carousel'
 import {
 	Controls,
 	SearchBar,
@@ -11,7 +11,7 @@ import {
 	SearchResults,
 	ErrorMessage,
 	Display
-} from '../assets/styles/BrowseStyles'
+} from '../../assets/styles/BrowseStyles'
 
 export default function Browse() {
 	const { searchBooks } = useBooks()

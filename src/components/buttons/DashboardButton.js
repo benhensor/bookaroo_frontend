@@ -25,14 +25,17 @@ export default function DashboardButton({ text, onClick }) {
 
 const Button = styled.button`
   border: none;
-  background: none;
-  color: var(--dkGreen);
-  padding: 0;
-  font-size: 1.6rem;
+  background: var(--dkGreen);
+  color: var(--white);
+  padding: var(--sm) var(--md);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   text-align: center;
+  width: fit-content;
+  margin-top: var(--sm);
   cursor: pointer;
   border-radius: var(--xs);
   &:hover {
-    color: var(--accentGreen);
+    background: var(--accentGreen);
+    color: var(--blkGreen);
   }
 `

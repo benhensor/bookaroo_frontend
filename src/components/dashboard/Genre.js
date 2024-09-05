@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import Check from '../../icons/Check'
 
-const Genre = ({ name, isSelected, onSelect }) => {
+export default function Genre({ name, isSelected, onSelect }) {
   const [isActive, setIsActive] = useState(isSelected)
 
   useEffect(() => {
@@ -15,34 +16,46 @@ const Genre = ({ name, isSelected, onSelect }) => {
   }
 
   return (
-    <Container
-      onClick={handleSelect}
-      $isActive={isActive}
-    >
-      <Name>
-        {name}
-      </Name>
-    </Container>
+    <>
+      <GenreContainer
+        onClick={handleSelect}
+        $isActive={isActive}
+      >
+        <InnerContainer>
+          <Name>
+            {name}
+          </Name>
+          <Check isactive={isActive} />
+        </InnerContainer>
+      </GenreContainer>
+    </>
   )
 }
 
-export default Genre
 
-const Container = styled.div`
+const GenreContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 30rem;
+  width: 100%;
   padding: var(--sm);
   border-bottom: 1px solid var(--ltGreen);
-  cursor: pointer;
   background-color: ${({ $isActive }) => $isActive ? 'var(--accentGreen)' : 'transparent'};
   transition: var(--fast);
+  cursor: pointer;
   &:hover {
     background-color: var(--ltGreen);
   }
   @media only screen and (max-width: 768px) {
     width: 100%;
   }
+`
+
+const InnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 25%;
 `
 
 const Name = styled.p`

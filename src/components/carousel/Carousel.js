@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
+import { useDashboard } from '../../context/DashboardContext'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 import LinkButton from '../buttons/LinkButton'
 import Thumbnail from '../books/Thumbnail'
 import Chevron from '../../icons/Chevron'
 
 export default function Carousel({ books = [], title }) {
+
+  const { activePage, handlePageChange } = useDashboard()
   const [currentIndex, setCurrentIndex] = useState(0)
 	const [leftChevronVisible, setLeftChevronVisible] = useState(false)
   const [rightChevronVisible, setRightChevronVisible] = useState(false)
@@ -90,12 +93,13 @@ export default function Carousel({ books = [], title }) {
 
 
 
+
   const renderButton = () => {
     if (title === 'Your Listings') {
-      return <LinkButton to="/listings" text="Add New" />
+      return <LinkButton text="Add New" onClick={() => handlePageChange('Listings')} />
     }
     if (title === 'Recommended for You') {
-      return <LinkButton to="/browse" text="View All" />
+      return <LinkButton text="View All" onClick={() => handlePageChange('Browse')} />
     }
     return null
   }
@@ -153,6 +157,7 @@ export default function Carousel({ books = [], title }) {
 }
 
 const CarouselContainer = styled.div`
+  width: 100%;
   z-index: 1000;
   padding-bottom: var(--lg);
 `
@@ -162,6 +167,7 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  color: var(--blkGreen);
 `
 
 const CarouselWrapper = styled.div`

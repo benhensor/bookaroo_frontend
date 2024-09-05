@@ -88,6 +88,16 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 700;
   }
 
+  h3 {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 700;
+  }
+
+  h4 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 700;
+  }
+
   main {
     position: fixed;
     top: 5.8rem;
@@ -105,7 +115,6 @@ const GlobalStyles = createGlobalStyle`
     flex-direction: column;
     gap: var(--sm);
     margin: var(--sm) auto;
-    width: 40rem;
     overflow-x: hidden;
   }
 
@@ -114,7 +123,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
     flex-direction: column;
     gap: var(--sm);
-		font-size: clamp(1rem, 2vw, 1.4rem);
+		font-size: clamp(1rem, 2vw, 1.2rem);
 		margin-bottom: var(--xs);
     overflow: hidden;
 	}
@@ -122,7 +131,7 @@ const GlobalStyles = createGlobalStyle`
   input, select, textarea {
   width: 100%;
   padding: var(--sm);
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-size: clamp(1.4rem, 2vw, 1.6rem);
   border: 1px solid #ccc;
   border-radius: var(--xs);
   transition: border-color 0.3s ease; /* Smooth transition for border color */
