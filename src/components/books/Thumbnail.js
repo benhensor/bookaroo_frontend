@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { useUser } from '../../context/UserContext'
+import { useBooks } from '../../context/BooksContext'
 import { useMessages } from '../../context/MessagesContext'
 import { calcDistance } from '../../utils/calculateDistance'
 import Heart from '../../icons/Heart'
@@ -19,7 +19,7 @@ import {
 export default function Thumbnail({ book }) {
 	const navigate = useNavigate()
 	const { user } = useAuth()
-	const { deleteListing } = useUser()
+	const { deleteListing } = useBooks()
 	const { messagesAll } = useMessages()
 	const [isHovered, setIsHovered] = useState(false)
 	const [distance, setDistance] = useState(null)

@@ -19,7 +19,8 @@ export const UserProvider = ({ children }) => {
 					withCredentials: true,
 				}
 			)
-			setUser(res.data)
+			setUser(res)
+			queryClient.invalidateQueries('currentUser') // Refetch user data to update user details
 		} catch (error) {
 			console.error('Error updating user data:', error)
 		}

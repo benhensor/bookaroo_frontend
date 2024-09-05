@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useUser } from '../../context/UserContext'
 import { useBooks } from '../../context/BooksContext'
 import { useMessages } from '../../context/MessagesContext'
 import { useDashboard } from '../../context/DashboardContext'
 import { categories } from '../../utils/categories'
+import { useQueryClient } from 'react-query'
 import Genre from '../dashboard/Genre'
 import Message from '../message/Message'
 import Carousel from '../carousel/Carousel'
@@ -27,13 +29,16 @@ import {
 
 
 export default function Profile() {
-	const { user, isAuthenticated, isLoading } = useAuth()
+
+	const navigate = useNavigate()
+	const { user, logout } = useAuth()
 	const { likedBooks, likedBooksLoading, updateUserPreferences, updateUserDetails } = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
 	const { messages, isMessagesLoading, isError, markAsRead, refreshMessages } = useMessages()
 	const { activePage, handlePageChange } = useDashboard()
+	const queryClient = useQueryClient()
+
 	const [activeMenuItem, setActiveMenuItem] = useState([false, false, false, false])
-	const [activeDropdown, setActiveDropdown] = useState(false)
 	const [selectedPreferences, setSelectedPreferences] = useState([])
 	const [openMessage, setOpenMessage] = useState(null)
 
@@ -42,12 +47,20 @@ export default function Profile() {
 	const [formValues, setFormValues] = useState({
 		username: '',
 		email: '',
-		phone: '',
-		addressLine1: '',
-		addressLine2: '',
-		city: '',
 		postcode: '',
 	})
+
+
+	useEffect(() => {
+		const refreshUser = async () => {
+			await queryClient.invalidateQueries('currentUser')
+		}
+
+		if (user) {
+			refreshUser()
+		}
+
+	}, [user, queryClient])
 	
 
 
@@ -66,10 +79,6 @@ export default function Profile() {
 			setFormValues({
 				username: user.username || '',
 				email: user.email || '',
-				phone: user.phone || '',
-				addressLine1: user.addressLine1 || '',
-				addressLine2: user.addressLine2 || '',
-				city: user.city || '',
 				postcode: user.postcode || '',
 			})
 		}
@@ -107,25 +116,22 @@ export default function Profile() {
 	const handleSaveUserDetails = useCallback(() => {
 		if (!user) return
 
-		const { username, email, phone, addressLine1, city, postcode } =
-			formValues
+		const { username, email, postcode } = formValues
+
+		console.log('Form values:', formValues) // Debugging log
 
 		if (
 			!username ||
 			!email ||
-			!phone ||
-			!addressLine1 ||
-			!city ||
 			!postcode
 		) {
 			console.log('Missing required fields') // Debugging log
-			setActiveDropdown(null)
 			return
 		}
 
 		updateUserDetails(formValues)
 			.then(() => {
-				setActiveDropdown(false)
+				console.log('User details updated') // Debugging log
 			})
 			.catch((error) => {
 				console.error('Error updating user details:', error)
@@ -154,7 +160,6 @@ export default function Profile() {
 
 		if (!user) {
 			console.log('No user found') // Debugging log
-			setActiveDropdown(false)
 			return
 		}
 
@@ -165,13 +170,12 @@ export default function Profile() {
 			JSON.stringify(currentPreferences)
 
 		if (!preferencesChanged) {
-			setActiveDropdown(false)
 			return
 		}
 
 		updateUserPreferences(selectedPreferences)
 			.then(() => {
-				setActiveDropdown(false)
+				console.log('Preferences saved') // Debugging log
 			})
 			.catch((error) => {
 				console.error('Error saving preferences:', error)
@@ -181,20 +185,17 @@ export default function Profile() {
 
 
 
-
-	const handleToggleDropdown = (dropdownName) => {
-		if (activeDropdown === dropdownName) {
-			setActiveDropdown(false)
-		} else {
-			setActiveDropdown(dropdownName)
-		}
+	const toggleMessage = (messageId) => {
+		markAsRead(messageId)
+		setOpenMessage(openMessage === messageId ? null : messageId)
 	}
 
 
 
-	const toggleMessage = (messageId) => {
-		markAsRead(messageId)
-		setOpenMessage(openMessage === messageId ? null : messageId)
+	const handleLogout = () => {
+		queryClient.removeQueries('messages')
+		logout()
+		navigate('/')
 	}
 
 
@@ -272,7 +273,10 @@ export default function Profile() {
 					</ProfileMenuItemHeading>
 					<ProfileMenuItemContent $isVisible={activeMenuItem[0]}>
 						<MenuContentPanel>
-							<form>
+							<form onSubmit={(e) => {
+								e.preventDefault(); // Prevent page refresh
+								handleSaveUserDetails(); // Trigger the update function
+							}}>
 								<label htmlFor='username'>Username</label>
 								<input
 									type="text"
@@ -292,13 +296,12 @@ export default function Profile() {
 								<label htmlFor='postcode'>Location</label>
 								<input
 									type="text"
-									name="postCode"
+									name="postcode"
 									value={formValues.postcode}
 									onChange={handleInputChange}
 									required
 								/>
 								<DashboardButton
-									type="action"
 									text="Submit"
 									onClick={handleSaveUserDetails}
 									/>
@@ -396,6 +399,25 @@ export default function Profile() {
 					</ProfileMenuItemHeading>
 					<ProfileMenuItemContent $isVisible={activeMenuItem[5]}>
 						{renderCarousel(recommendations, 'Recommended for You', loading)}
+					</ProfileMenuItemContent>
+				</ProfileMenuItem>
+				
+				
+				
+				<ProfileMenuItem $isVisible={activeMenuItem[6]}>
+					<ProfileMenuItemHeading onClick={() => toggleMenuItem(6)} $isVisible={activeMenuItem[6]}>
+						<h4>Sign Out</h4>
+						<Arrow isActive={activeMenuItem[6]}/>
+					</ProfileMenuItemHeading>
+					<ProfileMenuItemContent $isVisible={activeMenuItem[6]}>
+						<MenuContentPanel
+							$signOut={true}
+						>
+							<DashboardButton
+								text="Sign Out"
+								onClick={handleLogout}
+							/>
+						</MenuContentPanel>
 					</ProfileMenuItemContent>
 				</ProfileMenuItem>
 

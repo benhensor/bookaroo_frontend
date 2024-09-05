@@ -5,8 +5,13 @@ import { useAuth } from '../context/AuthContext'
 import { loginSchema } from '../schemas/index'
 import SubmitButton from '../components/buttons/ActionButton'
 import LinkButton from '../components/buttons/LinkButton'
-import { Content } from '../assets/styles/GlobalStyles'
-import { P, InputGroup, Error } from '../assets/styles/RegisterLoginStyles'
+import {
+	Container,
+	Content,
+	P,
+	InputGroup,
+	Error,
+} from '../assets/styles/RegisterLoginStyles'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -32,7 +37,7 @@ const Login = () => {
 		})
 
 	return (
-		<section>
+		<Container>
 			<Content>
 				<h1>Login</h1>
 				<form onSubmit={handleSubmit} method="post" autoComplete="off">
@@ -91,7 +96,7 @@ const Login = () => {
 					<LinkButton to="/register" text="Register" />
 				</P>
 			</Content>
-		</section>
+		</Container>
 	)
 }
 

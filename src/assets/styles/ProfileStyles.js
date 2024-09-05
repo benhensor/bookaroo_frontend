@@ -49,7 +49,7 @@ export const ProfileMenuItemContent = styled.div`
 export const MenuContentPanel = styled.div`
 	border: 1px solid var(--ltGreen);
   padding: var(--lg);
-  background: var(--white);
+  background-color: ${({ $signOut }) => ($signOut ? 'creamA' : 'var(--white)')};
 	@media only screen and (max-width: 768px) {
 		padding: var(--md);
 	}

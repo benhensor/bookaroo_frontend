@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useUser } from '../context/UserContext'
+import { useBooks } from '../context/BooksContext'
 import axios from 'axios'
+import Carousel from '../components/carousel/Carousel'
 import ActionButton from '../components/buttons/ActionButton'
 import LinkButton from '../components/buttons/LinkButton'
 import { PageHeader } from '../assets/styles/GlobalStyles'
+import { CarouselContainer } from '../assets/styles/CarouselStyles'
 import { Block, ErrorMessage, SuccessMessage } from '../assets/styles/ListingStyles'
 
 
 export default function Listing() {
 	const { user } = useAuth()
 	const { createListing } = useUser()
+	const { usersBooks, loading } = useBooks()
 	const [searchTerm, setSearchTerm] = useState('')
 	const [bookResults, setBookResults] = useState([])
 	const [isbn, setIsbn] = useState('')
@@ -170,6 +174,18 @@ export default function Listing() {
       setError(response.message || 'An error occurred. Please try again.');
     }
   };
+
+	const renderCarousel = (books, title, loading) => {
+		if (loading) {
+			return <CarouselContainer>Loading...</CarouselContainer>
+		}
+
+		return (
+			<CarouselContainer>
+				<Carousel books={books} title={title} />
+			</CarouselContainer>
+		)
+	}
 
 	return (
 		<section>

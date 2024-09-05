@@ -1,28 +1,32 @@
 import React, {
-	createContext,
-	useState,
-	useEffect,
-	useMemo,
-	useCallback,
-} from 'react'
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 
-const DashboardContext = createContext()
+const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
-	const [activePage, setActivePage] = useState('Profile')
+  // Retrieve the initial value from localStorage or default to 'Profile'
+  const [activePage, setActivePage] = useState(() => {
+    return localStorage.getItem('activePage') || 'Profile';
+  });
 
-	const handlePageChange = (page) => {
-		setActivePage(page)
-	}
+  // Update localStorage whenever the activePage changes
+  useEffect(() => {
+    localStorage.setItem('activePage', activePage);
+  }, [activePage]);
 
-	return (
-		<DashboardContext.Provider value={{
-      activePage,
-      handlePageChange,
-    }}>
-			{children}
-		</DashboardContext.Provider>
-	)
-}
+  const handlePageChange = useCallback((page) => {
+    setActivePage(page);
+  }, []);
 
-export const useDashboard = () => React.useContext(DashboardContext)
+  return (
+    <DashboardContext.Provider value={{ activePage, handlePageChange }}>
+      {children}
+    </DashboardContext.Provider>
+  );
+};
+
+export const useDashboard = () => React.useContext(DashboardContext);

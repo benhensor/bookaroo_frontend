@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useUser } from '../../context/UserContext'
+import { useBooks } from '../../context/BooksContext'
 import axios from 'axios'
 import ActionButton from '../buttons/ActionButton'
+import Close from '../../icons/Close'
 import {
 	ListingsContainer,
 	ListingsHeader,
@@ -10,11 +12,12 @@ import {
 	Form,
 	ErrorMessage,
 	SuccessMessage,
+	ListOfListings,
 } from '../../assets/styles/ListingStyles'
 
-export default function Listing() {
+export default function Listings() {
 	const { user } = useAuth()
-	const { createListing } = useUser()
+	const { usersBooks, loading, createListing, deleteListing } = useBooks()
 	const [searchTerm, setSearchTerm] = useState('')
 	const [bookResults, setBookResults] = useState([])
 	const [isbn, setIsbn] = useState('')
@@ -179,6 +182,39 @@ export default function Listing() {
 		}
 	}
 
+	const listOfListings = (books, title, loading) => {
+		return (
+			<ListOfListings>
+				<h2>{title}</h2>
+				{loading ? (
+					<p>Loading...</p>
+				) : books.length > 0 ? (
+					<ul>
+						{books.map((book) => (
+							<li key={book.id}>
+								<img src={book.coverImg} alt={book.title} />
+								<div>
+									<p>{book.title} - {book.author}</p>
+									<span>{book.author}</span>
+								</div>
+								<button
+									onClick={() => {
+										deleteListing(book.id)
+									}}
+								>
+									<Close />
+								</button>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p>No books found.</p>
+				)}
+			</ListOfListings>
+		)
+		
+	}
+
 	return (
 		<ListingsContainer>
 			<ListingsHeader>
@@ -295,6 +331,7 @@ export default function Listing() {
 					</Form>
 				</Block>
 			)}
+			{listOfListings(usersBooks, 'Your Listings', loading)}
 		</ListingsContainer>
 	)
 }

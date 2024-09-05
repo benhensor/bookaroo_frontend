@@ -7,7 +7,7 @@ import {
 
 export default function Home() {
   return (
-    <section>
+    <>
       <Container>
         <Info>
           <h1>Welcome to Bookaroo!</h1>
@@ -22,6 +22,6 @@ export default function Home() {
           Get Started
         </Button>
       </Container>
-    </section>
+    </>
   )
 }

@@ -5,8 +5,13 @@ import { useAuth } from '../context/AuthContext'
 import { registerSchema } from '../schemas/index'
 import SubmitButton from '../components/buttons/ActionButton'
 import LinkButton from '../components/buttons/LinkButton'
-import { Content } from '../assets/styles/GlobalStyles'
-import { P, InputGroup, Error } from '../assets/styles/RegisterLoginStyles'
+import {
+	Container,
+	Content,
+	P,
+	InputGroup,
+	Error,
+} from '../assets/styles/RegisterLoginStyles'
 
 const Register = () => {
 	const navigate = useNavigate()
@@ -34,7 +39,7 @@ const Register = () => {
 	// console.log(errors)
 
 	return (
-		<section>
+		<Container>
 			<Content>
 				<h1>Register</h1>
 				<form onSubmit={handleSubmit} method="post" autoComplete="off">
@@ -154,10 +159,11 @@ const Register = () => {
 					<SubmitButton text="Submit" />
 				</form>
 				<P>
-					Already have an account? &nbsp; <LinkButton to="/login" text="Sign In" />
+					Already have an account? &nbsp;{' '}
+					<LinkButton to="/login" text="Sign In" />
 				</P>
 			</Content>
-		</section>
+		</Container>
 	)
 }
 
