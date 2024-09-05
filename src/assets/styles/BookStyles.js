@@ -1,5 +1,14 @@
 import styled from 'styled-components';
 
+export const BookDetailHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 auto;
+	position: relative;
+  padding-top: var(--lg);
+`
+
 export const Title = styled.h1`
 	font-size: clamp(2rem, 3vw, 3.2rem);
 	color: var(--dkGreen);

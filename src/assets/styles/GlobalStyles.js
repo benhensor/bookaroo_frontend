@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import '../fonts/fonts.css'
 
 const GlobalStyles = createGlobalStyle`
@@ -102,7 +102,6 @@ const GlobalStyles = createGlobalStyle`
     position: fixed;
     top: 5.8rem;
     width: 100%;
-    outline: 1px solid red;
   }
 
   section {
@@ -116,6 +115,7 @@ const GlobalStyles = createGlobalStyle`
     gap: var(--sm);
     margin: var(--sm) auto;
     overflow-x: hidden;
+    width: 100%;
   }
 
   label {
@@ -183,27 +183,6 @@ const GlobalStyles = createGlobalStyle`
     section {
       padding: var(--sm);
     }
-  }
-`
-
-export const PageHeader = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 0 auto;
-	position: relative;
-  padding-top: var(--lg);
-`
-
-export const Content = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: var(--lg);
-  @media only screen and (max-width: 768px) {
-    gap: var(--md);
   }
 `
 

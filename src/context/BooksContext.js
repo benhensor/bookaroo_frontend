@@ -119,6 +119,7 @@ export const BooksProvider = ({ children }) => {
           withCredentials: true,
         }
       );
+      await getAllBooks(); // Refetch the books data after
       return { success: true, message: 'Book listed successfully!' };
     } catch (error) {
       console.error('Error submitting book listing:', error);

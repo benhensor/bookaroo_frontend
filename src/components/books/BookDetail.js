@@ -9,6 +9,7 @@ import Button from '../buttons/Button'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 import { PageHeader } from '../../assets/styles/GlobalStyles'
 import {
+	BookDetailHeader,
 	Row,
 	Category,
 	BookDetailsContainer,
@@ -102,9 +103,9 @@ export default function BookDetail() {
 
 	return (
 		<section>
-			<PageHeader style={{ margin: 'var(--lg) 0' }}>
+			<BookDetailHeader style={{ margin: 'var(--lg) 0' }}>
 				<LinkButton text="Back" onClick={handleBackClick} />
-			</PageHeader>
+			</BookDetailHeader>
 			<Row>
 				<Category>
 					This item can be found in {book.category.join(' | ')}

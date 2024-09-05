@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const ListingsContainer = styled.div`
-  height: calc(100vh - 5.6rem);
+  height: calc(100vh + 5.6rem);
+  overflow-y: auto;
 `
 
 export const ListingsHeader = styled.div`
@@ -80,6 +81,72 @@ export const Form = styled.form`
 	}
 `
 
+export const ListingInput = styled.input`
+  border: none;
+  width: 100%;
+  background: #313131;
+  padding: var(--sm);
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  color: var(--mdBrown);
+  border-bottom: 3px solid var(--ltGreen);
+  margin-bottom: var(--sm);
+  transition: var(--fast);
+  &::placeholder {
+    color: var(--mdBrown);
+  }
+  &:focus {
+    outline: none;
+    border-bottom: 3px solid var(--accentGreen);
+  }
+`
+
+export const ListingMenuItem = styled.div`
+  display: flex;
+	flex-direction: column;
+  align-items: flex-start;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: ${({ $isVisible }) => ($isVisible ? 'none' : '1px solid var(--ltGreen)')};
+  margin-bottom: var(--sm);
+	transition: var(--fast);
+`
+
+export const ListingMenuItemHeading = styled.button`
+  width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: none;
+	border: none;
+	outline: none;
+  font-family: 'Poppins', sans-serif;
+	text-align: left;
+	color: ${({ $isVisible }) => ($isVisible ? 'var(--dkGreen)' : 'var(--mdBrown)')};
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+`
+
+export const ListingMenuItemContent = styled.div`
+  width: 100%;
+  max-height: ${({ $isVisible }) => ($isVisible ? 'fit-content' : '0')}; 
+	opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')}; 
+	overflow: hidden;
+  padding: ${({ $isVisible }) => ($isVisible ? '2rem 0' : '0 0 1rem 0')};
+	line-height: 1.6;
+  color: var(--mdBrown);
+  transition: all .3s;
+`
+
+export const MenuContentPanel = styled.div`
+	border: 1px solid var(--ltGreen);
+  padding: var(--lg);
+  background: var(--white);
+	@media only screen and (max-width: 768px) {
+		padding: var(--md);
+	}
+`
+
 export const ErrorMessage = styled.p`
 	color: red;
 	font-weight: bold;
@@ -95,4 +162,64 @@ export const SuccessMessage = styled.div`
   border: 1px solid var(--creamB);
   border-radius: var(--xs);
   text-align: center;
+`
+
+export const ListOfListings = styled.div`
+  margin-top: var(--lg);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  ul {
+
+  }
+  li {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: var(--sm) var(--md);
+    border-bottom: 1px solid var(--ltGreen);
+    transition: var(--fast);
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background-color: var(--ltGreenHover);
+      button {
+        display: block;
+      }
+    }
+    img {
+      width: 5.6rem;
+      height: 5.6rem;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: var(--lg);
+    }
+    p {
+      font-size: clamp(1.2rem, 2vw, 1.4rem);
+      color: var(--blkGreen);
+    }
+    span {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--mdBrown);
+    }
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    display: none;
+    position: absolute;
+    right: var(--md);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dangerDk);
+    font-size: clamp(1.2rem, 2vw, 1.4rem);
+    &:hover {
+      color: var(--danger);
+    }
+  }
 `

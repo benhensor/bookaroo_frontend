@@ -10,13 +10,13 @@ export default function DashboardButton({ text, onClick }) {
 			onClick(event)
 		}
 	}
-  const deleteBtn = text === 'Delete'
+  const signOut = text === 'Sign Out'
   return (
     <Button
       type='button'
       onClick={handleClick}
       $mobile={mobile}
-      $deleteBtn={deleteBtn}
+      $signOut={signOut}
     >
       {text}
     </Button>
@@ -25,8 +25,8 @@ export default function DashboardButton({ text, onClick }) {
 
 const Button = styled.button`
   border: none;
-  background: var(--dkGreen);
-  color: var(--white);
+  background: ${props => props.$signOut ? 'none' : 'var(--dkGreen)'};
+  color: ${props => props.$signOut ? 'var(--dangerDk)' : 'var(--white)'};
   padding: var(--sm) var(--md);
   font-size: clamp(1.2rem, 2vw, 1.6rem);
   text-align: center;
@@ -35,7 +35,7 @@ const Button = styled.button`
   cursor: pointer;
   border-radius: var(--xs);
   &:hover {
-    background: var(--accentGreen);
-    color: var(--blkGreen);
+    background: ${props => props.$signOut ? 'none' : 'var(--accentGreen)'};
+    color: ${props => props.$signOut ? 'var(--danger)' : 'var(--dkGreen)'};
   }
 `

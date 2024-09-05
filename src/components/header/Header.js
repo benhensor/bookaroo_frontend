@@ -2,12 +2,14 @@ import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useMessages } from '../../context/MessagesContext'
+import { useDashboard } from '../../context/DashboardContext'
 import { useQueryClient } from 'react-query'
 import { useWindowWidth } from '../../utils/useWindowWidth'
 import LinkButton from '../buttons/LinkButton'
 import Button from '../buttons/Button'
 import Logo from '../../assets/images/bookarooLogo.webp'
 import MenuIcon from '../../icons/MenuIcon'
+import Profile from '../../icons/Profile'
 import {
 	Head,
 	Container,
@@ -23,6 +25,7 @@ import {
 export default function Header() {
 	const { user, logout } = useAuth()
 	const { messages } = useMessages()
+	const { setActivePage } = useDashboard()
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
 	const [isOpen, setIsOpen] = useState(false)
@@ -41,12 +44,6 @@ export default function Header() {
 	const toggleMenu = useCallback(() => {
 		setIsOpen((prev) => !prev)
 	}, [])
-
-
-	const handleEditProfile = () => {
-		setIsOpen(false)
-		navigate('/dashboard')
-	}
 
 
 	const handleLogout = () => {
@@ -92,23 +89,22 @@ export default function Header() {
 					<MenuItem
 						$mobile={mobile}
 					>
-					{user.username
-				}
+					{user.username}
 				</MenuItem>}
 				<MenuItem>
-					<LinkButton text="Browse" to='/browse' onClick={() => setIsOpen(prev => !prev)}/>
+					<LinkButton text="Browse" onClick={() => setActivePage('Browse')}/>
 				</MenuItem>
 				<MenuItem>
-					<LinkButton text="New Listing" to='/listings' onClick={() => setIsOpen(prev => !prev)}/>
+					<LinkButton text="New Listing"onClick={() => setActivePage('Listings')}/>
 				</MenuItem>
 				<MenuItem>
-					<Button id="word" text="Messages" onClick={handleEditProfile} />
+					<Button id="word" text="Messages" onClick={() => setActivePage('Messages')} />
 					{unreadMessagesCount > 0 &&
 						<Notification>{unreadMessagesCount}</Notification>
 					}
 				</MenuItem>
 				<MenuItem>
-					<Button id="word" text="Edit Profile" onClick={handleEditProfile} />
+					<Button id="word" text="Edit Profile" onClick={() => setActivePage('Profile')} />
 				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Sign Out" onClick={handleLogout} />

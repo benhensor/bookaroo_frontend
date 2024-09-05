@@ -10,7 +10,7 @@ export const MessageContainer = styled.div`
 `
 
 export const StyledMessage = styled.div`
-  padding: var(--sm) 0;
+  padding: var(--sm) var(--lg);
   background-color: ${({ $isActive }) =>
     $isActive ? 'var(--ltGreenHover)' : 'none'};
   &:hover {

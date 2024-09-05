@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useDashboard } from '../context/DashboardContext'
 import Browse from '../components/displays/Browse'
-import Listing from '../components/displays/Listing'
+import Listings from '../components/displays/Listings'
 import Messages from '../components/displays/Messages'
 import Profile from '../components/displays/Profile'
 import BookDetail from '../components/books/BookDetail'
@@ -28,7 +28,7 @@ export default function Dashboard() {
 				)
 			case 'Listings':
 				return (
-					<Listing />
+					<Listings />
 				)
 			case 'Messages':
 				return (
