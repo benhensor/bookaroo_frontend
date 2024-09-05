@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDashboard } from '../../context/DashboardContext'
 import Browse from '../../icons/Browse'
 import Listings from '../../icons/Listings'
 import Messages from '../../icons/Messages'
@@ -9,10 +10,9 @@ import {
 	NavItem,
 } from '../../assets/styles/FooterStyles'
 
-export default function Footer({ handlePageChange, activePage }) {
-	// const handleClick = () => {
-	//   console.log('Footer clicked')
-	// }
+export default function Footer() {
+	
+	const { activePage, handlePageChange } = useDashboard()
 
 	return (
 		<FooterContainer>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
-import { registerSchema } from '../../schemas/index'
-import SubmitButton from '../buttons/ActionButton'
-import LinkButton from '../buttons/LinkButton'
-import { Content } from '../../assets/styles/GlobalStyles'
-import { P, InputGroup, Error } from '../../assets/styles/RegisterLoginStyles'
+import { useAuth } from '../context/AuthContext'
+import { registerSchema } from '../schemas/index'
+import SubmitButton from '../components/buttons/ActionButton'
+import LinkButton from '../components/buttons/LinkButton'
+import { Content } from '../assets/styles/GlobalStyles'
+import { P, InputGroup, Error } from '../assets/styles/RegisterLoginStyles'
 
 const Register = () => {
 	const navigate = useNavigate()

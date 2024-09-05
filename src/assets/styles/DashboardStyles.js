@@ -8,23 +8,26 @@ export const DashboardContainer = styled.div`
 	flex-direction: column;
 `
 
-export const DashboardContent = styled.section`
-	width: 100%;
-	overflow-y: auto;
-`
-
 export const DashboardHeader = styled.div`
-	max-width: 100rem;
 	width: 100%;
-	margin: 0 auto;
 	padding: var(--lg) 0 0 0;
+	background-color: var(--white);
+	h1 {
+		max-width: 100rem;
+		margin: 0 auto;
+	}
 	@media only screen and (max-width: 999px) {
 		padding: var(--sm) var(--md) 0 var(--md);
 	}
 	@media only screen and (max-width: 450px) {
 		padding: var(--sm) var(--sm) 0 var(--sm);
 	}
-`
+	`
+	
+	export const DashboardContent = styled.section`
+		width: 100%;
+		overflow-y: auto;
+	`
 
 export const DashboardControls = styled.div`
 	display: flex;
@@ -32,7 +35,6 @@ export const DashboardControls = styled.div`
 
 export const PageContainer = styled.div`
 	flex-grow: 1;
-	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	@media only screeen and (max-width: 999px) {
@@ -46,25 +48,6 @@ export const PageContainer = styled.div`
 export const NavItem = styled.div`
 	display: flex;
 	align-items: center;
-`
-
-export const Details = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	border: 1px solid var(--ltGreen);
-	padding: var(--lg);
-	p {
-		display: flex;
-		align-items: center;
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-	span {
-		color: var(--dkGreen);
-		font-weight: bold;
-	}
 `
 
 export const MessagingContainer = styled.div`

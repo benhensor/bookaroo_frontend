@@ -9,10 +9,11 @@ import { AuthProvider } from './context/AuthContext'
 import { UserProvider } from './context/UserContext'
 import { BooksProvider } from './context/BooksContext'
 import { MessagesProvider } from './context/MessagesContext'
+import { DashboardProvider } from './context/DashboardContext'
 import Header from './components/header/Header'
 import Home from './pages/Home'
-import Login from './components/login/Login'
-import Register from './components/register/Register'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 
@@ -25,24 +26,26 @@ function App() {
 				<BooksProvider>
 					<UserProvider>
 						<MessagesProvider>
-							<Router>
-								<Header />
-								<main>
-									<Routes>
-										{/* PUBLIC ROUTES */}
-										<Route path="*" element={<Home />}/>
-										<Route path="/register" element={<Register />} />
-										<Route path="/login" element={<Login />} />
+							<DashboardProvider>
+								<Router>
+									<Header />
+									<main>
+										<Routes>
+											{/* PUBLIC ROUTES */}
+											<Route path="*" element={<Home />}/>
+											<Route path="/register" element={<Register />} />
+											<Route path="/login" element={<Login />} />
 
-										{/* PROTECTED ROUTE */}
-										<Route path="/dashboard" element={
-											<ProtectedRoute>
-												<Dashboard />
-											</ProtectedRoute>
-										} />
-									</Routes>
-								</main>
-							</Router>
+											{/* PROTECTED ROUTE */}
+											<Route path="/dashboard" element={
+												<ProtectedRoute>
+													<Dashboard />
+												</ProtectedRoute>
+											} />
+										</Routes>
+									</main>
+								</Router>
+							</DashboardProvider>
 						</MessagesProvider>
 					</UserProvider>
 				</BooksProvider>

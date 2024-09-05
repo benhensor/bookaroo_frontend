@@ -25,4 +25,5 @@ export const NavBar = styled.nav`
 export const NavItem = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
