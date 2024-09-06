@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const ListingsContainer = styled.div`
-  height: calc(100svh + 10rem);
-  overflow-y: scroll;
+	height: calc(100svh - 15rem);
+	overflow-y: auto;
 `
 
 export const ListingsHeader = styled.div`
-  padding: var(--lg) 0;
-  @media only screen and (max-width: 999px) {
+	padding: var(--lg) 0;
+	@media only screen and (max-width: 999px) {
 		padding: var(--sm) var(--md);
 	}
 	@media only screen and (max-width: 450px) {
@@ -16,10 +16,10 @@ export const ListingsHeader = styled.div`
 `
 
 export const Block = styled.div`
-  display: flex;
+	display: flex;
 	border: 1px solid var(--greyGreen);
 	padding: var(--lg);
-  margin-bottom: var(--sm);
+	margin-bottom: var(--sm);
 	@media only screen and (max-width: 450px) {
 		width: 100%;
 	}
@@ -31,117 +31,122 @@ export const Form = styled.form`
 	gap: var(--sm);
 	width: 40rem;
 	overflow-x: hidden;
-  label {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    gap: var(--sm);
+	label {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		gap: var(--sm);
 		font-size: clamp(1rem, 2vw, 1.4rem);
 		margin-bottom: var(--xs);
-    overflow: hidden;
+		overflow: hidden;
 	}
-  input, select, textarea {
-  width: 100%;
-  padding: var(--sm);
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
-  border: 1px solid #ccc;
-  border-radius: var(--xs);
-  transition: border-color 0.3s ease; /* Smooth transition for border color */
-  
-  &:focus {
-    outline: none;
-    border-color: var(--accentGreen); /* Default focus state color */
-  }
-  
-  &.valid {
-    border-color: var(--accentGreen); /* Valid state */
-  }
+	input,
+	select,
+	textarea {
+		width: 100%;
+		padding: var(--sm);
+		font-size: clamp(1.2rem, 2vw, 1.4rem);
+		border: 1px solid #ccc;
+		border-radius: var(--xs);
+		transition: border-color 0.3s ease; /* Smooth transition for border color */
 
-  &.error {
-    border-color: var(--softRed); /* Error state */
-  }
+		&:focus {
+			outline: none;
+			border-color: var(--accentGreen); /* Default focus state color */
+		}
 
-  &.error::placeholder {
-    color: var(--softRed); /* Error state placeholder color */
-  }
-}
+		&.valid {
+			border-color: var(--accentGreen); /* Valid state */
+		}
 
-  select, option {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+		&.error {
+			border-color: var(--softRed); /* Error state */
+		}
 
-  textarea {
-    resize: vertical;
-    height: 150px;
-  }
+		&.error::placeholder {
+			color: var(--softRed); /* Error state placeholder color */
+		}
+	}
+
+	select,
+	option {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	textarea {
+		resize: vertical;
+		height: 150px;
+	}
 	@media only screen and (max-width: 768px) {
-    width: 100%;
+		width: 100%;
 	}
 `
 
 export const ListingInput = styled.input`
-  border: none;
-  width: 100%;
-  background: #313131;
-  padding: var(--sm);
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
-  color: var(--mdBrown);
-  border-bottom: 3px solid var(--ltGreen);
-  margin-bottom: var(--sm);
-  transition: var(--fast);
-  &::placeholder {
-    color: var(--mdBrown);
-  }
-  &:focus {
-    outline: none;
-    border-bottom: 3px solid var(--accentGreen);
-  }
+	border: none;
+	width: 100%;
+	background: #313131;
+	padding: var(--sm);
+	font-size: clamp(1.2rem, 2vw, 1.4rem);
+	color: var(--mdBrown);
+	border-bottom: 3px solid var(--ltGreen);
+	margin-bottom: var(--sm);
+	transition: var(--fast);
+	&::placeholder {
+		color: var(--mdBrown);
+	}
+	&:focus {
+		outline: none;
+		border-bottom: 3px solid var(--accentGreen);
+	}
 `
 
 export const ListingMenuItem = styled.div`
-  display: flex;
+	display: flex;
 	flex-direction: column;
-  align-items: flex-start;
+	align-items: flex-start;
 	width: 100%;
 	overflow: hidden;
-	border-bottom: ${({ $isVisible }) => ($isVisible ? 'none' : '1px solid var(--ltGreen)')};
-  margin-bottom: var(--sm);
+	border-bottom: ${({ $isVisible }) =>
+		$isVisible ? 'none' : '1px solid var(--ltGreen)'};
+	margin-bottom: var(--sm);
 	transition: var(--fast);
 `
 
 export const ListingMenuItemHeading = styled.button`
-  width: 100%;
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	background: none;
 	border: none;
 	outline: none;
-  font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	text-align: left;
-	color: ${({ $isVisible }) => ($isVisible ? 'var(--dkGreen)' : 'var(--mdBrown)')};
+	color: ${({ $isVisible }) =>
+		$isVisible ? 'var(--dkGreen)' : 'var(--mdBrown)'};
 	overflow: hidden;
 	position: relative;
 	cursor: pointer;
 `
 
 export const ListingMenuItemContent = styled.div`
-  width: 100%;
-  max-height: ${({ $isVisible }) => ($isVisible ? 'fit-content' : '0')}; 
-	opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')}; 
+	width: 100%;
+	max-height: ${({ $isVisible }) => ($isVisible ? 'fit-content' : '0')};
+	opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
 	overflow: hidden;
-  padding: ${({ $isVisible }) => ($isVisible ? '2rem 0' : '0 0 1rem 0')};
+	padding: ${({ $isVisible }) => ($isVisible ? '2rem 0' : '0 0 1rem 0')};
 	line-height: 1.6;
-  color: var(--mdBrown);
-  transition: all .3s;
+	color: var(--mdBrown);
+	transition: all 0.3s;
 `
 
 export const MenuContentPanel = styled.div`
 	border: 1px solid var(--ltGreen);
-  padding: var(--lg);
-  background: var(--white);
+	padding: var(--lg);
+	background: var(--white);
 	@media only screen and (max-width: 768px) {
 		padding: var(--md);
 	}
@@ -154,72 +159,76 @@ export const ErrorMessage = styled.p`
 `
 
 export const SuccessMessage = styled.div`
-  max-width: 100rem;
-  margin: var(--sm) auto;
-  padding: var(--sm);
-  background-color: var(--creamA);
-  color: var(--mdBrown);
-  border: 1px solid var(--creamB);
-  border-radius: var(--xs);
-  text-align: center;
+	max-width: 100rem;
+	margin: var(--sm) auto;
+	padding: var(--sm);
+	background-color: var(--creamA);
+	color: var(--mdBrown);
+	border: 1px solid var(--creamB);
+	border-radius: var(--xs);
+	text-align: center;
 `
 
 export const ListOfListings = styled.div`
-  margin-top: var(--lg);
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  ul {
-
-  }
-  li {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: var(--sm) var(--md);
-    border-bottom: 1px solid var(--ltGreen);
-    transition: var(--fast);
-    &:last-child {
-      border-bottom: none;
-    }
-    &:hover {
-      background-color: var(--ltGreenHover);
-      button {
-        display: block;
+	margin-top: var(--lg);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	li {
+		position: relative;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: var(--sm) var(--md);
+		border-bottom: 1px solid var(--ltGreen);
+		transition: var(--fast);
+		&:last-child {
+			border-bottom: none;
+		}
+		&:hover {
+			background-color: var(--ltGreenHover);
+			button {
+				display: block;
+			}
+		}
+		img {
+			width: 5.6rem;
+			height: 5.6rem;
+			object-fit: cover;
+			border-radius: 50%;
+			margin-right: var(--lg);
+		}
+    div {
+      display: flex;
+      flex-direction: column;
+      p {
+        font-size: clamp(1.2rem, 2vw, 1.4rem);
+        color: var(--blkGreen);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      span {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: var(--mdBrown);
       }
     }
-    img {
-      width: 5.6rem;
-      height: 5.6rem;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-right: var(--lg);
-    }
-    p {
+    button {
+      display: none;
+      position: absolute;
+      right: var(--md);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--dangerDk);
       font-size: clamp(1.2rem, 2vw, 1.4rem);
-      color: var(--blkGreen);
+      &:hover {
+        color: var(--danger);
+      }
+      @media only screen and (max-width: 450px) {
+        display: block;
+        bottom: var(--md);
+      }
     }
-    span {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--mdBrown);
-    }
-  }
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-  button {
-    display: none;
-    position: absolute;
-    right: var(--md);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--dangerDk);
-    font-size: clamp(1.2rem, 2vw, 1.4rem);
-    &:hover {
-      color: var(--danger);
-    }
-  }
+	}
 `

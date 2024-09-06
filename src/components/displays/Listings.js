@@ -193,7 +193,7 @@ export default function Listings() {
 							<li key={book.id}>
 								<img src={book.coverImg} alt={book.title} />
 								<div>
-									<p>{book.title} - {book.author}</p>
+									<p>{book.title}</p>
 									<span>{book.author}</span>
 								</div>
 								<button
