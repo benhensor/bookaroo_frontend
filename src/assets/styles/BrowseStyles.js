@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const BrowseContainer = styled.div`
-	height: calc(100vh - 5.6rem);
+	height: 100%;
+  overflow-y: scroll;
 `
 
 export const BrowseHeader = styled.div`

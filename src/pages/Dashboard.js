@@ -5,12 +5,9 @@ import Browse from '../components/displays/Browse'
 import Listings from '../components/displays/Listings'
 import Messages from '../components/displays/Messages'
 import Profile from '../components/displays/Profile'
-import BookDetail from '../components/books/BookDetail'
 import Footer from '../components/footer/Footer'
 import {
-	DashboardContainer,
-	DashboardContent,
-	PageContainer,
+	DashboardContainer
 } from '../assets/styles/DashboardStyles'
 
 
@@ -64,11 +61,7 @@ export default function Dashboard() {
 	return (
 		<>		
 			<DashboardContainer>
-				<DashboardContent>
-					<PageContainer>
-						{renderActiveDisplay()}
-					</PageContainer>			
-				</DashboardContent>
+				{renderActiveDisplay()}
 				<Footer handlePageChange={handlePageChange} />
 			</DashboardContainer>
 		</>

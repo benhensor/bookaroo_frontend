@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const ListingsContainer = styled.div`
-  min-height: 100svh;
-  overflow-y: auto;
+  height: calc(100svh + 10rem);
+  overflow-y: scroll;
 `
 
 export const ListingsHeader = styled.div`
