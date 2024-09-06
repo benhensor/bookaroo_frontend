@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ListingsContainer = styled.div`
-  height: calc(100vh + 5.6rem);
+  min-height: 100svh;
   overflow-y: auto;
 `
 

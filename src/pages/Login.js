@@ -3,14 +3,14 @@ import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { loginSchema } from '../schemas/index'
-import SubmitButton from '../components/buttons/ActionButton'
-import LinkButton from '../components/buttons/LinkButton'
 import {
 	Container,
 	Content,
 	P,
 	InputGroup,
 	Error,
+	Button,
+	StyledLink
 } from '../assets/styles/RegisterLoginStyles'
 
 const Login = () => {
@@ -89,11 +89,17 @@ const Login = () => {
 							<Error className="error">{errors.password}</Error>
 						)}
 					</InputGroup>
-					<SubmitButton text="Login" />
+					<Button
+						type='submit'
+					>
+						Login
+					</Button>
 				</form>
 				<P>
 					Don't have an account? &nbsp;
-					<LinkButton to="/register" text="Register" />
+					<StyledLink to="/register">
+						Register
+					</StyledLink>
 				</P>
 			</Content>
 		</Container>

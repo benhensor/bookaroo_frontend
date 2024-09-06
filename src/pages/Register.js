@@ -11,6 +11,8 @@ import {
 	P,
 	InputGroup,
 	Error,
+	Button,
+	StyledLink,
 } from '../assets/styles/RegisterLoginStyles'
 
 const Register = () => {
@@ -156,11 +158,11 @@ const Register = () => {
 							</Error>
 						)}
 					</InputGroup>
-					<SubmitButton text="Submit" />
+					<Button type="submit">Register</Button>
 				</form>
 				<P>
 					Already have an account? &nbsp;{' '}
-					<LinkButton to="/login" text="Sign In" />
+					<StyledLink to="/login">Login</StyledLink>
 				</P>
 			</Content>
 		</Container>

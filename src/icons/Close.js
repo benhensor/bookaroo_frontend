@@ -27,14 +27,14 @@ const Container = styled.div`
 		height: 1.5rem;
 		transition: var(--fast);
 		path {
-			stroke: var(--dangerDk);
+			fill: var(--dangerDk);
 			stroke-width: 1.5;
 			stroke-linecap: round;
 			stroke-linejoin: round;
 		}
 		&:hover {
 			path {
-				stroke: var(--danger);
+				fill: var(--danger);
 			}
 		}
 	}

@@ -67,14 +67,19 @@ const GlobalStyles = createGlobalStyle`
   html {
     user-select: none;
     font-size: 62.5%;
+    height: -webkit-fill-available;
   }
 
   body {
+    display: flex;
+    flex-direction: column;
     font-family: 'Poppins', sans-serif;
     font-size: 1.6rem;
     line-height: 1.6;
     color: var(--blkGreen);
     background-color: var(--offWhite);
+    height: -webkit-fill-available;
+    min-height: 100svh;
     overflow-x: hidden;
   }
 
