@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Head = styled.header`
@@ -68,10 +69,6 @@ export const NavItem = styled.div`
 	align-items: center;
 `
 
-export const UserIcon = styled.div`
-
-`
-
 export const UserMenu = styled.div`
 	outline: 1px solid var(--greyGreen);
 	position: absolute;
@@ -104,17 +101,28 @@ export const MenuItem = styled.div`
 	}
 `
 
-export const Notification = styled.div`
-margin-left: var(--sm);
-	background-color: var(--danger);
+export const SignInButton = styled(Link)`
+	background-color: var(--dkGreen);
 	color: var(--white);
-	border-radius: 50%;
-	width: 2rem;
-	height: 2rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: 'Centra', sans-serif;
-	font-size: 1.2rem;
-	font-weight: bold;
+	padding: var(--xs) var(--md);
+	border-radius: var(--xs);
+	text-decoration: none;
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	transition: var(--fast);
+	&:hover {
+		background-color: var(--accentGreen);
+		color: var(--blkGreen);
+	}
+`
+
+export const SignOutButton = styled.button`
+	background-color: transparent;
+	color: var(--dangerDk);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--danger);
+	}
 `

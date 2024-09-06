@@ -1,12 +1,34 @@
 import styled from 'styled-components';
 
-export const BookDetailHeader = styled.div`
+export const BookDetailContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 	align-items: center;
+	width: 100%;
+	max-width: 80rem;
 	margin: 0 auto;
-	position: relative;
-  padding-top: var(--lg);
+	@media only screen and (max-width: 999px) {
+    padding: var(--sm) var(--md);
+  }
+  @media only screen and (max-width: 768px) {
+    
+  }
+  @media only screen and (max-width: 450px) {
+    padding: var(--sm);
+  }
+`
+
+export const CloseButton = styled.button`
+	background: none;
+	border: none;
+	outline: none;
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	color: var(--dkGreen);
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--accentGreen);
+	}
 `
 
 export const Title = styled.h1`
@@ -26,11 +48,13 @@ export const Subtitle = styled.p`
 export const Row = styled.div`
 	display: flex;
 	width: 100%;
+	margin-bottom: var(--lg);
 `
 
 export const BookDetailsContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
+	gap: var(--lg);
 	margin-bottom: var(--lg);
 	width: 100%;
 
@@ -89,7 +113,7 @@ export const BookCover = styled.img`
 	justify-content: center;
 	align-items: center;
 	border: 1px solid var(--ltGreen);
-	max-width: 260px;
+	width: 26rem;
 `
 
 export const BookDescription = styled.div`
@@ -132,4 +156,21 @@ export const OwnersNotes = styled.div`
 
 export const ButtonContainer = styled.div`
 	margin-top: var(--md);
+`
+
+export const ActionButton = styled.button`
+  width: 100%;
+	background-color: ${({ $delete }) => ($delete ? 'var(--dangerDk)' : 'var(--dkGreen)')};
+	color: var(--white);
+	padding: var(--sm) var(--md);
+	font-size: clamp(1.2rem, 2vw, 1.4rem);
+	border: none;
+	display: inline-block;
+	text-align: center;
+	border-radius: var(--xs);
+	cursor: pointer;
+	&:hover {
+		background-color: ${({ $delete }) => ($delete ? 'var(--danger)' : 'var(--accentGreen)')};
+    color: ${({ $delete }) => ($delete ? 'var(--white)' : 'var(--blkGreen)')};
+	}
 `

@@ -113,7 +113,6 @@ export default function Listings() {
 
 		if (book) {
 			try {
-				// Fetch detailed book information using the selfLink
 				const detailsResponse = await axios.get(book.selfLink)
 
 				const detailedBook = detailsResponse.data
@@ -142,7 +141,7 @@ export default function Listings() {
 					notes: '',
 					userId: user?.id || '',
 				})
-				setError('') // Clear any previous errors
+				setError('') 
 			} catch (error) {
 				console.error('Error fetching detailed book info:', error)
 				setError('An error occurred while retrieving book details.')
@@ -155,7 +154,7 @@ export default function Listings() {
 
 		setBookData((prevData) => ({
 			...prevData,
-			[name]: name === 'category' ? [value] : value, // Store as an array with one element
+			[name]: name === 'category' ? [value] : value, 
 		}))
 	}
 
@@ -269,7 +268,6 @@ export default function Listings() {
 								<h2>Selected Book</h2>
 								{isbn && (
 									<>
-										{/* {console.log('Selected book:', bookData.coverImg)} */}
 										<img
 											src={bookData.coverImg}
 											alt={bookData.title}

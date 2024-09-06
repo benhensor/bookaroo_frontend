@@ -16,14 +16,20 @@ import {
 
 export default function Browse() {
 	const { user } = useAuth()
-	const { allBooks, searchBooks, searchResults, setSearchResults, searchError, setSearchError } = useBooks()
+	const {
+		allBooks,
+		searchBooks,
+		searchResults,
+		setSearchResults,
+		searchError,
+		setSearchError,
+	} = useBooks()
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [query, setQuery] = useState('')
 	const ref = useRef(null)
 	const resultsRef = useRef(null)
 
 	const booksFiltered = allBooks.filter((book) => book.userId !== user.id)
-
 
 	// Check if the user is scrolling (for styling purposes)
 	useEffect(() => {
@@ -38,13 +44,12 @@ export default function Browse() {
 		return () => window.removeEventListener('scroll', handleScroll)
 	}, [])
 
-
-
+	// Search for books based on the query
 	useEffect(() => {
 		const fetchSearchResults = () => {
-			setSearchError(null) // Clear previous errors
-			const results = searchBooks(query) // Fetch results using context function
-			setSearchResults(results) // Set the filtered results in the context
+			setSearchError(null)
+			const results = searchBooks(query)
+			setSearchResults(results)
 
 			if (results.length === 0) {
 				setSearchError(
@@ -54,14 +59,12 @@ export default function Browse() {
 		}
 
 		if (query.trim()) {
-			fetchSearchResults() // Trigger search when query is not empty
+			fetchSearchResults()
 		} else {
-			setSearchResults([]) // Clear search results if query is empty
-			setSearchError(null) // Clear any error messages when query is cleared
+			setSearchResults([])
+			setSearchError(null)
 		}
 	}, [query, searchBooks, setSearchResults, setSearchError])
-
-
 
 	// Get unique categories from the books array
 	const getUniqueCategories = (booksFiltered) => {
@@ -76,8 +79,6 @@ export default function Browse() {
 		return Array.from(categories)
 	}
 
-
-
 	// Filter books by category
 	const getBooksByCategory = (category) => {
 		return booksFiltered.filter((book) =>
@@ -87,11 +88,7 @@ export default function Browse() {
 		)
 	}
 
-
-
 	const uniqueCategories = getUniqueCategories(booksFiltered)
-
-
 
 	// Renders either search results or categories
 	const renderContent = () => {
@@ -110,7 +107,10 @@ export default function Browse() {
 			return (
 				<GalleryContainer>
 					<SearchResults ref={resultsRef}>
-						<Carousel title="Search Results" books={searchResults} />
+						<Carousel
+							title="Search Results"
+							books={searchResults}
+						/>
 					</SearchResults>
 				</GalleryContainer>
 			)
@@ -146,9 +146,6 @@ export default function Browse() {
 			</GalleryContainer>
 		)
 	}
-	
-
-	
 
 	return (
 		<BrowseContainer>
@@ -156,7 +153,10 @@ export default function Browse() {
 				<BrowseControls>
 					<h1>Browse</h1>
 					<SearchBar>
-						<label htmlFor="search-input" className="visually-hidden">
+						<label
+							htmlFor="search-input"
+							className="visually-hidden"
+						>
 							Search
 						</label>
 						<SearchInput

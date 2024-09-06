@@ -1,4 +1,10 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+export const ProfileContainer = styled.div`
+	height: calc(100svh - 15rem);
+	overflow-y: auto;
+`
 
 export const ProfileHeader = styled.div`
   padding: var(--lg) 0;
@@ -111,4 +117,41 @@ export const Feedback = styled.p`
 export const CarouselContainer = styled.div`
 	position: relative;
 	background-color: var(--offWhite);
+`
+
+export const SubmitButton = styled.button`
+margin-top: var(--sm);
+	width: fit-content;
+	background: none;
+	color: var(--dkGreen);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--accentGreen);
+	}
+`
+
+export const SignoutButton = styled.button`
+	background: none;
+	color: var(--dangerDk);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--danger);
+	}
+`
+
+export const LinkButton = styled.button`
+	text-decoration: none;
+	color: var(--dkGreen);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--accentGreen);
+	}
 `

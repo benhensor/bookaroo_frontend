@@ -19,9 +19,9 @@ const SVG = styled.svg`
 	margin-right: var(--sm);
 	height: 1.75rem;
 	width: 1.75rem;
-  fill: var(--dkGreen);
-  transition: var(--fast);
-  &:hover {
-    fill: var(--accentGreen);
-  }
+	fill: var(--dkGreen);
+	transition: var(--fast);
+	&:hover {
+		fill: var(--accentGreen);
+	}
 `

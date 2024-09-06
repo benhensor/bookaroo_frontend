@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
 	const { user, setUser } = useAuth()
 	const queryClient = useQueryClient()
 
-	// User context handles user preferences, liked books, listed books adn recommendations
+	// User context handles user preferences, liked books, listed books and recommendations
 	const updateUserDetails = async (updatedUser) => {
 		try {
 			const res = await axios.put(
@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
 		}
 	}
 
+	// Fetch a user by their ID
 	const getUserById = async (userId) => {
 		try {
 			const response = await axios.get(
@@ -73,7 +74,6 @@ export const UserProvider = ({ children }) => {
 
 	// Fetch liked books based on the IDs in the user's `likedBooks` array
 	const fetchLikedBooks = async (userId) => {
-		// console.log('Fetching liked books...')
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/users/liked`,
@@ -82,7 +82,6 @@ export const UserProvider = ({ children }) => {
 					params: { userId },
 				}
 			)
-			// console.log('Liked books:', response.data)
 			return response.data
 		} catch (error) {
 			console.error('Error fetching liked books:', error)
@@ -90,6 +89,7 @@ export const UserProvider = ({ children }) => {
 		}
 	}
 
+	// Query to fetch liked books
 	const {
 		data: likedBooks,
 		isLoading: likedBooksLoading,
@@ -98,7 +98,6 @@ export const UserProvider = ({ children }) => {
 	} = useQuery(['likedBooks', user?.id], fetchLikedBooks, {
 		enabled: !!user, // Ensures the query only runs if a user is logged in
 		onSuccess: (data) => {
-			// console.log('Liked books:', data);
 		},
 		onError: (error) => {
 			console.error('Error fetching liked books:', error)
@@ -116,7 +115,6 @@ export const UserProvider = ({ children }) => {
     },
     {
         onSuccess: () => {
-				// console.log('Book liked successfully', likedBooks);
 				queryClient.invalidateQueries(['likedBooks', user?.id]) // Refetch liked books after a successful like
 				queryClient.invalidateQueries('currentUser') // Refetch user data to update likedBooks array
 			},
@@ -134,7 +132,6 @@ export const UserProvider = ({ children }) => {
     },
     {
         onSuccess: () => {
-				// console.log('Book unliked successfully', likedBooks);
 				queryClient.invalidateQueries(['likedBooks', user?.id]) // Refetch liked books after a successful unlike
 				queryClient.invalidateQueries('currentUser') // Refetch user data to update likedBooks array
 			},

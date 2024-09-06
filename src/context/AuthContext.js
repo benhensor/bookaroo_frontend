@@ -41,14 +41,12 @@ export const AuthProvider = ({ children }) => {
 	}, [])
 
 	const registerUser = async (values) => {
-		// console.log('registering:', values)
 		try {
 			const { email, username, postcode, password } = values
-			const response = await axios.post(
+			await axios.post(
 				`${process.env.REACT_APP_API_URL}/api/auth/register`,
 				{ email, username, postcode, password }
 			)
-			console.log(`${response.username} has been registered`)
 		} catch (error) {
 			console.error(error.response.data)
 		}
@@ -62,15 +60,15 @@ export const AuthProvider = ({ children }) => {
 					`${process.env.REACT_APP_API_URL}/api/auth/login`,
 					credentials,
 					{
-						withCredentials: true, // Include cookies with the request
+						withCredentials: true, 
 						headers: {
 							'Content-Type': 'application/json',
 						},
 					}
 				)
-				setUser(data.user) // Set the user data directly from the login response
+				setUser(data.user) 
 				setIsAuthenticated(true)
-				queryClient.invalidateQueries('currentUser') // Invalidate any stale queries related to the user
+				queryClient.invalidateQueries('currentUser') 
 			} catch (error) {
 				console.error(
 					'Login error:',
@@ -88,23 +86,21 @@ export const AuthProvider = ({ children }) => {
 
 	const logout = useCallback(
 		async (credentials) => {
-			console.log('Logging out...')
 			try {
 				const response = await axios.post(
 					`${process.env.REACT_APP_API_URL}/api/auth/logout`,
 					credentials,
 					{
-						withCredentials: true, // Include cookies with the request
+						withCredentials: true,
 						headers: {
 							'Content-Type': 'application/json',
 						},
 					}
 				)
 				if (response.status === 200) {
-					console.log('Logout successful')
 					setUser(null)
 					setIsAuthenticated(false)
-					queryClient.clear() // Clear the cache after logging out
+					queryClient.clear() 
 				} else {
 					console.error('Logout failed:', response)
 				}
@@ -119,12 +115,12 @@ export const AuthProvider = ({ children }) => {
 		() => ({
 			user,
 			isAuthenticated,
-			isLoading, // React Query's loading state
+			isLoading, 
 			registerUser,
 			login,
 			logout,
 		}),
-		[user, isAuthenticated, isLoading, login, logout] // Now these functions are stable
+		[user, isAuthenticated, isLoading, login, logout] 
 	)
 
 	return (

@@ -9,12 +9,8 @@ export const MessagesProvider = ({ children }) => {
 	const queryClient = useQueryClient()
 	const { user, isAuthenticated } = useAuth()
 
+	// Fetch messages for the current user
 	const fetchMessages = async () => {
-		// Check if the user is authenticated before making the API call
-		// if (!isAuthenticated || !user) {
-			// 	throw new Error('User not authenticated')
-			// }
-			// console.log('messages context:', user)
 			if (user && isAuthenticated) {
 			const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/messages/inbox`, { withCredentials: true })
 			return data
@@ -36,6 +32,7 @@ export const MessagesProvider = ({ children }) => {
 		}
 	)
 
+	// Fetch all messages
   const getAllMessages = async () => {
     if (!isAuthenticated || !user) {
       throw new Error('User not authenticated')
@@ -66,9 +63,7 @@ export const MessagesProvider = ({ children }) => {
     }
   )
 
-
-  const getMessageById = () => {}
-
+	// Fetch a single message by its ID
 	const deleteMessage = useMutation(
 		async (messageId) => {
 			await axios.delete(
@@ -102,6 +97,7 @@ export const MessagesProvider = ({ children }) => {
 		}
 	)
 
+	// Mutation to mark a message as read
 	const markAsRead = useMutation(
 		async (messageId) => {
 			await axios.put(
@@ -140,6 +136,7 @@ export const MessagesProvider = ({ children }) => {
 		}
 	)
 
+	// Mutation to mark a message as unread
 	const markAsUnread = useMutation(
 		async (messageId) => {
 			await axios.put(
@@ -180,6 +177,7 @@ export const MessagesProvider = ({ children }) => {
 		}
 	)
 
+	// Mutation to send a new message
 	const sendMessage = useMutation(
 		async (messageData) => {
 			await axios.post(
@@ -197,6 +195,7 @@ export const MessagesProvider = ({ children }) => {
 		}
 	)
 
+	// Function to manually refresh messages
 	const refreshMessages = useCallback(() => {
 		queryClient.invalidateQueries('messages')
 	}, [queryClient])
@@ -209,7 +208,6 @@ export const MessagesProvider = ({ children }) => {
 				isMessagesLoading,
 				isError,
         getAllMessages,
-        getMessageById,
 				deleteMessage: deleteMessage.mutate,
 				markAsRead: markAsRead.mutate,
 				markAsUnread: markAsUnread.mutate,

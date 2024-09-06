@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const MessagesContainer = styled.div`
-	height: calc(100vh - 5.6rem);
+	height: calc(100vh - 10rem);
+	overflow-y: auto;
 `
 
 export const MessagesHeader = styled.div`

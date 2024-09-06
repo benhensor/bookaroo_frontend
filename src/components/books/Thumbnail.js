@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useBooks } from '../../context/BooksContext'
 import { useMessages } from '../../context/MessagesContext'
+import { useDashboard } from '../../context/DashboardContext'
 import { calcDistance } from '../../utils/calculateDistance'
 import Heart from '../../icons/Heart'
 import ThumbnailButton from '../buttons/ThumbnailButton'
@@ -17,10 +17,10 @@ import {
 } from '../../assets/styles/ThumbnailStyles'
 
 export default function Thumbnail({ book }) {
-	const navigate = useNavigate()
 	const { user } = useAuth()
 	const { deleteListing } = useBooks()
 	const { messagesAll } = useMessages()
+	const { openModal } = useDashboard()
 	const [isHovered, setIsHovered] = useState(false)
 	const [distance, setDistance] = useState(null)
 	const [hasContacted, setHasContacted] = useState(false)
@@ -35,8 +35,6 @@ export default function Thumbnail({ book }) {
 		}
 	}, [book, user])
 
-
-
 	// check if user has contacted the book owner
 	useEffect(() => {
 		if (messagesAll && book) {
@@ -50,37 +48,23 @@ export default function Thumbnail({ book }) {
 		}
 	}, [messagesAll, book, user])
 
-
-
-
 	const handleDeleteClick = (e) => {
 		e.stopPropagation()
 		deleteListing(book.id)
 	}
 
-
-
 	const handleContactClick = (e) => {
 		e.stopPropagation()
-		if (book) {
-			navigate(`/contact`, { state: { book } })
-		} else {
-			console.error('Book is not properly defined')
-		}
+		openModal({ book: book, type: 'contact', replyMessage: null })
 	}
-
-
 
 	const handleBookClick = () => {
 		if (book) {
-			navigate(`/book`, { state: { book } })
+			openModal({ book: book, type: 'book', replyMessage: null })
 		} else {
-			console.error('Book is not properly defined')
+			return
 		}
 	}
-
-
-	
 
 	return (
 		<>
@@ -98,7 +82,9 @@ export default function Thumbnail({ book }) {
 								onClick={(e) => e.stopPropagation()}
 							/>
 						)}
-						{hasContacted && <ContactedSash>Message Sent!</ContactedSash>}
+						{hasContacted && (
+							<ContactedSash>Message Sent!</ContactedSash>
+						)}
 					</BookCover>
 					{user.id === book.userId && (
 						<Controls $isHovered={isHovered}>
@@ -113,7 +99,9 @@ export default function Thumbnail({ book }) {
 						<Controls $isHovered={isHovered}>
 							<ButtonContainer>
 								<ThumbnailButton
-									text={hasContacted ? 'Follow up?' : 'Contact'}
+									text={
+										hasContacted ? 'Follow up?' : 'Contact'
+									}
 									onClick={handleContactClick}
 								/>
 							</ButtonContainer>

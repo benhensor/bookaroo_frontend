@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useMessages } from '../../context/MessagesContext'
-import { useDashboard } from '../../context/DashboardContext'
 import Message from '../message/Message'
 import {
   MessagesContainer,
@@ -12,7 +11,6 @@ import {
 export default function Messages() {
 
   const { messages, isMessagesLoading, isError, markAsRead } = useMessages()
-  const { activePage, handlePageChange } = useDashboard()
   const [openMessage, setOpenMessage] = useState(null)
 
 

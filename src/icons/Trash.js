@@ -3,7 +3,13 @@ import styled from 'styled-components'
 
 export default function Trash({ onClick }) {
 	return (
-		<SVG width="24" height="24" viewBox="0 0 24 24" fill="none" onClick={onClick}>
+		<SVG
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			onClick={onClick}
+		>
 			<path
 				fillRule="evenodd"
 				clipRule="evenodd"
@@ -25,7 +31,7 @@ export default function Trash({ onClick }) {
 
 const SVG = styled.svg`
 	transition: var(--fast);
-	cursor: pointer; 
+	cursor: pointer;
 	&:hover path {
 		fill: var(--danger);
 	}

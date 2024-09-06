@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const ContactHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`
+
 export const Layout = styled.div`
 	margin-top: var(--lg);
 	width: 100%;
@@ -12,6 +18,19 @@ export const Layout = styled.div`
 		flex-direction: column;
 		align-items: center;
 		gap: var(--lg);
+	}
+`
+
+export const CloseButton = styled.button`
+	background: none;
+	border: none;
+	outline: none;
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	color: var(--dkGreen);
+	cursor: pointer;
+	transition: var(--fast);
+	&:hover {
+		color: var(--accentGreen);
 	}
 `
 
@@ -50,9 +69,10 @@ export const FormField = styled.div`
 `
 
 export const MessageArea = styled.textarea`
-	width: 100%;
+	flex: 1;
+	min-width: 100%;
 	height: 30rem;
-	padding: var(--sm) 0;
+	padding: var(--sm);
 	border: none;
 	outline: none;
 	resize: vertical;
@@ -60,3 +80,18 @@ export const MessageArea = styled.textarea`
 	border-bottom: 1px solid var(--ltGreen);
 	margin-bottom: var(--md);
 `
+
+export const EllipsisButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #999;
+  cursor: pointer;
+  margin-top: 10px;
+  display: block;
+  width: fit-content;
+
+  &:hover {
+    color: #666;
+  }
+`;

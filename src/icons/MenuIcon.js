@@ -2,39 +2,39 @@ import React from 'react'
 import styled from 'styled-components'
 
 export default function MenuIcon({ onClick, isOpen }) {
-  return (
-    <MenuBars onClick={onClick}>
-      {Array.from({ length: isOpen ? 6 : 3 }).map((_, index) => (
-        <Bar key={index} $isActive={isOpen} $index={index} />
-      ))}
-    </MenuBars>
-  )
+	return (
+		<MenuBars onClick={onClick}>
+			{Array.from({ length: isOpen ? 6 : 3 }).map((_, index) => (
+				<Bar key={index} $isActive={isOpen} $index={index} />
+			))}
+		</MenuBars>
+	)
 }
 
 const MenuBars = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  cursor: pointer;
-  position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 24px;
+	height: 18px;
+	cursor: pointer;
+	position: relative;
 `
 
 const Bar = styled.div`
-  width: 24px;
-  height: 2px;
-  background-color: var(--dkGreen);
-  border-radius: 1px;
-  transition: all 0.12s ease-in-out;
-  transform-origin: center;
-  
-  top: ${({ $index }) => ($index % 3) * 6}px; /* Positioning based on index */
+	width: 24px;
+	height: 2px;
+	background-color: var(--dkGreen);
+	border-radius: 1px;
+	transition: all 0.12s ease-in-out;
+	transform-origin: center;
 
-  ${({ $isActive, $index }) =>
-    $isActive &&
-    $index < 3 &&
-    `
+	top: ${({ $index }) => ($index % 3) * 6}px;
+
+	${({ $isActive, $index }) =>
+		$isActive &&
+		$index < 3 &&
+		`
     background-color: var(--accentGreen);
 
     &:nth-child(1) {
@@ -52,10 +52,10 @@ const Bar = styled.div`
     }
   `}
 
-  ${({ $isActive, $index }) =>
-    $isActive &&
-    $index >= 3 &&
-    `
+	${({ $isActive, $index }) =>
+		$isActive &&
+		$index >= 3 &&
+		`
     background-color: var(--accentGreen);
     transform-origin: center;
 

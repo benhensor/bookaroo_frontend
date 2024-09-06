@@ -8,18 +8,13 @@ export default function Heart({ bookId, onClick }) {
 
 	useEffect(() => {
 		if (likedBooks && likedBooks.length > 0) {
-			// console.log('likedBooks:', likedBooks);
-
-			// Extract the IDs from the likedBooks array
 			const likedBookIds = likedBooks.map((book) => book.id)
-
-			// Check if the bookId is included in the likedBookIds array
 			setIsLiked(likedBookIds.includes(bookId))
 		}
 	}, [likedBooks, bookId])
 
 	const handleToggleLike = async (e) => {
-		e.stopPropagation() // Prevent the click event from bubbling up to the parent element
+		e.stopPropagation()
 		try {
 			if (isLiked) {
 				await unlikeBook(bookId)
@@ -28,14 +23,14 @@ export default function Heart({ bookId, onClick }) {
 				await likeBook(bookId)
 				setIsLiked(true)
 			}
-			if (onClick) onClick(e) // Call the onClick function passed as a prop
+			if (onClick) onClick(e)
 		} catch (error) {
 			console.error('Error toggling like:', error)
 		}
 	}
 
 	if (likedBooksLoading) {
-		return null // Or a loading spinner
+		return null
 	}
 
 	return (

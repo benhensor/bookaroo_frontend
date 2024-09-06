@@ -1,43 +1,36 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { useMessages } from '../context/MessagesContext'
-import { useUser } from '../context/UserContext'
-import { formatDate } from '../utils/formatDate'
-import { PageHeader, Content } from '../assets/styles/GlobalStyles'
-import ExchangePreview from '../components/books/ExchangePreview'
-import LinkButton from '../components/buttons/LinkButton'
-import ActionButton from '../components/buttons/ActionButton'
+import React, { useState, useEffect } from 'react'
+import { useAuth } from '../../context/AuthContext'
+import { useUser } from '../../context/UserContext'
+import { useMessages } from '../../context/MessagesContext'
+import { useDashboard } from '../../context/DashboardContext'
+import { formatDate } from '../../utils/formatDate'
+import ExchangePreview from '../books/ExchangePreview'
+import ActionButton from '../buttons/ActionButton'
 import {
+	ContactHeader,
+	CloseButton,
 	Layout,
 	ContactFormContainer,
 	ContactForm,
 	FormHeader,
 	FormField,
 	MessageArea,
-} from '../assets/styles/ContactStyles'
+} from '../../assets/styles/ContactStyles'
 
-export default function Contact() {
-	const navigate = useNavigate()
-	const location = useLocation()
+export default function Contact({ book, replyMessage }) {
 	const { user } = useAuth()
 	const { getUserById } = useUser()
 	const { sendMessage } = useMessages()
-	const book = location.state?.book || null
-	const messageData = useMemo(() => location.state?.message || {}, [location.state?.message])
+	const { closeModal } = useDashboard()
+	const messageData = replyMessage
 	const [recipient, setRecipient] = useState(null)
 	const [message, setMessage] = useState('')
 
 	useEffect(() => {
-			console.log('book:', book)
-	}, [book])
-
-	// Fetch book owner data when component mounts or when the book changes
-	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
 				const owner = await getUserById(book.userId)
-				setRecipient(owner) // Set the book owner in state
+				setRecipient(owner)
 			} catch (error) {
 				console.error('Error fetching book owner:', error)
 			}
@@ -50,33 +43,27 @@ export default function Contact() {
 
 	useEffect(() => {
 		if (messageData?.createdAt && messageData.sender?.username) {
-				const {
-						dayName,
-						dayNumber,
-						monthName,
-						year,
-						daySuffix,
-				} = formatDate(messageData.createdAt)
+			const { dayName, dayNumber, monthName, year, daySuffix } =
+				formatDate(messageData.createdAt)
 
-				setMessage(
-						`On ${dayName} ${dayNumber}${daySuffix} ${monthName} ${year} ${
-								messageData.sender.username
-						} wrote:\n\n${messageData.message}\n`
-				)
+			setMessage(
+				`On ${dayName} ${dayNumber}${daySuffix} ${monthName} ${year} ${messageData.sender.username} wrote:\n\n${messageData.message}\n`
+			)
 		}
 	}, [messageData])
 
-
-
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		if (!book ) {
-			console.error('Book or book owner is not set');
-			return;
+		if (!book) {
+			console.error('Book or book owner is not set')
+			return
 		}
-	
+
 		// Determine the recipient of the message
-		const recipientId = messageData?.senderId && messageData.senderId !== user.id ? messageData.senderId : book.userId
+		const recipientId =
+			messageData?.senderId && messageData.senderId !== user.id
+				? messageData.senderId
+				: book.userId
 		const subjectLine = `Regarding: ${book.title} by ${book.author}`
 
 		if (!recipientId) {
@@ -93,26 +80,20 @@ export default function Contact() {
 		}
 		try {
 			await sendMessage(newMessageData)
-			navigate('/dashboard')
+			closeModal()
 		} catch (error) {
 			console.error('Error sending message:', error)
 		}
-		
 	}
-
-
 
 	return (
 		<section>
-			<PageHeader>
+			<ContactHeader>
+				<CloseButton onClick={() => closeModal()}>Close</CloseButton>
 				<h1>Contact</h1>
-				<LinkButton
-					text="Return"
-					to="/dashboard"
-				/>
-			</PageHeader>
+			</ContactHeader>
 
-			<Content>
+			<div>
 				<Layout>
 					<ExchangePreview book={book} bookOwner={recipient} />
 					<ContactFormContainer onSubmit={handleSubmit}>
@@ -122,30 +103,30 @@ export default function Contact() {
 								<label>To:</label>
 								<input
 									type="text"
-									value={recipient?.username}
+									value={recipient?.username || ''}
 									readOnly
 								/>
 							</FormField>
 							<FormField>
 								<input
 									type="text"
-									value={`${book?.title} by ${book?.author}`}
+									value={
+										`${book?.title} by ${book?.author}` ||
+										''
+									}
 									readOnly
 								/>
 							</FormField>
 							<MessageArea
-								value={message}
+								value={message || ''}
 								onChange={(e) => setMessage(e.target.value)}
 								placeholder="Hi! I'm interested in your book..."
 							/>
-							<ActionButton
-								text="Send"
-								onClick={handleSubmit}
-							/>
+							<ActionButton text="Send" onClick={handleSubmit} />
 						</ContactForm>
 					</ContactFormContainer>
 				</Layout>
-			</Content>
+			</div>
 		</section>
 	)
 }

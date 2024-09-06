@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 export default function Envelope({ isRead }) {
-
 	return (
 		<EnvelopeIcon $isRead={isRead}>
 			{isRead ? (
