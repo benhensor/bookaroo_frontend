@@ -85,27 +85,6 @@ export default function Header() {
 			</Container>
 		{isOpen && (
 			<UserMenu $isActive={isOpen}>
-				{mobile &&
-					<MenuItem
-						$mobile={mobile}
-					>
-					{user.username}
-				</MenuItem>}
-				<MenuItem>
-					<LinkButton text="Browse" onClick={() => setActivePage('Browse')}/>
-				</MenuItem>
-				<MenuItem>
-					<LinkButton text="New Listing"onClick={() => setActivePage('Listings')}/>
-				</MenuItem>
-				<MenuItem>
-					<Button id="word" text="Messages" onClick={() => setActivePage('Messages')} />
-					{unreadMessagesCount > 0 &&
-						<Notification>{unreadMessagesCount}</Notification>
-					}
-				</MenuItem>
-				<MenuItem>
-					<Button id="word" text="Edit Profile" onClick={() => setActivePage('Profile')} />
-				</MenuItem>
 				<MenuItem>
 					<Button id="word" text="Sign Out" onClick={handleLogout} />
 				</MenuItem>

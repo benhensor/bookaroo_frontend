@@ -68,6 +68,7 @@ const GlobalStyles = createGlobalStyle`
     user-select: none;
     font-size: 62.5%;
     height: -webkit-fill-available;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -79,7 +80,8 @@ const GlobalStyles = createGlobalStyle`
     color: var(--blkGreen);
     background-color: var(--offWhite);
     height: -webkit-fill-available;
-    min-height: 100svh;
+    height: 100svh;
+    margin: 0 auto;
     overflow-x: hidden;
   }
 

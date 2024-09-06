@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
-	height: calc(100vh - 5.6rem);
+	max-width: 100rem;
+	margin: 0 auto;
 `
 
 export const ProfileHeader = styled.div`
