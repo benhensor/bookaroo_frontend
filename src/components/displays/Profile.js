@@ -257,7 +257,6 @@ export default function Profile() {
 
 
   return (
-    <>
 			<ProfileContainer>
 
 				<ProfileHeader>
@@ -423,6 +422,5 @@ export default function Profile() {
 
 
 			</ProfileContainer>
-    </>
   )
 }
