@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
-export const DashboardContainer = styled.div`
-	height: calc(100svh + 5.8rem);
+export const DashboardContainer = styled.section`
+	height: 100%;
+	max-width: 100rem;
+	margin: 0 auto;
 `

@@ -15,6 +15,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Footer from './components/footer/Footer'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 
 const queryClient = new QueryClient()
@@ -44,6 +45,7 @@ function App() {
 											} />
 										</Routes>
 									</main>
+									<Footer />
 								</Router>
 							</DashboardProvider>
 						</MessagesProvider>

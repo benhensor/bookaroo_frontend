@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FooterContainer = styled.footer`
+export const Container = styled.footer`
   background-color: var(--blkGreen);
   color: var(--white);
   margin: 0 auto;
@@ -11,6 +11,7 @@ export const FooterContainer = styled.footer`
   align-items: center;
   position: fixed;
   bottom: 0;
+  left: 0
 `
 
 export const NavBar = styled.nav`

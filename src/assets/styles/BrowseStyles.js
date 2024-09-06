@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const BrowseContainer = styled.div`
-	height: 100%;
-  overflow-y: scroll;
+	height: calc(100svh - 15rem);
+	overflow-y: auto;
 `
 
 export const BrowseHeader = styled.div`
-	position: fixed;
-	top: 5.6rem;
+	position: absolute;
+	top: 0;
 	left: 0;
 	padding: var(--lg) 0;
 	background-color: var(--white);

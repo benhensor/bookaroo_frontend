@@ -5,7 +5,7 @@ import Listings from '../../icons/Listings'
 import Messages from '../../icons/Messages'
 import Profile from '../../icons/Profile'
 import {
-	FooterContainer,
+	Container,
 	NavBar,
 	NavItem,
 } from '../../assets/styles/FooterStyles'
@@ -15,7 +15,7 @@ export default function Footer() {
 	const { activePage, handlePageChange } = useDashboard()
 
 	return (
-		<FooterContainer>
+		<Container>
 			<NavBar>
 				<NavItem onClick={() => handlePageChange('Browse')}>
 					<Browse isActive={activePage === 'Browse'} />
@@ -30,6 +30,6 @@ export default function Footer() {
 					<Profile isActive={activePage === 'Profile'} />
 				</NavItem>
 			</NavBar>
-		</FooterContainer>
+		</Container>
 	)
 }

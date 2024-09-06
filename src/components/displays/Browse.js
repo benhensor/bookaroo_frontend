@@ -25,7 +25,7 @@ export default function Browse() {
 	const booksFiltered = allBooks.filter((book) => book.userId !== user.id)
 
 
-
+	// Check if the user is scrolling (for styling purposes)
 	useEffect(() => {
 		const handleScroll = () => {
 			if (window.scrollY > 50) {

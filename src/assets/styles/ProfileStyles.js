@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-export const ProfileContainer = styled.div`
-	max-width: 100rem;
-	margin: 0 auto;
-`
-
 export const ProfileHeader = styled.div`
   padding: var(--lg) 0;
 `

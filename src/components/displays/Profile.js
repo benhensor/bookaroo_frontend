@@ -14,7 +14,6 @@ import LinkButton from '../buttons/LinkButton'
 import DashboardButton from '../buttons/DashboardButton'
 import Arrow from '../../icons/Arrow'
 import {
-	ProfileContainer,
 	ProfileHeader,
 	ProfileMenuItem,
 	ProfileMenuItemHeading,
@@ -257,8 +256,7 @@ export default function Profile() {
 
 
   return (
-			<ProfileContainer>
-
+			<>
 				<ProfileHeader>
 					<h1>{activePage}</h1>
 					<h2>Welcome {user.username}!</h2>
@@ -419,8 +417,6 @@ export default function Profile() {
 						</MenuContentPanel>
 					</ProfileMenuItemContent>
 				</ProfileMenuItem>
-
-
-			</ProfileContainer>
+			</>
   )
 }
