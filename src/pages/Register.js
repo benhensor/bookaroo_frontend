@@ -3,15 +3,20 @@ import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { registerSchema } from '../schemas/index'
-import SubmitButton from '../components/buttons/ActionButton'
-import LinkButton from '../components/buttons/LinkButton'
+import Check from '../icons/Check'
+import {
+	Form,
+	InputGroup,
+	CheckContainer,
+	Label,
+	Input,
+} from '../assets/styles/GlobalStyles'
 import {
 	Container,
 	Content,
 	P,
-	InputGroup,
 	Error,
-	Button,
+	RegisterButton,
 	StyledLink,
 } from '../assets/styles/RegisterLoginStyles'
 
@@ -20,7 +25,6 @@ const Register = () => {
 	const { registerUser } = useAuth()
 
 	const handleRegisterUser = async () => {
-		// console.log('registering:', values)
 		registerUser(values)
 		navigate('/login')
 	}
@@ -38,13 +42,11 @@ const Register = () => {
 			onSubmit: handleRegisterUser,
 		})
 
-	// console.log(errors)
-
 	return (
 		<Container>
 			<Content>
 				<h1>Register</h1>
-				<form onSubmit={handleSubmit} method="post" autoComplete="off">
+				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"
 						name="hidden"
@@ -52,8 +54,8 @@ const Register = () => {
 						style={{ display: 'none' }}
 					/>
 					<InputGroup>
-						<label htmlFor="email">Email</label>
-						<input
+						<Label htmlFor="email">Email</Label>
+						<Input
 							id="email"
 							type="email"
 							value={values.email || ''}
@@ -68,13 +70,16 @@ const Register = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.email && !errors.email} />
+						</CheckContainer>
 						{errors.email && touched.email && (
 							<Error className="error">{errors.email}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<label htmlFor="username">Username</label>
-						<input
+						<Label htmlFor="username">Username</Label>
+						<Input
 							id="username"
 							type="text"
 							value={values.username || ''}
@@ -89,13 +94,16 @@ const Register = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.username && !errors.username} />
+						</CheckContainer>
 						{errors.username && touched.username && (
 							<Error className="error">{errors.username}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<label htmlFor="postcode">Location</label>
-						<input
+						<Label htmlFor="postcode">Location</Label>
+						<Input
 							id="postcode"
 							type="text"
 							value={values.postcode || ''}
@@ -110,13 +118,16 @@ const Register = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.postcode && !errors.postcode} />
+						</CheckContainer>
 						{errors.postcode && touched.postcode && (
 							<Error className="error">{errors.postcode}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<label htmlFor="password">Password</label>
-						<input
+						<Label htmlFor="password">Password</Label>
+						<Input
 							id="password"
 							type="password"
 							value={values.password || ''}
@@ -131,13 +142,16 @@ const Register = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.password && !errors.password} />
+						</CheckContainer>
 						{errors.password && touched.password && (
 							<Error className="error">{errors.password}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<label htmlFor="password">Confirm Password</label>
-						<input
+						<Label htmlFor="password">Confirm Password</Label>
+						<Input
 							id="confirmPassword"
 							type="password"
 							value={values.confirmPassword}
@@ -152,17 +166,20 @@ const Register = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.confirmPassword && !errors.confirmPassword} />
+						</CheckContainer>
 						{errors.confirmPassword && touched.confirmPassword && (
 							<Error className="error">
 								{errors.confirmPassword}
 							</Error>
 						)}
 					</InputGroup>
-					<Button type="submit">Register</Button>
-				</form>
+					<RegisterButton type="submit">Register</RegisterButton>
+				</Form>
 				<P>
 					Already have an account? &nbsp;{' '}
-					<StyledLink to="/login">Login</StyledLink>
+					<StyledLink to="/login">Sign In</StyledLink>
 				</P>
 			</Content>
 		</Container>

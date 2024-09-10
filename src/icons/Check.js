@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function Check({ isactive }) {
+export default function Check({ isActive }) {
 	return (
-		<Container $isactive={isactive}>
+		<Container $isActive={isActive}>
 			<svg
 				width="800px"
 				height="800px"
@@ -18,7 +18,7 @@ export default function Check({ isactive }) {
 }
 
 const Container = styled.div`
-	display: ${({ $isactive }) => ($isactive ? 'flex' : 'none')};
+	display: ${({ $isActive }) => ($isActive ? 'flex' : 'none')};
 	justify-content: center;
 	align-items: center;
 	svg {
@@ -26,16 +26,10 @@ const Container = styled.div`
 		height: 1.5rem;
 		transition: var(--fast);
 		path {
-			stroke: ${(props) =>
-				props.$isactive ? 'var(--blkGreen)' : 'var(--white)'};
+			stroke: var(--blkGreen);
 			stroke-width: 1.5;
 			stroke-linecap: round;
 			stroke-linejoin: round;
-		}
-		&:hover {
-			path {
-				stroke: var(--accentGreen);
-			}
 		}
 	}
 `

@@ -7,7 +7,7 @@ import Messages from '../components/displays/Messages'
 import Profile from '../components/displays/Profile'
 import Modal from '../components/modal/Modal'
 import Footer from '../components/footer/Footer'
-import { DashboardContainer } from '../assets/styles/DashboardStyles'
+import { DashboardContainer, MessageContainer } from '../assets/styles/DashboardStyles'
 
 export default function Dashboard() {
 	const { user, isAuthenticated, isLoading } = useAuth()
@@ -30,17 +30,17 @@ export default function Dashboard() {
 
 	if (isLoading) {
 		return (
-			<section>
-				<div>Loading...</div>
-			</section>
+			<DashboardContainer>
+				<MessageContainer>Loading...</MessageContainer>
+			</DashboardContainer>
 		)
 	}
 
 	if (!user || !isAuthenticated)
 		return (
-			<section>
-				<div>No user data available</div>
-			</section>
+			<DashboardContainer>
+				<MessageContainer>No user data available</MessageContainer>
+			</DashboardContainer>
 		)
 
 	return (

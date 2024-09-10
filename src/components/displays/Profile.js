@@ -5,12 +5,22 @@ import { useUser } from '../../context/UserContext'
 import { useBooks } from '../../context/BooksContext'
 import { useMessages } from '../../context/MessagesContext'
 import { useDashboard } from '../../context/DashboardContext'
+import { useFormik } from 'formik'
+import { registerSchema } from '../../schemas/index'
 import { categories } from '../../utils/categories'
 import { useQueryClient } from 'react-query'
 import Genre from '../dashboard/Genre'
 import Message from '../message/Message'
 import Carousel from '../carousel/Carousel'
 import Arrow from '../../icons/Arrow'
+import Check from '../../icons/Check'
+import {
+	Form,
+	InputGroup,
+	CheckContainer,
+	Label,
+	Input,
+} from '../../assets/styles/GlobalStyles'
 import {
 	ProfileContainer,
 	ProfileHeader,
@@ -24,7 +34,6 @@ import {
 	CarouselContainer,
 	SubmitButton,
 	SignoutButton,
-	LinkButton,
 } from '../../assets/styles/ProfileStyles'
 
 export default function Profile() {
@@ -53,14 +62,22 @@ export default function Profile() {
 		false,
 		false,
 	])
+
 	const [selectedPreferences, setSelectedPreferences] = useState([])
 	const [openMessage, setOpenMessage] = useState(null)
 
-	const [formValues, setFormValues] = useState({
-		username: '',
-		email: '',
-		postcode: '',
-	})
+	const { values, handleSubmit, handleBlur, handleChange, touched, errors, setValues } =
+		useFormik({
+			initialValues: {
+				email: user?.email || '',
+				username: user?.username || '',
+				postcode: user?.postcode || '',
+			},
+			validationSchema: registerSchema,
+			onSubmit: () => {
+				handleSaveUserDetails()
+			},
+		})
 
 	useEffect(() => {
 		const refreshUser = async () => {
@@ -81,13 +98,13 @@ export default function Profile() {
 	useEffect(() => {
 		if (user) {
 			setSelectedPreferences(user.preferences || [])
-			setFormValues({
+			setValues({
 				username: user.username || '',
 				email: user.email || '',
 				postcode: user.postcode || '',
 			})
 		}
-	}, [user])
+	}, [user, setValues])
 
 	const toggleMenuItem = (index) => {
 		setActiveMenuItem((prev) => {
@@ -102,32 +119,22 @@ export default function Profile() {
 		})
 	}
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target
-		setFormValues((prevValues) => ({
-			...prevValues,
-			[name]: value,
-		}))
-	}
-
 	const handleSaveUserDetails = useCallback(() => {
 		if (!user) return
 
-		const { username, email, postcode } = formValues
-
-		if (!username || !email || !postcode) {
-			console.log('Missing required fields') // Debugging log
+		if (errors.email || errors.username || errors.postcode) {
+			console.log('Form has validation errors')
 			return
 		}
 
-		updateUserDetails(formValues)
+		updateUserDetails(values)
 			.then(() => {
-				console.log('User details updated') // Debugging log
+				console.log('User details updated successfully')
 			})
 			.catch((error) => {
 				console.error('Error updating user details:', error)
 			})
-	}, [formValues, updateUserDetails, user])
+	}, [values, errors, user, updateUserDetails])
 
 	const handleGenreSelect = (genre) => {
 		setSelectedPreferences((prevPreferences) => {
@@ -260,38 +267,79 @@ export default function Profile() {
 				</ProfileMenuItemHeading>
 				<ProfileMenuItemContent $isVisible={activeMenuItem[0]}>
 					<MenuContentPanel>
-						<form
-							onSubmit={(e) => {
-								e.preventDefault() // Prevent page refresh
-								handleSaveUserDetails() // Trigger the update function
-							}}
+						<Form
+							onSubmit={handleSubmit}
+							method='post'
+							autoComplete='off'
 						>
-							<label htmlFor="username">Username</label>
 							<input
+								autoComplete="off"
+								name="hidden"
 								type="text"
-								name="username"
-								value={formValues.username}
-								onChange={handleInputChange}
-								required
+								style={{ display: 'none' }}
 							/>
-							<label htmlFor="email">Email</label>
-							<input
-								type="email"
-								name="email"
-								value={formValues.email}
-								onChange={handleInputChange}
-								required
-							/>
-							<label htmlFor="postcode">Location</label>
-							<input
-								type="text"
-								name="postcode"
-								value={formValues.postcode}
-								onChange={handleInputChange}
-								required
-							/>
+							<InputGroup>
+								<Label htmlFor="username">Username</Label>
+								<Input
+									type="text"
+									name="username"
+									value={values.username || ''}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									className={
+										touched.password
+											? errors.password
+												? 'error'
+												: 'valid'
+											: ''
+									}
+								/>
+								<CheckContainer>
+									<Check isActive={touched.username && !errors.username} />
+								</CheckContainer>
+							</InputGroup>
+							<InputGroup>
+								<Label htmlFor="email">Email</Label>
+								<Input
+									type="email"
+									name="email"
+									value={values.email || ''}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									className={
+										touched.password
+											? errors.password
+												? 'error'
+												: 'valid'
+											: ''
+									}
+								/>
+								<CheckContainer>
+									<Check isActive={touched.email && !errors.email} />
+								</CheckContainer>
+							</InputGroup>
+							<InputGroup>
+								<Label htmlFor="postcode">Location</Label>
+								<Input
+									type="text"
+									name="postcode"
+									value={values.postcode || ''}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									className={
+										touched.password
+											? errors.password
+												? 'error'
+												: 'valid'
+											: ''
+									}
+								/>
+								<CheckContainer>
+									<Check isActive={touched.postcode && !errors.postcode} />
+								</CheckContainer>
+							</InputGroup>
 							<SubmitButton type="submit">Update details</SubmitButton>
-						</form>
+						</Form>
 					</MenuContentPanel>
 				</ProfileMenuItemContent>
 			</ProfileMenuItem>
@@ -314,7 +362,7 @@ export default function Profile() {
 								onSelect={handleGenreSelect}
 							/>
 						))}
-						<SubmitButton onClick={handleSavePreferences}>
+						<SubmitButton type='button' onClick={handleSavePreferences}>
 							Save Preferences
 						</SubmitButton>
 					</MenuContentPanel>
@@ -377,7 +425,7 @@ export default function Profile() {
 				<ProfileMenuItemContent $isVisible={activeMenuItem[4]}>
 					{renderCarousel(
 						likedBooks,
-						'Liked Books',
+						'',
 						likedBooksLoading
 					)}
 				</ProfileMenuItemContent>
@@ -394,7 +442,7 @@ export default function Profile() {
 				<ProfileMenuItemContent $isVisible={activeMenuItem[5]}>
 					{renderCarousel(
 						recommendations,
-						'Recommended for You',
+						'',
 						loading
 					)}
 				</ProfileMenuItemContent>

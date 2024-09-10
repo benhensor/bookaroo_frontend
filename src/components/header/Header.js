@@ -65,7 +65,7 @@ export default function Header() {
 						<SignInButton
 							to='/login'
 						>
-							Login
+							Sign In
 						</SignInButton>
 					)}
 				</UserControls>

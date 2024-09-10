@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import '../fonts/fonts.css'
 
 const GlobalStyles = createGlobalStyle`
@@ -27,6 +27,7 @@ const GlobalStyles = createGlobalStyle`
     --white: #fff;
     --offWhite: #f8f9fa;
     --black: #000;
+    --selected: #d0ba14;
     --danger: #ff4d4d;
     --dangerDk: #cc0000;
     --softRed: #cc000050;
@@ -139,8 +140,6 @@ const GlobalStyles = createGlobalStyle`
   width: 100%;
   padding: var(--sm);
   font-size: clamp(1.4rem, 2vw, 1.6rem);
-  border: 1px solid #ccc;
-  border-radius: var(--xs);
   transition: border-color 0.3s ease; /* Smooth transition for border color */
   
   &:focus {
@@ -191,6 +190,66 @@ const GlobalStyles = createGlobalStyle`
       padding: var(--sm);
     }
   }
+`
+
+export const Form = styled.form`
+	display: flex;
+	flex-direction: column;
+	gap: var(--sm);
+	margin: var(--sm) auto;
+	overflow-x: hidden;
+	width: 100%;
+`
+
+export const InputGroup = styled.div`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: var(--sm);
+	&:last-of-type {
+		margin-bottom: var(--lg);
+	}
+`
+
+export const CheckContainer = styled.div`
+	position: absolute;
+	right: var(--sm);
+	top: calc(50% + 0.25rem);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+export const Label = styled.label`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: var(--sm);
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	margin-bottom: var(--xs);
+	overflow: hidden;
+`
+
+export const Input = styled.input`
+	width: 100%;
+	padding: var(--sm);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	border-bottom: 3px solid var(--dkGreen);
+	transition: var(--fast);
+	&:focus {
+		outline: none;
+		border-bottom: 3px solid var(--selected);
+	}
+	&.valid {
+		border-bottom: 3px solid var(--accentGreen);
+	}
+	&.error {
+		border-bottom: 3px solid var(--softRed);
+	}
+	&.error::placeholder {
+		color: var(--softRed);
+	}
 `
 
 export default GlobalStyles

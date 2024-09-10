@@ -19,7 +19,7 @@ export default function Genre({ name, isSelected, onSelect }) {
 			<GenreContainer onClick={handleSelect} $isActive={isActive}>
 				<InnerContainer>
 					<Name>{name}</Name>
-					<Check isactive={isActive} />
+					<Check isActive={isActive} />
 				</InnerContainer>
 			</GenreContainer>
 		</>

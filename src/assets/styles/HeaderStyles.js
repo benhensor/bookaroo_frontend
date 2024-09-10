@@ -107,7 +107,7 @@ export const SignInButton = styled(Link)`
 	padding: var(--xs) var(--md);
 	border-radius: var(--xs);
 	text-decoration: none;
-	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	font-size: clamp(1.4rem, 2vw, 1.4rem);
 	transition: var(--fast);
 	&:hover {
 		background-color: var(--accentGreen);

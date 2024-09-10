@@ -22,7 +22,7 @@ export const Content = styled.div`
 	align-items: center;
 	gap: var(--lg);
 	@media only screen and (max-width: 768px) {
-    max-width: 30rem;
+		max-width: 30rem;
 		gap: var(--md);
 	}
 `
@@ -33,6 +33,15 @@ export const P = styled.p`
 	display: flex;
 `
 
+export const Form = styled.form`
+	display: flex;
+	flex-direction: column;
+	gap: var(--sm);
+	margin: var(--sm) auto;
+	overflow-x: hidden;
+	width: 100%;
+`
+
 export const InputGroup = styled.div`
 	position: relative;
 	display: flex;
@@ -41,40 +50,46 @@ export const InputGroup = styled.div`
 	&:last-of-type {
 		margin-bottom: var(--lg);
 	}
-	label {
-		display: flex;
-		width: 100%;
-		flex-direction: column;
-		gap: var(--sm);
-		font-size: clamp(1rem, 2vw, 1.2rem);
-		margin-bottom: var(--xs);
-		overflow: hidden;
+`
+
+export const CheckContainer = styled.div`
+	position: absolute;
+	right: var(--sm);
+	top: calc(50% + 0.25rem);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+export const Label = styled.label`
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	gap: var(--sm);
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	margin-bottom: var(--xs);
+	overflow: hidden;
+`
+
+export const Input = styled.input`
+	width: 100%;
+	padding: var(--sm);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	border-bottom: 3px solid var(--dkGreen);
+	transition: var(--fast);
+	&:focus {
+		outline: none;
+		border-bottom: 3px solid var(--selected);
 	}
-
-	input {
-		width: 100%;
-		padding: var(--sm);
-		font-size: clamp(1.4rem, 2vw, 1.6rem);
-		border: 1px solid #ccc;
-		border-radius: var(--xs);
-		transition: border-color 0.3s ease; /* Smooth transition for border color */
-
-		&:focus {
-			outline: none;
-			border-color: var(--accentGreen); /* Default focus state color */
-		}
-
-		&.valid {
-			border-color: var(--accentGreen); /* Valid state */
-		}
-
-		&.error {
-			border-color: var(--softRed); /* Error state */
-		}
-
-		&.error::placeholder {
-			color: var(--softRed); /* Error state placeholder color */
-		}
+	&.valid {
+		border-bottom: 3px solid var(--accentGreen);
+	}
+	&.error {
+		border-bottom: 3px solid var(--softRed);
+	}
+	&.error::placeholder {
+		color: var(--softRed);
 	}
 `
 
@@ -88,8 +103,8 @@ export const Error = styled.p`
 	color: var(--danger);
 `
 
-export const Button = styled.button`
-  width: 100%;
+export const RegisterButton = styled.button`
+	width: 100%;
 	background-color: var(--dkGreen);
 	color: var(--white);
 	padding: var(--sm) var(--md);
@@ -101,7 +116,7 @@ export const Button = styled.button`
 	cursor: pointer;
 	&:hover {
 		background-color: var(--accentLtGreen);
-    color: var(--blkGreen);
+		color: var(--blkGreen);
 	}
 `
 
@@ -109,7 +124,7 @@ export const StyledLink = styled(Link)`
 	text-decoration: none;
 	color: var(--dkGreen);
 	font-size: inherit;
-  cursor: pointer;
+	cursor: pointer;
 	transition: var(--fast);
 	&:hover {
 		color: var(--accentGreen);

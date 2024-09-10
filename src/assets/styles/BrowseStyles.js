@@ -58,9 +58,25 @@ export const SearchBar = styled.div`
 `
 
 export const SearchInput = styled.input`
-	max-width: 50rem;
-	padding-right: 2.5rem; 
-	border-radius: none;
+	width: 100%;
+	padding: var(--sm);
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	border: none;
+	border-bottom: 3px solid var(--dkGreen);
+	transition: var(--fast);
+	&:focus {
+		outline: none;
+		border-bottom: 3px solid var(--selected);
+	}
+	&.valid {
+		border-bottom: 3px solid var(--accentGreen);
+	}
+	&.error {
+		border-bottom: 3px solid var(--softRed);
+	}
+	&.error::placeholder {
+		color: var(--softRed);
+	}
 `
 
 export const SearchResults = styled.div`

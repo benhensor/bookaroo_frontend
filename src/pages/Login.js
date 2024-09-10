@@ -3,13 +3,18 @@ import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { loginSchema } from '../schemas/index'
+import Check from '../icons/Check'
 import {
 	Container,
 	Content,
 	P,
+	Form,
 	InputGroup,
+	CheckContainer,
+	Label,
+	Input,
 	Error,
-	Button,
+	RegisterButton,
 	StyledLink
 } from '../assets/styles/RegisterLoginStyles'
 
@@ -40,7 +45,7 @@ const Login = () => {
 		<Container>
 			<Content>
 				<h1>Login</h1>
-				<form onSubmit={handleSubmit} method="post" autoComplete="off">
+				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"
 						name="hidden"
@@ -48,8 +53,8 @@ const Login = () => {
 						style={{ display: 'none' }}
 					/>
 					<InputGroup>
-						<label htmlFor="email">Email</label>
-						<input
+						<Label htmlFor="email">Email</Label>
+						<Input
 							id="email"
 							type="email"
 							value={values.email || ''}
@@ -64,13 +69,16 @@ const Login = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.email && !errors.email} />
+						</CheckContainer>
 						{errors.email && touched.email && (
 							<Error className="error">{errors.email}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<label htmlFor="password">Password</label>
-						<input
+						<Label htmlFor="password">Password</Label>
+						<Input
 							id="password"
 							type="password"
 							value={values.password || ''}
@@ -85,16 +93,19 @@ const Login = () => {
 									: ''
 							}
 						/>
+						<CheckContainer>
+							<Check isActive={touched.password && !errors.password} />
+						</CheckContainer>
 						{errors.password && touched.password && (
 							<Error className="error">{errors.password}</Error>
 						)}
 					</InputGroup>
-					<Button
+					<RegisterButton
 						type='submit'
 					>
 						Login
-					</Button>
-				</form>
+					</RegisterButton>
+				</Form>
 				<P>
 					Don't have an account? &nbsp;
 					<StyledLink to="/register">
