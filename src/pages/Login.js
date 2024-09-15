@@ -68,6 +68,7 @@ const Login = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.email && !errors.email} />
@@ -92,6 +93,7 @@ const Login = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.password && !errors.password} />

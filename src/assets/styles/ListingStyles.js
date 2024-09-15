@@ -178,8 +178,8 @@ export const ListOfListings = styled.div`
 		position: relative;
 		display: flex;
 		justify-content: flex-start;
-		align-items: center;
-		padding: var(--sm) var(--md);
+		height: 100%;
+		padding: var(--sm) 0;
 		border-bottom: 1px solid var(--ltGreen);
 		transition: var(--fast);
 		&:last-child {
@@ -187,20 +187,21 @@ export const ListOfListings = styled.div`
 		}
 		&:hover {
 			background-color: var(--ltGreenHover);
-			button {
-				display: block;
-			}
 		}
 		img {
-			width: 5.6rem;
-			height: 5.6rem;
+			width: 6rem;
+			height: auto;
 			object-fit: cover;
-			border-radius: 50%;
-			margin-right: var(--lg);
+			margin-right: var(--md);
 		}
-    div {
+    .outer {
       display: flex;
       flex-direction: column;
+			justify-content: space-around;
+			.inner {
+				display: flex;
+				flex-direction: column;
+			}
       p {
         font-size: clamp(1.2rem, 2vw, 1.4rem);
         color: var(--blkGreen);
@@ -214,20 +215,14 @@ export const ListOfListings = styled.div`
       }
     }
     button {
-      display: none;
-      position: absolute;
-      right: var(--md);
+			display: flex;
       background: none;
       border: none;
       cursor: pointer;
-      color: var(--dangerDk);
-      font-size: clamp(1.2rem, 2vw, 1.4rem);
+      color: var(--danger);
+      font-size: clamp(1rem, 2vw, 1.2rem);
       &:hover {
-        color: var(--danger);
-      }
-      @media only screen and (max-width: 450px) {
-        display: block;
-        bottom: var(--md);
+        color: var(--dangerDk);
       }
     }
 	}

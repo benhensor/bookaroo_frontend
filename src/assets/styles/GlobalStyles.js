@@ -232,7 +232,7 @@ export const Label = styled.label`
 
 export const Input = styled.input`
 	width: 100%;
-	padding: var(--sm);
+	padding: var(--sm) 0;
 	font-size: clamp(1.4rem, 2vw, 1.6rem);
 	border: none;
 	border-bottom: 3px solid var(--dkGreen);

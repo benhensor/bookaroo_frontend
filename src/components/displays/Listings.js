@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useBooks } from '../../context/BooksContext'
 import axios from 'axios'
 import ActionButton from '../buttons/ActionButton'
-import Close from '../../icons/Close'
+import { categories } from '../../utils/categories'
 import {
 	ListingsContainer,
 	ListingsHeader,
@@ -56,23 +56,6 @@ export default function Listings() {
 		})
 	}, [user])
 
-	const genres = [
-		'Mystery',
-		'Comedy',
-		'Romance',
-		'Science Fiction',
-		'Fantasy',
-		'Thriller/Suspense',
-		'Historical Fiction',
-		'Young Adult',
-		'Horror',
-		'Fiction',
-		'Non-Fiction',
-		'Biography & Autobiography',
-		'History',
-		'Politics',
-	]
-
 	// Reset state on component mount
 	useEffect(() => {
 		handleReset()
@@ -81,9 +64,10 @@ export default function Listings() {
 	const handleSearch = async (e) => {
 		e.preventDefault()
 		try {
+			const safeSearchTerm = encodeURIComponent(searchTerm.trim())
 			const response = await axios.get(
 				`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
-					searchTerm
+					safeSearchTerm
 				)}&country=UK`
 			)
 			setBookResults(response.data.items || [])
@@ -101,10 +85,10 @@ export default function Listings() {
 	}
 
 	const ensureHttps = (url) => {
-		if (url.startsWith('http:')) {
+		if (url && url.startsWith('http:')) {
 			return url.replace('http:', 'https:')
 		}
-		return url
+		return url || ''
 	}
 
 	const handleSelectBook = async (e) => {
@@ -164,19 +148,23 @@ export default function Listings() {
 		if (
 			!bookData.title ||
 			!bookData.condition ||
-			!bookData.category.length
+			!bookData.category
 		) {
 			setError('Please fill in all required fields.')
 			return
 		}
 
-		const response = await createListing(bookData)
+		try {
+			const response = await createListing(bookData)
 
-		if (response.success) {
-			setMessage('Book listed successfully!')
-			handleReset()
-		} else {
-			setError(response.message || 'An error occurred. Please try again.')
+			if (response.success) {
+				setMessage('Book listed successfully!')
+				handleReset()
+			} else {
+				setError(response.message || 'An error occurred. Please try again.')
+			}
+		} catch (error) {
+			setError('Failed to create the listing, please try again later.')
 		}
 	}
 
@@ -191,17 +179,20 @@ export default function Listings() {
 						{books.map((book) => (
 							<li key={book.id}>
 								<img src={book.coverImg} alt={book.title} />
-								<div>
-									<p>{book.title}</p>
-									<span>{book.author}</span>
+								<div className='outer'>
+									<div className='inner'>
+										<p>{book.title}</p>
+										<span>{book.author}</span>
+									</div>
+									<button
+										onClick={() => {
+											deleteListing(book.id)
+										}}
+										aria-label={`Delete listing of ${book.title}`}
+									>
+										Delete
+									</button>
 								</div>
-								<button
-									onClick={() => {
-										deleteListing(book.id)
-									}}
-								>
-									<Close />
-								</button>
 							</li>
 						))}
 					</ul>
@@ -227,11 +218,12 @@ export default function Listings() {
 							value={searchTerm}
 							placeholder="Search by title, author, or ISBN"
 							onChange={(e) => setSearchTerm(e.target.value)}
+							aria-label="Search for a book by title, author, or ISBN"
 						/>
 						<ActionButton text="Search" />
 					</label>
-					{error && <ErrorMessage>{error}</ErrorMessage>}
-					{message && <SuccessMessage>{message}</SuccessMessage>}
+					{error && <ErrorMessage role='alert'>{error}</ErrorMessage>}
+					{message && <SuccessMessage role='alert'>{message}</SuccessMessage>}
 				</Form>
 			</Block>
 
@@ -251,6 +243,7 @@ export default function Listings() {
 										  )?.id
 										: ''
 								}
+								aria-label='Select a book'
 							>
 								<option value="">Select a Book</option>
 								{bookResults.map((book) => (
@@ -281,16 +274,17 @@ export default function Listings() {
 									</span>
 								</p>
 								<label>
-									Genre:
+									Category:
 									<select
 										name="category"
 										value={bookData.category[0] || ''}
 										onChange={handleInputChange}
+										aria-label='Select category'
 									>
-										<option value="">Select Genre</option>
-										{genres.map((genre) => (
-											<option key={genre} value={genre}>
-												{genre}
+										<option value="">Select Category</option>
+										{categories.map((category) => (
+											<option key={category} value={category}>
+												{category}
 											</option>
 										))}
 									</select>
@@ -302,6 +296,7 @@ export default function Listings() {
 										value={bookData.condition}
 										onChange={handleInputChange}
 										required
+										aria-label='Select condition'
 									>
 										<option value="none" defaultValue>
 											Select Condition
@@ -320,6 +315,7 @@ export default function Listings() {
 										onChange={handleInputChange}
 										placeholder="Any additional information about the book?"
 										required
+										aria-label='Enter any additional notes'
 									/>
 								</label>
 								<ActionButton text="Submit" />

@@ -69,6 +69,7 @@ const Register = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.email && !errors.email} />
@@ -93,6 +94,7 @@ const Register = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.username && !errors.username} />
@@ -117,6 +119,7 @@ const Register = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.postcode && !errors.postcode} />
@@ -141,6 +144,7 @@ const Register = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.password && !errors.password} />
@@ -165,6 +169,7 @@ const Register = () => {
 										: 'valid'
 									: ''
 							}
+							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
 							<Check isActive={touched.confirmPassword && !errors.confirmPassword} />

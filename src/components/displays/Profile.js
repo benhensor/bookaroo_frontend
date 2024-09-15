@@ -163,12 +163,13 @@ export default function Profile() {
 		}
 
 		updateUserPreferences(selectedPreferences)
-			.then(() => {
-				console.log('Preferences saved') // Debugging log
-			})
-			.catch((error) => {
-				console.error('Error saving preferences:', error)
-			})
+			// .then(() => {
+			// 	console.log('Preferences saved') // Debugging log
+			// })
+			// .catch((error) => {
+			// 	console.error('Error saving preferences:', error)
+			// })
+		toggleMenuItem(1)
 	}, [selectedPreferences, updateUserPreferences, user])
 
 	const toggleMessage = (messageId) => {
