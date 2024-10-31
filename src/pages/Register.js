@@ -45,11 +45,11 @@ const Register = () => {
 	return (
 		<Container>
 			<Content>
+				<h1>Register</h1>
 				<h2>Instructions</h2>
 				<p>
 					Feel free to register with a fake email address and username however, please use a valid UK postcode as this will be used to indicate your location relative to other users.
 				</p>
-				<h1>Register</h1>
 				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Container = styled.div`
-	margin-top: 11.2rem;
+	margin-top: 5.8rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -11,14 +11,13 @@ export const Container = styled.div`
 	@media only screen and (max-width: 768px) {
 		margin-top: 5.6rem;
 	}
-`
+	`
 
 export const Content = styled.div`
 	width: 100%;
 	max-width: 40rem;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	gap: var(--lg);
 	overflow-y: auto;
