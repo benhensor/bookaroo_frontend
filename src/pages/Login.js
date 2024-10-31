@@ -45,6 +45,16 @@ const Login = () => {
 		<Container>
 			<Content>
 				<h1>Login</h1>
+				<h2>Instructions</h2>
+				<p>
+					A number of fake accounts have been created for demonstration purposes. If you would prefer to use one of these instead of creating your own, please use the following credentials:
+				</p>
+				<p>
+					<strong>paige123@geemail.com</strong>
+				</p>
+				<p>
+					<strong>Test123!</strong>
+				</p>
 				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"

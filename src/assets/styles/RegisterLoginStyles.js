@@ -130,3 +130,9 @@ export const StyledLink = styled(Link)`
 		color: var(--accentGreen);
 	}
 `
+
+export const Note = styled.p`
+	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	font-weight: 700;
+	color: var(--dangerDk);
+`

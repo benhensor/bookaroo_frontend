@@ -45,6 +45,10 @@ const Register = () => {
 	return (
 		<Container>
 			<Content>
+				<h2>Instructions</h2>
+				<p>
+					Feel free to register with a fake email address and username hoever, please use a valid UK postcode as this will be used to indicate your location relative to other users.
+				</p>
 				<h1>Register</h1>
 				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
@@ -97,7 +101,9 @@ const Register = () => {
 							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
-							<Check isActive={touched.username && !errors.username} />
+							<Check
+								isActive={touched.username && !errors.username}
+							/>
 						</CheckContainer>
 						{errors.username && touched.username && (
 							<Error className="error">{errors.username}</Error>
@@ -122,7 +128,9 @@ const Register = () => {
 							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
-							<Check isActive={touched.postcode && !errors.postcode} />
+							<Check
+								isActive={touched.postcode && !errors.postcode}
+							/>
 						</CheckContainer>
 						{errors.postcode && touched.postcode && (
 							<Error className="error">{errors.postcode}</Error>
@@ -147,7 +155,9 @@ const Register = () => {
 							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
-							<Check isActive={touched.password && !errors.password} />
+							<Check
+								isActive={touched.password && !errors.password}
+							/>
 						</CheckContainer>
 						{errors.password && touched.password && (
 							<Error className="error">{errors.password}</Error>
@@ -172,7 +182,12 @@ const Register = () => {
 							style={{ paddingLeft: 'var(--sm)' }}
 						/>
 						<CheckContainer>
-							<Check isActive={touched.confirmPassword && !errors.confirmPassword} />
+							<Check
+								isActive={
+									touched.confirmPassword &&
+									!errors.confirmPassword
+								}
+							/>
 						</CheckContainer>
 						{errors.confirmPassword && touched.confirmPassword && (
 							<Error className="error">
