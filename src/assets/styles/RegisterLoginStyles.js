@@ -21,6 +21,7 @@ export const Content = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: var(--lg);
+	overflow-y: auto;
 	@media only screen and (max-width: 768px) {
 		max-width: 30rem;
 		gap: var(--md);
