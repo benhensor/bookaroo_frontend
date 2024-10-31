@@ -18,6 +18,7 @@ import {
 	Error,
 	RegisterButton,
 	StyledLink,
+	Instruction,
 } from '../assets/styles/RegisterLoginStyles'
 
 const Register = () => {
@@ -46,10 +47,9 @@ const Register = () => {
 		<Container>
 			<Content>
 				<h1>Register</h1>
-				<h2>Instructions</h2>
-				<p>
+				<Instruction>
 					Feel free to register with a fake email address and username however, please use a valid UK postcode as this will be used to indicate your location relative to other users.
-				</p>
+				</Instruction>
 				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
 					<input
 						autoComplete="off"

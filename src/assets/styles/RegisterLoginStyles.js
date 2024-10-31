@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Container = styled.div`
-	margin-top: 5.8rem;
+	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -20,7 +20,6 @@ export const Content = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: var(--lg);
-	overflow-y: auto;
 	@media only screen and (max-width: 768px) {
 		max-width: 30rem;
 		gap: var(--md);
@@ -132,7 +131,13 @@ export const StyledLink = styled(Link)`
 `
 
 export const Note = styled.p`
-	font-size: clamp(1.4rem, 2vw, 1.6rem);
+	font-size: clamp(1.2rem, 2vw, 1.6rem);
 	font-weight: 700;
 	color: var(--dangerDk);
+`
+
+export const Instruction = styled.p`
+	font-size: clamp(1.2rem, 2vw, 1.6rem);
+	font-weight: 700;
+	color: var(--dkGreen);
 `
