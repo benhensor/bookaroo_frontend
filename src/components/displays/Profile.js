@@ -75,6 +75,7 @@ export default function Profile() {
 			},
 			validationSchema: registerSchema,
 			onSubmit: () => {
+				console.log('Form submitted', values)
 				handleSaveUserDetails()
 			},
 		})
@@ -126,7 +127,7 @@ export default function Profile() {
 			console.log('Form has validation errors')
 			return
 		}
-
+		console.log('Form is valid', values)
 		updateUserDetails(values)
 			.then(() => {
 				console.log('User details updated successfully')
@@ -248,7 +249,7 @@ export default function Profile() {
 	}
 
 	const unreadMessagesCount =
-		messages?.filter((message) => !message.isRead).length || 0
+		messages?.filter((message) => !message.is_read).length || 0
 
 	return (
 		<ProfileContainer>

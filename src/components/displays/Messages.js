@@ -54,7 +54,7 @@ export default function Messages() {
 		)
 	}
 	
-	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+	const unreadMessagesCount = messages?.filter(message => !message.is_read).length || 0
 
 
 

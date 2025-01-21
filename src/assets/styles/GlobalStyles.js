@@ -66,7 +66,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   html {
-    user-select: none;
+    // user-select: none;
     font-size: 62.5%;
     height: -webkit-fill-available;
     scroll-behavior: smooth;

@@ -31,14 +31,14 @@ export default function BookDetail({ book }) {
 	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
-				const owner = await getUserById(book.userId)
+				const owner = await getUserById(book.user_id)
 				setBookOwner(owner)
 			} catch (error) {
 				console.error('Error fetching book owner:', error)
 			}
 		}
 
-		if (book?.userId) {
+		if (book?.user_id) {
 			fetchBookOwner()
 		}
 	}, [book, getUserById])
@@ -80,7 +80,7 @@ export default function BookDetail({ book }) {
 			<Row>
 				<BookDetailsContainer>
 					<BookPreview>
-						<BookCover src={book.coverImg} alt={book.title} />
+						<BookCover src={book.cover_img} alt={book.title} />
 					</BookPreview>
 					<BookInfoContainer>
 						<div>
@@ -93,7 +93,7 @@ export default function BookDetail({ book }) {
 								<p>
 									Published:{' '}
 									{new Date(
-										book.publishedDate
+										book.published_date
 									).toLocaleDateString('en-US', {
 										year: 'numeric',
 										month: 'long',
@@ -103,7 +103,7 @@ export default function BookDetail({ book }) {
 								<p>{book.publisher}</p>
 							</BookInfo>
 						</div>
-						{user.id !== book.userId ? (
+						{user.id !== book.user_id ? (
 							bookOwner && (
 								<OwnersNotes>
 									<h3>{bookOwner.username}'s Notes</h3>

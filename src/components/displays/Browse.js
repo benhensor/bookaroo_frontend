@@ -29,7 +29,7 @@ export default function Browse() {
 	const ref = useRef(null)
 	const resultsRef = useRef(null)
 
-	const booksFiltered = allBooks.filter((book) => book.userId !== user.id)
+	const booksFiltered = allBooks.filter((book) => book.user_id !== user.id)
 
 	// Check if the user is scrolling (for styling purposes)
 	useEffect(() => {
@@ -70,22 +70,26 @@ export default function Browse() {
 	const getUniqueCategories = (booksFiltered) => {
 		const categories = new Set()
 		booksFiltered.forEach((book) => {
-			if (Array.isArray(book.category)) {
-				book.category.forEach((cat) => categories.add(cat))
-			} else {
-				categories.add(book.category)
-			}
+				// Ensure book.category is treated as an array
+				const bookCategories = Array.isArray(book.category) 
+						? book.category 
+						: JSON.parse(book.category)
+				
+				// Add each individual category to the Set
+				bookCategories.forEach(cat => categories.add(cat))
 		})
 		return Array.from(categories)
 	}
 
 	// Filter books by category
 	const getBooksByCategory = (category) => {
-		return booksFiltered.filter((book) =>
-			Array.isArray(book.category)
-				? book.category.includes(category)
-				: book.category === category
-		)
+		return booksFiltered.filter((book) => {
+			const bookCategories = Array.isArray(book.category)
+				? book.category
+				: JSON.parse(book.category)
+
+			return bookCategories.includes(category)
+		})
 	}
 
 	const uniqueCategories = getUniqueCategories(booksFiltered)

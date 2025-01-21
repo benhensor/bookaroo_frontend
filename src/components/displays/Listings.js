@@ -25,15 +25,15 @@ export default function Listings() {
 
 	const [bookData, setBookData] = useState({
 		isbn: '',
-		coverImg: '',
+		cover_img: '',
 		title: '',
 		author: '',
-		publishedDate: '',
+		published_date: '',
 		publisher: '',
 		category: '',
 		condition: '',
 		notes: '',
-		userId: user?.id || '',
+		user_id: user?.id || '',
 	})
 
 	const handleReset = useCallback(() => {
@@ -44,15 +44,15 @@ export default function Listings() {
 		setError('')
 		setBookData({
 			isbn: '',
-			coverImg: '',
+			cover_img: '',
 			title: '',
 			author: '',
-			publishedDate: '',
+			published_date: '',
 			publisher: '',
 			category: '',
 			condition: '',
 			notes: '',
-			userId: user?.id || '',
+			user_id: user?.id || '',
 		})
 	}, [user])
 
@@ -108,7 +108,7 @@ export default function Listings() {
 				setIsbn(isbnValue)
 				setBookData({
 					isbn: isbnValue || '',
-					coverImg: ensureHttps(
+					cover_img: ensureHttps(
 						detailedBook.volumeInfo.imageLinks.extraLarge ||
 							detailedBook.volumeInfo.imageLinks.large ||
 							detailedBook.volumeInfo.imageLinks.medium ||
@@ -118,12 +118,12 @@ export default function Listings() {
 					),
 					title: detailedBook.volumeInfo.title || '',
 					author: detailedBook.volumeInfo.authors?.join(', ') || '',
-					publishedDate: detailedBook.volumeInfo.publishedDate || '',
+					published_date: detailedBook.volumeInfo.published_date || '',
 					publisher: detailedBook.volumeInfo.publisher || '',
 					category: bookData.category || '',
 					condition: '',
 					notes: '',
-					userId: user?.id || '',
+					user_id: user?.id || '',
 				})
 				setError('') 
 			} catch (error) {
@@ -178,7 +178,7 @@ export default function Listings() {
 					<ul>
 						{books.map((book) => (
 							<li key={book.id}>
-								<img src={book.coverImg} alt={book.title} />
+								<img src={book.cover_img} alt={book.title} />
 								<div className='outer'>
 									<div className='inner'>
 										<p>{book.title}</p>
@@ -262,7 +262,7 @@ export default function Listings() {
 								{isbn && (
 									<>
 										<img
-											src={bookData.coverImg}
+											src={bookData.cover_img}
 											alt={bookData.title}
 										/>
 									</>

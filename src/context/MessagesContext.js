@@ -65,27 +65,27 @@ export const MessagesProvider = ({ children }) => {
 
 	// Fetch a single message by its ID
 	const deleteMessage = useMutation(
-		async (messageId) => {
+		async (message_id) => {
 			await axios.delete(
-				`${process.env.REACT_APP_API_URL}/api/messages/delete/${messageId}`,
+				`${process.env.REACT_APP_API_URL}/api/messages/delete/${message_id}`,
 				{
 					withCredentials: true,
 				}
 			)
 		},
 		{
-			onMutate: async (messageId) => {
+			onMutate: async (message_id) => {
 				await queryClient.cancelQueries('messages')
 				const previousMessages = queryClient.getQueryData('messages')
 
 				queryClient.setQueryData('messages', (old) => {
 					if (!old) return []
-					return old.filter((message) => message.id !== messageId)
+					return old.filter((message) => message.id !== message_id)
 				})
 
 				return { previousMessages }
 			},
-			onError: (err, messageId, context) => {
+			onError: (err, message_id, context) => {
 				queryClient.setQueryData(
 					'messages',
 					context.previousMessages || []
@@ -99,9 +99,9 @@ export const MessagesProvider = ({ children }) => {
 
 	// Mutation to mark a message as read
 	const markAsRead = useMutation(
-		async (messageId) => {
+		async (message_id) => {
 			await axios.put(
-				`${process.env.REACT_APP_API_URL}/api/messages/mark/${messageId}`,
+				`${process.env.REACT_APP_API_URL}/api/messages/mark/${message_id}`,
 				{},
 				{
 					withCredentials: true,
@@ -109,22 +109,22 @@ export const MessagesProvider = ({ children }) => {
 			)
 		},
 		{
-			onMutate: async (messageId) => {
+			onMutate: async (message_id) => {
 				await queryClient.cancelQueries('messages')
 				const previousMessages = queryClient.getQueryData('messages')
 
 				queryClient.setQueryData('messages', (old) => {
 					if (!old) return []
 					return old.map((message) =>
-						message.id === messageId
-							? { ...message, isRead: true }
+						message.id === message_id
+							? { ...message, is_read: true }
 							: message
 					)
 				})
 
 				return { previousMessages }
 			},
-			onError: (err, messageId, context) => {
+			onError: (err, message_id, context) => {
 				queryClient.setQueryData(
 					'messages',
 					context.previousMessages || []
@@ -138,9 +138,9 @@ export const MessagesProvider = ({ children }) => {
 
 	// Mutation to mark a message as unread
 	const markAsUnread = useMutation(
-		async (messageId) => {
+		async (message_id) => {
 			await axios.put(
-				`${process.env.REACT_APP_API_URL}/api/messages/unread/${messageId}`,
+				`${process.env.REACT_APP_API_URL}/api/messages/unread/${message_id}`,
 				{},
 				{
 					withCredentials: true,
@@ -148,7 +148,7 @@ export const MessagesProvider = ({ children }) => {
 			)
 		},
 		{
-			onMutate: async (messageId) => {
+			onMutate: async (message_id) => {
 				await queryClient.cancelQueries('messages')
 				const previousMessages = queryClient.getQueryData('messages')
 
@@ -157,15 +157,15 @@ export const MessagesProvider = ({ children }) => {
 				queryClient.setQueryData('messages', (old = []) => {
 					if (!old) return []
 					return old.map((message) =>
-						message.id === messageId
-							? { ...message, isRead: false }
+						message.id === message_id
+							? { ...message, is_read: false }
 							: message
 					)
 				})
 
 				return { previousMessages }
 			},
-			onError: (err, messageId, context) => {
+			onError: (err, message_id, context) => {
 				queryClient.setQueryData(
 					'messages',
 					context.previousMessages || []

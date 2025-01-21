@@ -26,11 +26,11 @@ export default function Thumbnail({ book }) {
 	const [hasContacted, setHasContacted] = useState(false)
 
 	useEffect(() => {
-		if (book) {
+		if (book) {	
 			const userLat = user?.latitude
 			const userLon = user?.longitude
-			const listingLat = book.bookLatitude
-			const listingLon = book.bookLongitude
+			const listingLat = book.book_latitude
+			const listingLon = book.book_longitude
 			setDistance(calcDistance(userLat, userLon, listingLat, listingLon))
 		}
 	}, [book, user])
@@ -40,7 +40,7 @@ export default function Thumbnail({ book }) {
 		if (messagesAll && book) {
 			const contacted = messagesAll.some(
 				(message) =>
-					message.senderId === user.id && message.bookId === book.id
+					message.sender_id === user.id && message.book_id === book.id
 			)
 			setHasContacted(contacted)
 		} else {
@@ -75,8 +75,8 @@ export default function Thumbnail({ book }) {
 			>
 				<BookCoverContainer>
 					<BookCover>
-						<img src={book.coverImg} alt={book.title} />
-						{user.id !== book.userId && (
+						<img src={book.cover_img} alt={book.title} />
+						{user.id !== book.user_id && (
 							<Heart
 								bookId={book.id}
 								onClick={(e) => e.stopPropagation()}
@@ -86,7 +86,7 @@ export default function Thumbnail({ book }) {
 							<ContactedSash>Message Sent!</ContactedSash>
 						)}
 					</BookCover>
-					{user.id === book.userId && (
+					{user.id === book.user_id && (
 						<Controls $isHovered={isHovered}>
 							<ThumbnailButton
 								text="Delete"
@@ -95,7 +95,7 @@ export default function Thumbnail({ book }) {
 							/>
 						</Controls>
 					)}
-					{user.id !== book.userId && (
+					{user.id !== book.user_id && (
 						<Controls $isHovered={isHovered}>
 							<ButtonContainer>
 								<ThumbnailButton
@@ -111,7 +111,7 @@ export default function Thumbnail({ book }) {
 				<BookDetails id="book-details">
 					<h3>{book.title}</h3>
 					<p>{book.author}</p>
-					{user.id !== book.userId && (
+					{user.id !== book.user_id && (
 						<p>
 							<span>{distance}</span>&nbsp;miles away
 						</p>

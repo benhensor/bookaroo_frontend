@@ -12,11 +12,13 @@ const BooksContext = createContext()
 
 export const BooksProvider = ({ children }) => {
 	const { user, isAuthenticated } = useAuth()
+	const [loading, setLoading] = useState(true)
 	const [allBooks, setAllBooks] = useState([])
 	const [searchResults, setSearchResults] = useState([])
 	const [searchError, setSearchError] = useState(null)
 
 	const getAllBooks = useCallback(async () => {
+		setLoading(true)
 		try {
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/books/allbooks`,
@@ -33,33 +35,39 @@ export const BooksProvider = ({ children }) => {
 		} catch (error) {
 			console.error('Error fetching books:', error)
 			setAllBooks([])
+		} finally {
+			setLoading(false)
 		}
 	}, [])
 
 	useEffect(() => {
-		if (isAuthenticated) {
+		if (isAuthenticated && user?.id) {
 			getAllBooks()
 		}
-	}, [isAuthenticated, getAllBooks])
+	}, [isAuthenticated, user, getAllBooks])
 
 	const usersBooks = useMemo(
-		() => allBooks.filter((book) => book.userId === user?.id),
+		() => allBooks.filter((book) => book.user_id === user?.id),
 		[allBooks, user?.id]
 	)
 
 	const recommendations = useMemo(
-		() =>
-			user?.preferences && user.preferences.length > 0
-				? allBooks.filter(
-						(book) =>
-							book.userId !== user?.id &&
-							book.category.some((category) =>
-								user.preferences.includes(category)
-							)
-				  )
-				: [],
-		[allBooks, user?.id, user?.preferences]
-	)
+    () =>
+        user?.preferences && user.preferences.length > 0
+            ? allBooks.filter((book) => {
+                  // Parse JSON string to array
+                  const categories = Array.isArray(book.category) 
+                      ? book.category 
+                      : JSON.parse(book.category);
+                  
+                  return book.user_id !== user?.id &&
+                         categories.some(category => 
+                             user.preferences.includes(category)
+                         );
+              })
+            : [],
+    [allBooks, user?.id, user?.preferences]
+	);
 
 	const getBookById = useCallback(
 		(id) => {
@@ -70,21 +78,24 @@ export const BooksProvider = ({ children }) => {
 	)
 
 	const searchBooks = useCallback(
-		(query) => {
-			if (!query.trim()) return []
+    (query) => {
+        if (!query.trim()) return []
 
-			const lowercaseQuery = query.toLowerCase()
-			return allBooks.filter(
-				(book) =>
-					book.title.toLowerCase().includes(lowercaseQuery) ||
-					book.author.toLowerCase().includes(lowercaseQuery) ||
-					book.category.some((cat) =>
-						cat.toLowerCase().includes(lowercaseQuery)
-					)
-			)
-		},
-		[allBooks]
-	)
+        const lowercaseQuery = query.toLowerCase()
+        return allBooks.filter(book => {
+            const categories = Array.isArray(book.category) 
+                ? book.category 
+                : JSON.parse(book.category);
+            
+            return book.title.toLowerCase().includes(lowercaseQuery) ||
+                   book.author.toLowerCase().includes(lowercaseQuery) ||
+                   categories.some(cat => 
+                       cat.toLowerCase().includes(lowercaseQuery)
+                   );
+        })
+    },
+    [allBooks]
+	);
 
 	const createListing = async (listingData) => {
 		try {
@@ -145,7 +156,7 @@ export const BooksProvider = ({ children }) => {
 				createListing,
 				deleteListing,
 				refetchBooks: getAllBooks, 
-				loading: !allBooks.length && isAuthenticated, 
+				loading, 
 				error: null, 
 			}}
 		>

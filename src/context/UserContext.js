@@ -56,13 +56,13 @@ export const UserProvider = ({ children }) => {
 	}
 
 	// Fetch a user by their ID
-	const getUserById = async (userId) => {
+	const getUserById = async (user_id) => {
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_API_URL}/api/users/${userId}`,
+				`${process.env.REACT_APP_API_URL}/api/users/${user_id}`,
 				{
 					withCredentials: true,
-					params: { userId },
+					params: { user_id },
 				}
 			)
 			return response.data // Ensure the data is being returned
@@ -73,21 +73,22 @@ export const UserProvider = ({ children }) => {
 	}
 
 	// Fetch liked books based on the IDs in the user's `likedBooks` array
-	const fetchLikedBooks = async (userId) => {
-		try {
-			const response = await axios.get(
-				`${process.env.REACT_APP_API_URL}/api/users/liked`,
-				{
-					withCredentials: true,
-					params: { userId },
-				}
-			)
-			return response.data
-		} catch (error) {
-			console.error('Error fetching liked books:', error)
-			return []
-		}
-	}
+	const fetchLikedBooks = async () => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_API_URL}/api/users/liked`,
+            {
+                withCredentials: true,
+            }
+        );
+        console.log('Liked books response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Full error object:', error);
+        console.error('Error response:', error.response?.data);
+        return [];
+    }
+}
 
 	// Query to fetch liked books
 	const {
@@ -95,7 +96,7 @@ export const UserProvider = ({ children }) => {
 		isLoading: likedBooksLoading,
 		isError: likedBooksError,
 		refetch: refetchLikedBooks,
-	} = useQuery(['likedBooks', user?.id], fetchLikedBooks, {
+	} = useQuery(['likedBooks'], fetchLikedBooks, {
 		enabled: !!user, // Ensures the query only runs if a user is logged in
 		onSuccess: (data) => {
 		},
@@ -106,10 +107,10 @@ export const UserProvider = ({ children }) => {
 
 	// Mutation to like a book (add to likedBooks array)
 	const likeMutation = useMutation(
-    async (bookId) => {
+    async (book_id) => {
         await axios.put(
             `${process.env.REACT_APP_API_URL}/api/users/like`,
-            { bookId },
+            { book_id },
             { withCredentials: true }
         );
     },
@@ -123,10 +124,10 @@ export const UserProvider = ({ children }) => {
 
 	// Mutation to unlike a book (remove from likedBooks array)
 	const unlikeMutation = useMutation(
-    async (bookId) => {
+    async (book_id) => {
         await axios.put(
             `${process.env.REACT_APP_API_URL}/api/users/unlike`,
-            { bookId },
+            { book_id },
             { withCredentials: true }
         );
     },
@@ -138,8 +139,8 @@ export const UserProvider = ({ children }) => {
 		}
 	)
 
-	const likeBook = (bookId) => likeMutation.mutate(bookId)
-	const unlikeBook = (bookId) => unlikeMutation.mutate(bookId)
+	const likeBook = (book_id) => likeMutation.mutate(book_id)
+	const unlikeBook = (book_id) => unlikeMutation.mutate(book_id)
 
 	useEffect(() => {
 		if (user) {
