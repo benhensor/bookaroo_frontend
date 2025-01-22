@@ -1,9 +1,11 @@
 import React from 'react'
+import { Spacer } from '../assets/styles/GlobalStyles'
 import { Container, StyledLink } from '../assets/styles/HomeStyles'
 
 export default function Home() {
 	return (
 		<Container>
+			<Spacer />
 			<div>
 				<h1>Welcome to Bookaroo!</h1>
 				<p>A place to discover and exchange old books.</p>

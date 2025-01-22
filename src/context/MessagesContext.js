@@ -180,18 +180,19 @@ export const MessagesProvider = ({ children }) => {
 	// Mutation to send a new message
 	const sendMessage = useMutation(
 		async (messageData) => {
-			await axios.post(
-				`${process.env.REACT_APP_API_URL}/api/messages/send`,
-				messageData,
-				{
-					withCredentials: true,
-				}
-			)
-		},
-		{
-			onSettled: () => {
-				queryClient.invalidateQueries('messages')
-			},
+			try {
+				const response = await axios.post(
+					`${process.env.REACT_APP_API_URL}/api/messages/send`,
+					messageData,
+					{
+						withCredentials: true,
+					}
+				)
+				return response.data
+			} catch (error) {
+				console.error('Send message error:', error.response?.data || error.message)
+				throw error
+			}
 		}
 	)
 

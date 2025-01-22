@@ -61,10 +61,9 @@ export const UserProvider = ({ children }) => {
 	const getUserById = async (user_id) => {
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_API_URL}/api/users/${user_id}`,
+				`${process.env.REACT_APP_API_URL}/api/users/getuser/${user_id}`,
 				{
 					withCredentials: true,
-					params: { user_id },
 				}
 			)
 			return response.data // Ensure the data is being returned

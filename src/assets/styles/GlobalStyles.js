@@ -252,7 +252,7 @@ export const Input = styled.input`
 `
 
 export const Spacer = styled.div`
-  height: 6rem;
+  height: 8rem;
 `
 
 export default GlobalStyles

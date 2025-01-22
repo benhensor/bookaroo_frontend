@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { loginSchema } from '../schemas/index'
 import Check from '../icons/Check'
+import { Spacer } from '../assets/styles/GlobalStyles'
 import {
 	Container,
 	Content,
@@ -44,6 +45,7 @@ const Login = () => {
 
 	return (
 		<Container>
+			<Spacer />
 			<Content>
 				<h1>Login</h1>
 				<Instruction>

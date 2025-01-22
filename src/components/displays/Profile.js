@@ -222,9 +222,9 @@ export default function Profile() {
 								style={{ display: 'none' }}
 							/>
 							<InputGroup>
-								<Label htmlFor="username" >Username</Label>
+								<Label htmlFor="profileUsername" >Username</Label>
 								<Input
-									id='username'
+									id='profileUsername'
 									type="text"
 									name="username"
 									value={values.username || ''}
@@ -254,9 +254,9 @@ export default function Profile() {
 								</CheckContainer>
 							</InputGroup>
 							<InputGroup>
-								<Label htmlFor="email">Email</Label>
+								<Label htmlFor="profileEmail">Email</Label>
 								<Input
-									id='email'
+									id='profileEmail'
 									type="email"
 									name="email"
 									value={values.email || ''}
@@ -280,9 +280,9 @@ export default function Profile() {
 								</CheckContainer>
 							</InputGroup>
 							<InputGroup>
-								<Label htmlFor="postcode">Location</Label>
+								<Label htmlFor="profilePostcode">Location</Label>
 								<Input
-									id='postcode'
+									id='profilePostcode'
 									type="text"
 									name="postcode"
 									value={values.postcode || ''}

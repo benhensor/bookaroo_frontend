@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { registerSchema } from '../schemas/index'
 import Check from '../icons/Check'
+import { Spacer } from '../assets/styles/GlobalStyles'
 import {
 	Form,
 	InputGroup,
@@ -45,6 +46,7 @@ const Register = () => {
 
 	return (
 		<Container>
+			<Spacer />
 			<Content>
 				<h1>Register</h1>
 				<Instruction>
