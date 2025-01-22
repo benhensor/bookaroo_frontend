@@ -1,9 +1,18 @@
 import React from 'react'
+import { useMessages } from '../context/MessagesContext'
 import styled from 'styled-components'
 
 export default function Messages({ isActive }) {
+	const { messages } = useMessages()
+	const unreadMessagesCount =
+		messages?.filter((message) => !message.is_read).length || 0
 	return (
 		<Container $isactive={isActive}>
+			{unreadMessagesCount > 0 &&
+				<div className="unread-count">
+				{unreadMessagesCount}
+			</div>
+			}
 			<svg
 				width="800px"
 				height="800px"
@@ -20,6 +29,22 @@ const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
+	.unread-count {
+		position: absolute;
+		top: -0.5rem;
+		right: -0.5rem;
+		background-color: var(--dangerDk);
+		color: var(--white);
+		border-radius: 50%;
+		width: 2rem;
+		height: 2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: 'Centra', sans-serif;
+		font-size: 1.2rem;
+	}
 	svg {
 		width: 3rem;
 		height: 3rem;

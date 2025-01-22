@@ -44,6 +44,12 @@ export default function Carousel({ books = [], title }) {
 		})
 	}, [books])
 
+	const shuffledBooks = useMemo(() => {
+		if (title !== 'Your Listings' || title !== 'Recommended for You') {
+		return uniquebooks.sort(() => Math.random() - 0.5)
+		}
+	}, [uniquebooks, title])
+
 	useEffect(() => {
 		setCurrentIndex(0)
 		if (books.length === 0) {
@@ -128,7 +134,7 @@ export default function Carousel({ books = [], title }) {
 								$offset={currentIndex / booksPerPage}
 								$isEmpty={isEmpty}
 							>
-								{uniquebooks.map((book) => (
+								{shuffledBooks.map((book) => (
 									<BookPreview key={book.id}>
 										<Thumbnail book={book} />
 									</BookPreview>

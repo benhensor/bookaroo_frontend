@@ -4,6 +4,7 @@ import { useBooks } from '../../context/BooksContext'
 import axios from 'axios'
 import ActionButton from '../buttons/ActionButton'
 import { categories } from '../../utils/categories'
+import { Spacer } from '../../assets/styles/GlobalStyles'
 import {
 	ListingsContainer,
 	ListingsHeader,
@@ -31,7 +32,7 @@ export default function Listings() {
 		published_date: '',
 		publisher: '',
 		category: '',
-		condition: '',
+		book_condition: '',
 		notes: '',
 		user_id: user?.id || '',
 	})
@@ -50,7 +51,7 @@ export default function Listings() {
 			published_date: '',
 			publisher: '',
 			category: '',
-			condition: '',
+			book_condition: '',
 			notes: '',
 			user_id: user?.id || '',
 		})
@@ -104,7 +105,7 @@ export default function Listings() {
 					detailedBook.volumeInfo.industryIdentifiers?.find(
 						(id) => id.type === 'ISBN_13'
 					)?.identifier || ''
-
+				console.log('Detailed book info:', detailedBook)
 				setIsbn(isbnValue)
 				setBookData({
 					isbn: isbnValue || '',
@@ -118,10 +119,10 @@ export default function Listings() {
 					),
 					title: detailedBook.volumeInfo.title || '',
 					author: detailedBook.volumeInfo.authors?.join(', ') || '',
-					published_date: detailedBook.volumeInfo.published_date || '',
+					published_date: detailedBook.volumeInfo.publishedDate || '',
 					publisher: detailedBook.volumeInfo.publisher || '',
 					category: bookData.category || '',
-					condition: '',
+					book_condition: '',
 					notes: '',
 					user_id: user?.id || '',
 				})
@@ -142,31 +143,31 @@ export default function Listings() {
 		}))
 	}
 
+	// Modified Form submit handler in Listings.js
 	const handleSubmit = async (e) => {
-		e.preventDefault()
+    e.preventDefault();
+    console.log('Form submitted with data:', bookData);
 
-		if (
-			!bookData.title ||
-			!bookData.condition ||
-			!bookData.category
-		) {
-			setError('Please fill in all required fields.')
-			return
-		}
+    if (!bookData.title || !bookData.condition || !bookData.category) {
+        setError('Please fill in all required fields.');
+        return;
+    }
 
-		try {
-			const response = await createListing(bookData)
+    try {
+        const response = await createListing(bookData);
+        console.log('Create listing response:', response);
 
-			if (response.success) {
-				setMessage('Book listed successfully!')
-				handleReset()
-			} else {
-				setError(response.message || 'An error occurred. Please try again.')
-			}
-		} catch (error) {
-			setError('Failed to create the listing, please try again later.')
-		}
-	}
+        if (response.success) {
+            setMessage('Book listed successfully!');
+            handleReset();
+        } else {
+            setError(response.message || 'An error occurred. Please try again.');
+        }
+    } catch (error) {
+        console.error('Submit error:', error);
+        setError('Failed to create the listing, please try again later.');
+    }
+};
 
 	const listOfListings = (books, title, loading) => {
 		return (
@@ -206,6 +207,7 @@ export default function Listings() {
 
 	return (
 		<ListingsContainer>
+			<Spacer />
 			<ListingsHeader>
 				<h1>List a Book</h1>
 			</ListingsHeader>
@@ -293,7 +295,7 @@ export default function Listings() {
 									Condition:
 									<select
 										name="condition"
-										value={bookData.condition}
+										value={bookData.book_condition}
 										onChange={handleInputChange}
 										required
 										aria-label='Select condition'

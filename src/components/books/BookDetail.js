@@ -29,6 +29,10 @@ export default function BookDetail({ book }) {
 	const [bookDescription, setBookDescription] = useState(null)
 
 	useEffect(() => {
+		console.log('BookDetail mounted', book)
+	}, [book])
+
+	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
 				const owner = await getUserById(book.user_id)
@@ -74,7 +78,7 @@ export default function BookDetail({ book }) {
 			</Row>
 			<Row>
 				<Category>
-					This item can be found in {book.category.join(' | ')}
+					This item can be found in {book.category}
 				</Category>
 			</Row>
 			<Row>
@@ -86,7 +90,7 @@ export default function BookDetail({ book }) {
 						<div>
 							<Title>{book.title}</Title>
 							<Subtitle>
-								<span>{book.author}</span> (author)
+								<span>{book.author}</span>
 							</Subtitle>
 							<BookInfo>
 								<p>{book.isbn}</p>
@@ -109,7 +113,7 @@ export default function BookDetail({ book }) {
 									<h3>{bookOwner.username}'s Notes</h3>
 									<p>
 										This copy is in{' '}
-										<span>{book.condition}</span> condition.
+										<span>{book.book_condition}</span> condition.
 									</p>
 									<blockquote>"{book.notes}"</blockquote>
 									<ButtonContainer>
@@ -131,7 +135,7 @@ export default function BookDetail({ book }) {
 								<h3>Your Notes</h3>
 								<p>
 									This copy is in{' '}
-									<span>{book.condition}</span> condition.
+									<span>{book.book_condition}</span> condition.
 								</p>
 								<blockquote>"{book.notes}"</blockquote>
 								<ButtonContainer>

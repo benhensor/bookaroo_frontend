@@ -50,8 +50,8 @@ export default function Message({ message, isOpen, onToggle }) {
 					isActive={isOpen}
 					text={
 						<p>
-							{formatDate(message.created_at)} - From{' '}
-							<span>{message.sender_username}</span>
+							<span>{message.sender_username}</span>{' - '}
+							{formatDate(message.created_at)}
 						</p>
 					}
 					isRead={message.is_read}

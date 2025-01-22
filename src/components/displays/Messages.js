@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMessages } from '../../context/MessagesContext'
 import Message from '../message/Message'
+import { Spacer } from '../../assets/styles/GlobalStyles'
 import {
   MessagesContainer,
   MessagesHeader,
@@ -60,6 +61,7 @@ export default function Messages() {
 
   return (
     <MessagesContainer>
+			<Spacer />
       <MessagesHeader>
         <h1>Messages</h1>
         <h4>{isMessagesLoading ? (

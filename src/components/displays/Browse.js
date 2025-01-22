@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useBooks } from '../../context/BooksContext'
 import Carousel from '../carousel/Carousel'
+import { Spacer } from '../../assets/styles/GlobalStyles'
 import {
 	BrowseContainer,
 	BrowseHeader,
@@ -33,16 +34,22 @@ export default function Browse() {
 
 	// Check if the user is scrolling (for styling purposes)
 	useEffect(() => {
-		const handleScroll = () => {
-			if (window.scrollY > 50) {
-				setIsScrolled(true)
-			} else {
-				setIsScrolled(false)
-			}
-		}
-		window.addEventListener('scroll', handleScroll)
-		return () => window.removeEventListener('scroll', handleScroll)
-	}, [])
+    const handleScroll = () => {
+        if (ref.current.scrollTop > 15) {
+            setIsScrolled(true);
+        } else {
+            setIsScrolled(false);
+        }
+    };
+
+    const scrollableElement = ref.current; // Use BrowseContainer ref
+    scrollableElement.addEventListener('scroll', handleScroll);
+
+    return () => {
+        scrollableElement.removeEventListener('scroll', handleScroll);
+    };
+	}, []);
+
 
 	// Search for books based on the query
 	useEffect(() => {
@@ -152,8 +159,8 @@ export default function Browse() {
 	}
 
 	return (
-		<BrowseContainer>
-			<BrowseHeader ref={ref} $isScrolled={isScrolled}>
+		<BrowseContainer ref={ref} >
+			<BrowseHeader $isScrolled={isScrolled}>
 				<BrowseControls>
 					<h1>Browse</h1>
 					<SearchBar>
@@ -173,6 +180,7 @@ export default function Browse() {
 					</SearchBar>
 				</BrowseControls>
 			</BrowseHeader>
+			<Spacer />
 			{renderContent()}
 		</BrowseContainer>
 	)

@@ -38,6 +38,7 @@ const Header = styled.div`
 	div {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: var(--sm);
 		position: relative;
 	}

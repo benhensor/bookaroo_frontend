@@ -67,7 +67,7 @@ export const MessagesProvider = ({ children }) => {
 	const deleteMessage = useMutation(
 		async (message_id) => {
 			await axios.delete(
-				`${process.env.REACT_APP_API_URL}/api/messages/delete/${message_id}`,
+				`${process.env.REACT_APP_API_URL}/api/messages/${message_id}`,
 				{
 					withCredentials: true,
 				}
@@ -101,7 +101,7 @@ export const MessagesProvider = ({ children }) => {
 	const markAsRead = useMutation(
 		async (message_id) => {
 			await axios.put(
-				`${process.env.REACT_APP_API_URL}/api/messages/mark/${message_id}`,
+				`${process.env.REACT_APP_API_URL}/api/messages/read/${message_id}`,
 				{},
 				{
 					withCredentials: true,

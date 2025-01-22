@@ -10,7 +10,7 @@ export const MessageContainer = styled.div`
 `
 
 export const StyledMessage = styled.div`
-  padding: var(--sm) var(--lg);
+  padding: var(--sm) 0;
   background-color: ${({ $isActive }) =>
     $isActive ? 'var(--ltGreenHover)' : 'none'};
   &:hover {
@@ -29,7 +29,7 @@ export const MessageBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: var(--sm);
-  padding: var(--lg);
+  padding: var(--lg) var(--sm);
   background-color: var(--white);
 	p {
 		font-size: 1.4rem;
@@ -53,4 +53,10 @@ export const MessageControls = styled.div`
     display: flex;
     gap: var(--lg);
   }
+	@media only screen and (max-width: 999px) {
+		padding: 0 var(--md);
+	}
+	@media only screen and (max-width: 450px) {
+		padding: 0 var(--sm);
+	}
 `

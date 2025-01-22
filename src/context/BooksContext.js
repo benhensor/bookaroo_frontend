@@ -98,34 +98,55 @@ export const BooksProvider = ({ children }) => {
 	);
 
 	const createListing = async (listingData) => {
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_API_URL}/api/books/newlisting`,
-				listingData,
-				{
-					withCredentials: true,
-				}
-			)
-			await getAllBooks()
-			return { success: true, message: 'Book listed successfully!' }
-		} catch (error) {
-			console.error('Error submitting book listing:', error)
-			return {
-				success: false,
-				message:
-					error.response?.data?.message ||
-					'An error occurred while submitting your listing. Please try again.',
-			}
-		}
-	}
+    try {
+        // Ensure category is in the correct format
+        const formattedData = {
+            ...listingData,
+            category: Array.isArray(listingData.category) 
+                ? listingData.category 
+                : [listingData.category]
+        };
+
+        console.log('Sending listing data:', formattedData);
+
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/books/newlisting`,
+            formattedData,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (response.data.success) {
+            await getAllBooks();
+            return { success: true, message: 'Book listed successfully!' };
+        } else {
+            console.error('Server response:', response.data);
+            return {
+                success: false,
+                message: response.data.details || response.data.error || 'Unknown error occurred'
+            };
+        }
+    } catch (error) {
+        console.error('Error submitting book listing:', error.response?.data || error);
+        return {
+            success: false,
+            message: error.response?.data?.details || 
+                    error.response?.data?.error ||
+                    'An error occurred while submitting your listing. Please try again.'
+        };
+    }
+};
 
 	const deleteListing = async (bookId) => {
 		try {
 			await axios.delete(
-				`${process.env.REACT_APP_API_URL}/api/books/delete/${bookId}`,
+				`${process.env.REACT_APP_API_URL}/api/books/${bookId}`,
 				{
 					withCredentials: true,
-					params: { bookId },
 				}
 			)
 			await getAllBooks()
