@@ -28,7 +28,7 @@ const Register = () => {
 
 	const handleRegisterUser = async () => {
 		registerUser(values)
-		navigate('/app/login')
+		navigate('/login')
 	}
 
 	const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
@@ -203,7 +203,7 @@ const Register = () => {
 				</Form>
 				<P>
 					Already have an account? &nbsp;{' '}
-					<StyledLink to='/app/login'>Sign In</StyledLink>
+					<StyledLink to='/login'>Sign In</StyledLink>
 				</P>
 			</Content>
 		</Container>

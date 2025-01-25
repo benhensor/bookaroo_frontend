@@ -28,17 +28,17 @@ function App() {
 					<UserProvider>
 						<MessagesProvider>
 							<DashboardProvider>
-								<Router>
+								<Router bassname='/bookaroo'>
 									<Header />
 									<main>
 										<Routes>
 											{/* PUBLIC ROUTES */}
 											<Route path="*" element={<Home />}/>
-											<Route path="/app/register" element={<Register />} />
-											<Route path="/app/login" element={<Login />} />
+											<Route path="/register" element={<Register />} />
+											<Route path="/login" element={<Login />} />
 
 											{/* PROTECTED ROUTE */}
-											<Route path="/app/dashboard" element={
+											<Route path="/dashboard" element={
 												<ProtectedRoute>
 													<Dashboard />
 												</ProtectedRoute>
