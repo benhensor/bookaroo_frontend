@@ -14,7 +14,7 @@ export default function Home() {
 					other Bookaroos to swap or donate!
 				</p>
 			</div>
-			<StyledLink to="/register">Get Started</StyledLink>
+			<StyledLink to="/app/register">Get Started</StyledLink>
 		</Container>
 	)
 }

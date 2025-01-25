@@ -35,7 +35,7 @@ export default function Header() {
 		queryClient.removeQueries('messages')
 		logout()
 		setIsOpen(false)
-		navigate('/')
+		navigate('/app')
 	}
 
 
@@ -63,7 +63,7 @@ export default function Header() {
 					)}
 					{!user && (
 						<SignInButton
-							to='/login'
+							to='/app/login'
 						>
 							Sign In
 						</SignInButton>

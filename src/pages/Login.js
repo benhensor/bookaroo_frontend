@@ -27,7 +27,7 @@ const Login = () => {
 	const handleLogin = async (values) => {
 		try {
 			await login(values)
-			navigate('/dashboard')
+			navigate('/app/dashboard')
 		} catch (error) {
 			console.error('Login failed:', error)
 		}
@@ -124,7 +124,7 @@ const Login = () => {
 				</Form>
 				<P>
 					Don't have an account? &nbsp;
-					<StyledLink to='/register'>
+					<StyledLink to='/app/register'>
 						Register
 					</StyledLink>
 				</P>

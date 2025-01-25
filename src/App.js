@@ -34,11 +34,11 @@ function App() {
 										<Routes>
 											{/* PUBLIC ROUTES */}
 											<Route path="*" element={<Home />}/>
-											<Route path="/register" element={<Register />} />
-											<Route path="/login" element={<Login />} />
+											<Route path="/app/register" element={<Register />} />
+											<Route path="/app/login" element={<Login />} />
 
 											{/* PROTECTED ROUTE */}
-											<Route path="/dashboard" element={
+											<Route path="/app/dashboard" element={
 												<ProtectedRoute>
 													<Dashboard />
 												</ProtectedRoute>
