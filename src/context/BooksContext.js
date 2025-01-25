@@ -20,16 +20,16 @@ export const BooksProvider = ({ children }) => {
 	const getAllBooks = useCallback(async () => {
 		setLoading(true)
 		try {
-			const { data } = await axios.get(
+			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/books/allbooks`,
 				{
 					withCredentials: true,
 				}
 			)
-			if (Array.isArray(data)) {
-				setAllBooks(data)
+			if (Array.isArray(response.data)) {
+				setAllBooks(response.data)
 			} else {
-				console.error('Unexpected books format:', data)
+				console.error('Unexpected books format:', response)
 				setAllBooks([])
 			}
 		} catch (error) {
@@ -42,6 +42,7 @@ export const BooksProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (isAuthenticated && user?.id) {
+			console.log('Fetching books for user:', user, isAuthenticated)
 			getAllBooks()
 		}
 	}, [isAuthenticated, user, getAllBooks])
