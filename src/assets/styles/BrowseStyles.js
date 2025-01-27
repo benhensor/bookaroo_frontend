@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const BrowseContainer = styled.div`
-	height: calc(100svh - 10rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
 `
 

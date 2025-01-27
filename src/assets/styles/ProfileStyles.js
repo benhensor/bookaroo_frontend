@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const ProfileContainer = styled.div`
-	height: calc(100svh - 15rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
 `
 

@@ -18,31 +18,38 @@ export const BooksProvider = ({ children }) => {
 	const [searchError, setSearchError] = useState(null)
 
 	const getAllBooks = useCallback(async () => {
-		setLoading(true)
-		try {
+    setLoading(true);
+    try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/books/allbooks`,
-				{
-					withCredentials: true,
+				{ withCredentials: true }
+			);
+			
+			// Validate response data
+			if (response.data) {
+				if (Array.isArray(response.data)) {
+					setAllBooks(response.data);
+				} else if (response.data.error) {
+					console.error('Server error:', response.data.error);
+					setAllBooks([]);
+				} else {
+					console.error('Unexpected data format:', response.data);
+					setAllBooks([]);
 				}
-			)
-			if (Array.isArray(response.data)) {
-				setAllBooks(response.data)
 			} else {
-				console.error('Unexpected books format:', response)
-				setAllBooks([])
+				console.error('No data in response');
+				setAllBooks([]);
 			}
-		} catch (error) {
-			console.error('Error fetching books:', error)
-			setAllBooks([])
-		} finally {
-			setLoading(false)
-		}
-	}, [])
+    } catch (error) {
+      console.error('Error fetching books:', error?.response?.data || error);
+      setAllBooks([]);
+    } finally {
+      setLoading(false);
+    }
+	}, []);
 
 	useEffect(() => {
 		if (isAuthenticated && user?.id) {
-			console.log('Fetching books for user:', user, isAuthenticated)
 			getAllBooks()
 		}
 	}, [isAuthenticated, user, getAllBooks])
@@ -107,8 +114,6 @@ export const BooksProvider = ({ children }) => {
                 ? listingData.category 
                 : [listingData.category]
         };
-
-        console.log('Sending listing data:', formattedData);
 
         const response = await axios.post(
             `${process.env.REACT_APP_API_URL}/api/books/newlisting`,

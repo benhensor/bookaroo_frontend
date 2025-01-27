@@ -37,8 +37,9 @@ export const AuthProvider = ({ children }) => {
 			}
 		}
 
-		checkAuthStatus()
-	}, [])
+		if (isAuthenticated) checkAuthStatus()
+
+	}, [isAuthenticated])
 
 	const registerUser = async (values) => {
 		try {

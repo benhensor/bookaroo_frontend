@@ -31,11 +31,20 @@ export default function Carousel({ books = [], title }) {
 		return 5
 	}
 
+	// At the start of your Carousel component
+	console.log('Carousel props:', {
+		books,
+		title,
+		booksType: typeof books,
+		isArray: Array.isArray(books)
+	});
+
 	const booksPerPage = getbooksPerPage()
 
 	const uniquebooks = useMemo(() => {
+		const booksArray = Array.isArray(books) ? books : [];
 		const seen = new Set()
-		return books.filter((book) => {
+		return booksArray.filter((book) => {
 			if (seen.has(book.id)) {
 				return false
 			}
@@ -46,7 +55,7 @@ export default function Carousel({ books = [], title }) {
 
 	const shuffledBooks = useMemo(() => {
 		if (title !== 'Your Listings' || title !== 'Recommended for You') {
-		return uniquebooks.sort(() => Math.random() - 0.5)
+		return [...uniquebooks].sort(() => Math.random() - 0.5);
 		}
 	}, [uniquebooks, title])
 
