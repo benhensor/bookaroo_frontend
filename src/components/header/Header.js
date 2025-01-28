@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useQueryClient } from 'react-query'
 import { useWindowWidth } from '../../utils/useWindowWidth'
-import Logo from '../../assets/images/bookarooLogo.webp'
+import Logo from '../../assets/images/bookaroo_logo.webp'
 import MenuIcon from '../../icons/MenuIcon'
 import {
 	Head,
 	Container,
 	LogoContainer,
-	LogoBackground,
+	LogoImage,
 	UserControls,
 	NavItem,
 	UserMenu,
@@ -43,9 +43,9 @@ export default function Header() {
 		<Head>
 			<Container>
 				<LogoContainer>
-					<LogoBackground>
+					<LogoImage>
 						<img src={Logo} alt="Bookaroo" />
-					</LogoBackground>
+					</LogoImage>
 					<p>Bookaroo</p>
 				</LogoContainer>
 				<UserControls>

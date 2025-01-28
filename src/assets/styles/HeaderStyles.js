@@ -36,23 +36,18 @@ export const LogoContainer = styled.div`
 	}
 `
 
-export const LogoBackground = styled.div`
-	background-color: var(--accentGreen);
-	border-radius: 50%;
-	border: 1px solid var(--blkGreen);
+export const LogoImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 3.5rem;
-	height: 3.5rem;
+	width: 4.5rem;
+	height: 4.5rem;
 	margin-right: var(--md);
 	position: relative;
 	img {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		max-width: 4rem;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 `
 
