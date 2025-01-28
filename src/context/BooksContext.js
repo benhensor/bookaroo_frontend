@@ -12,54 +12,70 @@ const BooksContext = createContext()
 
 export const BooksProvider = ({ children }) => {
 	const { user, isAuthenticated } = useAuth()
+	const [loading, setLoading] = useState(true)
 	const [allBooks, setAllBooks] = useState([])
 	const [searchResults, setSearchResults] = useState([])
 	const [searchError, setSearchError] = useState(null)
 
 	const getAllBooks = useCallback(async () => {
-		try {
-			const { data } = await axios.get(
+    setLoading(true);
+    try {
+			const response = await axios.get(
 				`${process.env.REACT_APP_API_URL}/api/books/allbooks`,
-				{
-					withCredentials: true,
+				{ withCredentials: true }
+			);
+			
+			// Validate response data
+			if (response.data) {
+				if (Array.isArray(response.data)) {
+					setAllBooks(response.data);
+				} else if (response.data.error) {
+					console.error('Server error:', response.data.error);
+					setAllBooks([]);
+				} else {
+					console.error('Unexpected data format:', response.data);
+					setAllBooks([]);
 				}
-			)
-			if (Array.isArray(data)) {
-				setAllBooks(data)
 			} else {
-				console.error('Unexpected books format:', data)
-				setAllBooks([])
+				console.error('No data in response');
+				setAllBooks([]);
 			}
-		} catch (error) {
-			console.error('Error fetching books:', error)
-			setAllBooks([])
-		}
-	}, [])
+    } catch (error) {
+      console.error('Error fetching books:', error?.response?.data || error);
+      setAllBooks([]);
+    } finally {
+      setLoading(false);
+    }
+	}, []);
 
 	useEffect(() => {
-		if (isAuthenticated) {
+		if (isAuthenticated && user?.id) {
 			getAllBooks()
 		}
-	}, [isAuthenticated, getAllBooks])
+	}, [isAuthenticated, user, getAllBooks])
 
 	const usersBooks = useMemo(
-		() => allBooks.filter((book) => book.userId === user?.id),
+		() => allBooks.filter((book) => book.user_id === user?.id),
 		[allBooks, user?.id]
 	)
 
 	const recommendations = useMemo(
-		() =>
-			user?.preferences && user.preferences.length > 0
-				? allBooks.filter(
-						(book) =>
-							book.userId !== user?.id &&
-							book.category.some((category) =>
-								user.preferences.includes(category)
-							)
-				  )
-				: [],
-		[allBooks, user?.id, user?.preferences]
-	)
+    () =>
+        user?.preferences && user.preferences.length > 0
+            ? allBooks.filter((book) => {
+                  // Parse JSON string to array
+                  const categories = Array.isArray(book.category) 
+                      ? book.category 
+                      : JSON.parse(book.category);
+                  
+                  return book.user_id !== user?.id &&
+                         categories.some(category => 
+                             user.preferences.includes(category)
+                         );
+              })
+            : [],
+    [allBooks, user?.id, user?.preferences]
+	);
 
 	const getBookById = useCallback(
 		(id) => {
@@ -70,51 +86,73 @@ export const BooksProvider = ({ children }) => {
 	)
 
 	const searchBooks = useCallback(
-		(query) => {
-			if (!query.trim()) return []
+    (query) => {
+        if (!query.trim()) return []
 
-			const lowercaseQuery = query.toLowerCase()
-			return allBooks.filter(
-				(book) =>
-					book.title.toLowerCase().includes(lowercaseQuery) ||
-					book.author.toLowerCase().includes(lowercaseQuery) ||
-					book.category.some((cat) =>
-						cat.toLowerCase().includes(lowercaseQuery)
-					)
-			)
-		},
-		[allBooks]
-	)
+        const lowercaseQuery = query.toLowerCase()
+        return allBooks.filter(book => {
+            const categories = Array.isArray(book.category) 
+                ? book.category 
+                : JSON.parse(book.category);
+            
+            return book.title.toLowerCase().includes(lowercaseQuery) ||
+                   book.author.toLowerCase().includes(lowercaseQuery) ||
+                   categories.some(cat => 
+                       cat.toLowerCase().includes(lowercaseQuery)
+                   );
+        })
+    },
+    [allBooks]
+	);
 
 	const createListing = async (listingData) => {
-		try {
-			await axios.post(
-				`${process.env.REACT_APP_API_URL}/api/books/newlisting`,
-				listingData,
-				{
-					withCredentials: true,
-				}
-			)
-			await getAllBooks()
-			return { success: true, message: 'Book listed successfully!' }
-		} catch (error) {
-			console.error('Error submitting book listing:', error)
-			return {
-				success: false,
-				message:
-					error.response?.data?.message ||
-					'An error occurred while submitting your listing. Please try again.',
-			}
-		}
-	}
+    try {
+        // Ensure category is in the correct format
+        const formattedData = {
+            ...listingData,
+            category: Array.isArray(listingData.category) 
+                ? listingData.category 
+                : [listingData.category]
+        };
+
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/books/newlisting`,
+            formattedData,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        if (response.data.success) {
+            await getAllBooks();
+            return { success: true, message: 'Book listed successfully!' };
+        } else {
+            console.error('Server response:', response.data);
+            return {
+                success: false,
+                message: response.data.details || response.data.error || 'Unknown error occurred'
+            };
+        }
+    } catch (error) {
+        console.error('Error submitting book listing:', error.response?.data || error);
+        return {
+            success: false,
+            message: error.response?.data?.details || 
+                    error.response?.data?.error ||
+                    'An error occurred while submitting your listing. Please try again.'
+        };
+    }
+};
 
 	const deleteListing = async (bookId) => {
 		try {
 			await axios.delete(
-				`${process.env.REACT_APP_API_URL}/api/books/delete/${bookId}`,
+				`${process.env.REACT_APP_API_URL}/api/books/${bookId}`,
 				{
 					withCredentials: true,
-					params: { bookId },
 				}
 			)
 			await getAllBooks()
@@ -145,7 +183,7 @@ export const BooksProvider = ({ children }) => {
 				createListing,
 				deleteListing,
 				refetchBooks: getAllBooks, 
-				loading: !allBooks.length && isAuthenticated, 
+				loading, 
 				error: null, 
 			}}
 		>

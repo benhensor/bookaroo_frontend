@@ -32,7 +32,7 @@ export default function Message({ message, isOpen, onToggle }) {
 	}
 
 	const handleReplyClick = () => {
-		const book = getBookById(message.bookId)
+		const book = getBookById(message.book_id)
 		openModal({ book: book, type: 'contact', replyMessage: message })
 	}
 
@@ -50,11 +50,11 @@ export default function Message({ message, isOpen, onToggle }) {
 					isActive={isOpen}
 					text={
 						<p>
-							{formatDate(message.createdAt)} - From{' '}
-							<span>{message.sender.username}</span>
+							<span>{message.sender_username}</span>{' - '}
+							{formatDate(message.created_at)}
 						</p>
 					}
-					isRead={message.isRead}
+					isRead={message.is_read}
 				/>
 			</StyledMessage>
 			{isOpen && (

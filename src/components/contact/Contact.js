@@ -29,22 +29,22 @@ export default function Contact({ book, replyMessage }) {
 	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
-				const owner = await getUserById(book.userId)
+				const owner = await getUserById(book.user_id)
 				setRecipient(owner)
 			} catch (error) {
 				console.error('Error fetching book owner:', error)
 			}
 		}
 
-		if (book?.userId) {
+		if (book?.user_id) {
 			fetchBookOwner()
 		}
 	}, [book, getUserById])
 
 	useEffect(() => {
-		if (messageData?.createdAt && messageData.sender?.username) {
+		if (messageData?.created_at && messageData.sender?.username) {
 			const { dayName, dayNumber, monthName, year, daySuffix } =
-				formatDate(messageData.createdAt)
+				formatDate(messageData.created_at)
 
 			setMessage(
 				`On ${dayName} ${dayNumber}${daySuffix} ${monthName} ${year} ${messageData.sender.username} wrote:\n\n${messageData.message}\n`
@@ -60,23 +60,23 @@ export default function Contact({ book, replyMessage }) {
 		}
 
 		// Determine the recipient of the message
-		const recipientId =
-			messageData?.senderId && messageData.senderId !== user.id
-				? messageData.senderId
-				: book.userId
+		const recipient_id =
+			messageData?.sender_id && messageData.sender_id !== user.id
+				? messageData.sender_id
+				: book.user_id
 		const subjectLine = `Regarding: ${book.title} by ${book.author}`
 
-		if (!recipientId) {
+		if (!recipient_id) {
 			console.error('Recipient ID not found')
 			return
 		}
 
 		const newMessageData = {
-			senderId: user.id,
-			recipientId: recipientId,
-			bookId: book.id,
+			sender_id: user.id,
+			recipient_id: recipient_id,
+			book_id: book.id,
 			message: `${subjectLine}\n\n${message}`,
-			isRead: false,
+			is_read: false,
 		}
 		try {
 			await sendMessage(newMessageData)

@@ -1,5 +1,6 @@
 {
-  "name": "bookaroo_frontend",
+  "name": "bookaroo",
+  "homepage": "/bookaroo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

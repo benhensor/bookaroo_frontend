@@ -1,21 +1,28 @@
 import styled from 'styled-components';
 
 export const MessagesContainer = styled.div`
-	height: calc(100vh - 10rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
 `
 
 export const MessagesHeader = styled.div`
   padding: var(--lg) 0;
+	@media only screen and (max-width: 999px) {
+		padding: var(--md) 0;
+	}
+	@media only screen and (max-width: 450px) {
+		padding: var(--sm) 0;
+	}
 `
 
 export const MessagingContainer = styled.div`
-	border: 1px solid var(--ltGreen);
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	padding: var(--lg) 0;
-	overflow: hidden;
 	overflow-y: auto;
+	min-height: 0;
 	h2 {
 		padding-left: var(--lg);
 		margin-bottom: var(--sm);

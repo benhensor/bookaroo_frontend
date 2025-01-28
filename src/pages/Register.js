@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { registerSchema } from '../schemas/index'
 import Check from '../icons/Check'
+import { Spacer } from '../assets/styles/GlobalStyles'
 import {
 	Form,
 	InputGroup,
@@ -45,27 +46,28 @@ const Register = () => {
 
 	return (
 		<Container>
+			<Spacer />
 			<Content>
 				<h1>Register</h1>
 				<Instruction>
 					Feel free to register with a fake email address and username however, please use a valid UK postcode as this will be used to indicate your location relative to other users.
 				</Instruction>
-				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
+				<Form onSubmit={handleSubmit} method='post' autoComplete='off'>
 					<input
-						autoComplete="off"
-						name="hidden"
-						type="text"
+						autoComplete='off'
+						name='hidden'
+						type='text'
 						style={{ display: 'none' }}
 					/>
 					<InputGroup>
-						<Label htmlFor="email">Email</Label>
+						<Label htmlFor='email'>Email</Label>
 						<Input
-							id="email"
-							type="email"
+							id='email'
+							type='email'
 							value={values.email || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Email"
+							placeholder='Email'
 							className={
 								touched.email
 									? errors.email
@@ -79,18 +81,18 @@ const Register = () => {
 							<Check isActive={touched.email && !errors.email} />
 						</CheckContainer>
 						{errors.email && touched.email && (
-							<Error className="error">{errors.email}</Error>
+							<Error className='error'>{errors.email}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<Label htmlFor="username">Username</Label>
+						<Label htmlFor='username'>Username</Label>
 						<Input
-							id="username"
-							type="text"
+							id='username'
+							type='text'
 							value={values.username || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Choose a username"
+							placeholder='Choose a username'
 							className={
 								touched.username
 									? errors.username
@@ -106,18 +108,18 @@ const Register = () => {
 							/>
 						</CheckContainer>
 						{errors.username && touched.username && (
-							<Error className="error">{errors.username}</Error>
+							<Error className='error'>{errors.username}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<Label htmlFor="postcode">Location</Label>
+						<Label htmlFor='postcode'>Location</Label>
 						<Input
-							id="postcode"
-							type="text"
+							id='postcode'
+							type='text'
 							value={values.postcode || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Enter your post code"
+							placeholder='Enter your post code'
 							className={
 								touched.postcode
 									? errors.postcode
@@ -133,18 +135,19 @@ const Register = () => {
 							/>
 						</CheckContainer>
 						{errors.postcode && touched.postcode && (
-							<Error className="error">{errors.postcode}</Error>
+							<Error className='error'>{errors.postcode}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<Label htmlFor="password">Password</Label>
+						<Label htmlFor='password'>Password</Label>
 						<Input
-							id="password"
-							type="password"
+							id='password'
+							type='password'
 							value={values.password || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Password"
+							placeholder='Password'
+							autoComplete='new-password'
 							className={
 								touched.password
 									? errors.password
@@ -160,18 +163,19 @@ const Register = () => {
 							/>
 						</CheckContainer>
 						{errors.password && touched.password && (
-							<Error className="error">{errors.password}</Error>
+							<Error className='error'>{errors.password}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<Label htmlFor="password">Confirm Password</Label>
+						<Label htmlFor='password'>Confirm Password</Label>
 						<Input
-							id="confirmPassword"
-							type="password"
+							id='confirmPassword'
+							type='password'
 							value={values.confirmPassword}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Confirm Password"
+							placeholder='Confirm Password'
+							autoComplete='new-password'
 							className={
 								touched.confirmPassword
 									? errors.confirmPassword
@@ -190,16 +194,16 @@ const Register = () => {
 							/>
 						</CheckContainer>
 						{errors.confirmPassword && touched.confirmPassword && (
-							<Error className="error">
+							<Error className='error'>
 								{errors.confirmPassword}
 							</Error>
 						)}
 					</InputGroup>
-					<RegisterButton type="submit">Register</RegisterButton>
+					<RegisterButton type='submit'>Register</RegisterButton>
 				</Form>
 				<P>
 					Already have an account? &nbsp;{' '}
-					<StyledLink to="/login">Sign In</StyledLink>
+					<StyledLink to='/login'>Sign In</StyledLink>
 				</P>
 			</Content>
 		</Container>

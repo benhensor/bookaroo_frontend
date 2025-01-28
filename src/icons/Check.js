@@ -18,6 +18,8 @@ export default function Check({ isActive }) {
 }
 
 const Container = styled.div`
+	position: absolute;
+	right: 0;
 	display: ${({ $isActive }) => ($isActive ? 'flex' : 'none')};
 	justify-content: center;
 	align-items: center;

@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 export const DashboardContainer = styled.section`
-	height: 100%;
+	height: calc(-6rem + 100svh);
 	max-width: 100rem;
 	margin: 0 auto;
+	display: flex;
+  flex-direction: column;
 `
 
 export const MessageContainer = styled.div`

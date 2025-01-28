@@ -29,16 +29,20 @@ export default function BookDetail({ book }) {
 	const [bookDescription, setBookDescription] = useState(null)
 
 	useEffect(() => {
+		console.log('BookDetail mounted', book)
+	}, [book])
+
+	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
-				const owner = await getUserById(book.userId)
+				const owner = await getUserById(book.user_id)
 				setBookOwner(owner)
 			} catch (error) {
 				console.error('Error fetching book owner:', error)
 			}
 		}
 
-		if (book?.userId) {
+		if (book?.user_id) {
 			fetchBookOwner()
 		}
 	}, [book, getUserById])
@@ -74,26 +78,26 @@ export default function BookDetail({ book }) {
 			</Row>
 			<Row>
 				<Category>
-					This item can be found in {book.category.join(' | ')}
+					This item can be found in {book.category}
 				</Category>
 			</Row>
 			<Row>
 				<BookDetailsContainer>
 					<BookPreview>
-						<BookCover src={book.coverImg} alt={book.title} />
+						<BookCover src={book.cover_img} alt={book.title} />
 					</BookPreview>
 					<BookInfoContainer>
 						<div>
 							<Title>{book.title}</Title>
 							<Subtitle>
-								<span>{book.author}</span> (author)
+								<span>{book.author}</span>
 							</Subtitle>
 							<BookInfo>
 								<p>{book.isbn}</p>
 								<p>
 									Published:{' '}
 									{new Date(
-										book.publishedDate
+										book.published_date
 									).toLocaleDateString('en-US', {
 										year: 'numeric',
 										month: 'long',
@@ -103,13 +107,13 @@ export default function BookDetail({ book }) {
 								<p>{book.publisher}</p>
 							</BookInfo>
 						</div>
-						{user.id !== book.userId ? (
+						{user.id !== book.user_id ? (
 							bookOwner && (
 								<OwnersNotes>
 									<h3>{bookOwner.username}'s Notes</h3>
 									<p>
 										This copy is in{' '}
-										<span>{book.condition}</span> condition.
+										<span>{book.book_condition}</span> condition.
 									</p>
 									<blockquote>"{book.notes}"</blockquote>
 									<ButtonContainer>
@@ -131,7 +135,7 @@ export default function BookDetail({ book }) {
 								<h3>Your Notes</h3>
 								<p>
 									This copy is in{' '}
-									<span>{book.condition}</span> condition.
+									<span>{book.book_condition}</span> condition.
 								</p>
 								<blockquote>"{book.notes}"</blockquote>
 								<ButtonContainer>

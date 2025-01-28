@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMessages } from '../../context/MessagesContext'
 import Message from '../message/Message'
+import { Spacer } from '../../assets/styles/GlobalStyles'
 import {
   MessagesContainer,
   MessagesHeader,
@@ -54,12 +55,13 @@ export default function Messages() {
 		)
 	}
 	
-	const unreadMessagesCount = messages?.filter(message => !message.isRead).length || 0
+	const unreadMessagesCount = messages?.filter(message => !message.is_read).length || 0
 
 
 
   return (
     <MessagesContainer>
+			<Spacer />
       <MessagesHeader>
         <h1>Messages</h1>
         <h4>{isMessagesLoading ? (

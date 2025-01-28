@@ -1,12 +1,19 @@
 import styled from 'styled-components'
 
 export const ProfileContainer = styled.div`
-	height: calc(100svh - 15rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
 `
 
 export const ProfileHeader = styled.div`
 	padding: var(--lg) 0;
+
+	@media only screen and (max-width: 999px) {
+		padding: var(--md) 0;
+	}
+	@media only screen and (max-width: 450px) {
+		padding: var(--sm) 0;
+	}
 `
 
 export const ProfileMenuItem = styled.div`
@@ -51,11 +58,11 @@ export const ProfileMenuItemContent = styled.div`
 
 export const MenuContentPanel = styled.div`
 	border: 1px solid var(--ltGreen);
-	padding: var(--lg);
+	padding: var(--lg) var(--sm);
 	background-color: ${({ $signOut }) =>
 		$signOut ? 'creamA' : 'var(--white)'};
 	@media only screen and (max-width: 768px) {
-		padding: var(--md);
+		padding: var(--md)  var(--sm);
 	}
 `
 
@@ -91,29 +98,6 @@ export const Dropdown = styled.div`
 		width: 100%;
 		border-radius: 0;
 	}
-`
-
-export const MessagingContainer = styled.div`
-	border: 1px solid var(--ltGreen);
-	display: flex;
-	flex-direction: column;
-	padding: var(--lg);
-	overflow: hidden;
-	overflow-y: auto;
-	h2 {
-		margin-bottom: var(--sm);
-	}
-	hr {
-		border: 1px solid var(--ltGreenHover);
-	}
-`
-
-export const Feedback = styled.p`
-	margin: 0 var(--lg);
-	background-color: var(--creamA);
-	padding: var(--sm);
-	color: var(--mdBrown);
-	text-align: center;
 `
 
 export const CarouselContainer = styled.div`

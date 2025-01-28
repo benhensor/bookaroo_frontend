@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 						withCredentials: true,
 					}
 				)
-				setUser(data)
+				setUser(data.user)
 				setIsAuthenticated(true)
 			} catch (error) {
 				console.error('Not authenticated', error)
@@ -37,8 +37,9 @@ export const AuthProvider = ({ children }) => {
 			}
 		}
 
-		checkAuthStatus()
-	}, [])
+		if (isAuthenticated) checkAuthStatus()
+
+	}, [isAuthenticated])
 
 	const registerUser = async (values) => {
 		try {

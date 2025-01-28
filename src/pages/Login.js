@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { loginSchema } from '../schemas/index'
 import Check from '../icons/Check'
+import { Spacer } from '../assets/styles/GlobalStyles'
 import {
 	Container,
 	Content,
@@ -44,6 +45,7 @@ const Login = () => {
 
 	return (
 		<Container>
+			<Spacer />
 			<Content>
 				<h1>Login</h1>
 				<Instruction>
@@ -55,22 +57,23 @@ const Login = () => {
 				<p>
 					<strong>Test123!</strong>
 				</p>
-				<Form onSubmit={handleSubmit} method="post" autoComplete="off">
+				<Form onSubmit={handleSubmit} method='post' autoComplete='off'>
 					<input
-						autoComplete="off"
-						name="hidden"
-						type="text"
+						autoComplete='off'
+						name='hidden'
+						type='text'
 						style={{ display: 'none' }}
 					/>
 					<InputGroup>
-						<Label htmlFor="email">Email</Label>
+						<Label htmlFor='email'>Email</Label>
 						<Input
-							id="email"
-							type="email"
+							id='email'
+							type='email'
 							value={values.email || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Email"
+							placeholder='Email'
+							autoComplete='email'
 							className={
 								touched.email
 									? errors.email
@@ -84,18 +87,19 @@ const Login = () => {
 							<Check isActive={touched.email && !errors.email} />
 						</CheckContainer>
 						{errors.email && touched.email && (
-							<Error className="error">{errors.email}</Error>
+							<Error className='error'>{errors.email}</Error>
 						)}
 					</InputGroup>
 					<InputGroup>
-						<Label htmlFor="password">Password</Label>
+						<Label htmlFor='password'>Password</Label>
 						<Input
-							id="password"
-							type="password"
+							id='password'
+							type='password'
 							value={values.password || ''}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							placeholder="Password"
+							placeholder='Password'
+							autoComplete='current-password'
 							className={
 								touched.password
 									? errors.password
@@ -109,7 +113,7 @@ const Login = () => {
 							<Check isActive={touched.password && !errors.password} />
 						</CheckContainer>
 						{errors.password && touched.password && (
-							<Error className="error">{errors.password}</Error>
+							<Error className='error'>{errors.password}</Error>
 						)}
 					</InputGroup>
 					<RegisterButton
@@ -120,7 +124,7 @@ const Login = () => {
 				</Form>
 				<P>
 					Don't have an account? &nbsp;
-					<StyledLink to="/register">
+					<StyledLink to='/register'>
 						Register
 					</StyledLink>
 				</P>

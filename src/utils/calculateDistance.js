@@ -1,6 +1,4 @@
 export const calcDistance = (userLat, userLon, listingLat, listingLon) => {
-	// console.log('calcDistance called...', userLat, userLon, listingLat, listingLon);
-
 	// Check for invalid inputs
 	if (!userLat || !userLon || !listingLat || !listingLon) {
 		console.error('Invalid coordinates provided.')

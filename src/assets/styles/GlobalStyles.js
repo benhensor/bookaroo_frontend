@@ -66,7 +66,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   html {
-    user-select: none;
+    // user-select: none;
     font-size: 62.5%;
     height: -webkit-fill-available;
     scroll-behavior: smooth;
@@ -83,7 +83,6 @@ const GlobalStyles = createGlobalStyle`
     height: -webkit-fill-available;
     height: 100svh;
     margin: 0 auto;
-    overflow-x: hidden;
   }
 
   h1 {
@@ -107,8 +106,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   main {
-    position: fixed;
-    top: 5.8rem;
+    ${'' /* position: fixed;
+    top: 5.8rem; */}
     width: 100%;
   }
 
@@ -250,6 +249,10 @@ export const Input = styled.input`
 	&.error::placeholder {
 		color: var(--softRed);
 	}
+`
+
+export const Spacer = styled.div`
+  height: 8rem;
 `
 
 export default GlobalStyles

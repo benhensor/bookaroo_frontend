@@ -28,7 +28,7 @@ function App() {
 					<UserProvider>
 						<MessagesProvider>
 							<DashboardProvider>
-								<Router>
+								<Router basename='/bookaroo'>
 									<Header />
 									<main>
 										<Routes>

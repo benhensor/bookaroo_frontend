@@ -11,7 +11,7 @@ export const Container = styled.footer`
   align-items: center;
   position: fixed;
   bottom: 0;
-  left: 0
+  left: 0;
 `
 
 export const NavBar = styled.nav`

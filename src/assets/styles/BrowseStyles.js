@@ -1,35 +1,32 @@
 import styled from 'styled-components';
 
 export const BrowseContainer = styled.div`
-	height: calc(100svh - 15rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
 `
 
 export const BrowseHeader = styled.div`
-	position: absolute;
-	top: 0;
+	position: fixed;
+	background-color: var(--white);
+	top: 5.9rem;
 	left: 0;
 	padding: var(--lg) 0;
-	background-color: var(--white);
 	width: 100%;
 	z-index: 100;
 	box-shadow: ${(props) =>
 		props.$isScrolled ? '0 5px 15px rgba(0, 0, 0, 0.3)' : 'none'};
-	transition: var(--slow);
+	transition: var(--fast);
 	@media only screen and (max-width: 999px) {
-		padding: var(--sm) var(--md);
+		padding: 2.3rem var(--md);
 	}
 	@media only screen and (max-width: 450px) {
-		padding: var(--sm);
+		padding: 1.5rem var(--sm);
 	}
 `
 
 export const BrowseControls = styled.div`
 	max-width: 100rem;
 	margin: 0 auto;
-	h1 {
-		margin-top: 2px;
-	}
 `
 
 export const SearchBar = styled.div`
@@ -63,6 +60,7 @@ export const SearchInput = styled.input`
 	font-size: clamp(1.4rem, 2vw, 1.6rem);
 	border: none;
 	border-bottom: 3px solid var(--dkGreen);
+	background-color: transparent;
 	transition: var(--fast);
 	&:focus {
 		outline: none;
@@ -102,7 +100,7 @@ export const GalleryContainer = styled.div`
   flex-direction: column;
   justify-content: center;
 	@media only screen and (max-width: 999px) {
-		margin-top: 10rem;
+		margin-top: 13rem;
 	}
 	@media only screen and (max-width: 450px) {
 		margin-top: 8rem;

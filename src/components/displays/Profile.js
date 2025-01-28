@@ -3,17 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useUser } from '../../context/UserContext'
 import { useBooks } from '../../context/BooksContext'
-import { useMessages } from '../../context/MessagesContext'
 import { useDashboard } from '../../context/DashboardContext'
 import { useFormik } from 'formik'
 import { registerSchema } from '../../schemas/index'
 import { categories } from '../../utils/categories'
 import { useQueryClient } from 'react-query'
 import Genre from '../dashboard/Genre'
-import Message from '../message/Message'
 import Carousel from '../carousel/Carousel'
 import Arrow from '../../icons/Arrow'
 import Check from '../../icons/Check'
+import { Spacer } from '../../assets/styles/GlobalStyles'
 import {
 	Form,
 	InputGroup,
@@ -28,9 +27,6 @@ import {
 	ProfileMenuItemHeading,
 	ProfileMenuItemContent,
 	MenuContentPanel,
-	MessagingContainer,
-	DropdownHeader,
-	Feedback,
 	CarouselContainer,
 	SubmitButton,
 	SignoutButton,
@@ -46,14 +42,7 @@ export default function Profile() {
 		updateUserDetails,
 	} = useUser()
 	const { usersBooks, recommendations, loading } = useBooks()
-	const {
-		messages,
-		isMessagesLoading,
-		isError,
-		markAsRead,
-		refreshMessages,
-	} = useMessages()
-	const { activePage, handlePageChange } = useDashboard()
+	const { activePage } = useDashboard()
 	const queryClient = useQueryClient()
 
 	const [activeMenuItem, setActiveMenuItem] = useState([
@@ -64,9 +53,8 @@ export default function Profile() {
 	])
 
 	const [selectedPreferences, setSelectedPreferences] = useState([])
-	const [openMessage, setOpenMessage] = useState(null)
 
-	const { values, handleSubmit, handleBlur, handleChange, touched, errors, setValues } =
+	const { values, handleBlur, handleChange, touched, errors, setValues } =
 		useFormik({
 			initialValues: {
 				email: user?.email || '',
@@ -74,10 +62,31 @@ export default function Profile() {
 				postcode: user?.postcode || '',
 			},
 			validationSchema: registerSchema,
-			onSubmit: () => {
-				handleSaveUserDetails()
+			onSubmit: async (formValues) => {
+				console.log('Formik onSubmit never reaches here')
 			},
 		})
+
+	const handleFormSubmit = async (e) => {
+		e.preventDefault()
+
+		if (!user) {
+			console.log('No user found')
+			return
+		}
+
+		if (errors.email || errors.username || errors.postcode) {
+			console.log('Validation errors:', errors)
+			return
+		}
+
+		try {
+			await updateUserDetails(values)
+			toggleMenuItem(0)
+		} catch (error) {
+			console.error('Update failed:', error)
+		}
+	}
 
 	useEffect(() => {
 		const refreshUser = async () => {
@@ -91,13 +100,20 @@ export default function Profile() {
 
 	useEffect(() => {
 		if (user) {
-			refreshMessages()
-		}
-	}, [user, refreshMessages])
+			try {
+				// Ensure preferences is an array
+				let userPreferences = [];
+				if (user.preferences) {
+					userPreferences = Array.isArray(user.preferences)
+					? user.preferences
+					: JSON.parse(user.preferences)
+				}
+				setSelectedPreferences(Array.isArray(userPreferences) ? userPreferences : [])
+			} catch (error) {
+				console.error('Error setting user values:', error)
+				setSelectedPreferences([])
+			}
 
-	useEffect(() => {
-		if (user) {
-			setSelectedPreferences(user.preferences || [])
 			setValues({
 				username: user.username || '',
 				email: user.email || '',
@@ -119,63 +135,36 @@ export default function Profile() {
 		})
 	}
 
-	const handleSaveUserDetails = useCallback(() => {
-		if (!user) return
-
-		if (errors.email || errors.username || errors.postcode) {
-			console.log('Form has validation errors')
-			return
-		}
-
-		updateUserDetails(values)
-			.then(() => {
-				console.log('User details updated successfully')
-			})
-			.catch((error) => {
-				console.error('Error updating user details:', error)
-			})
-	}, [values, errors, user, updateUserDetails])
-
 	const handleGenreSelect = (genre) => {
 		setSelectedPreferences((prevPreferences) => {
-			if (prevPreferences.includes(genre)) {
-				return prevPreferences.filter((g) => g !== genre)
+			// Ensure prevPreferences is an array
+			const currentPreferences = Array.isArray(prevPreferences)
+				? prevPreferences
+				: []
+
+			if (currentPreferences.includes(genre)) {
+				return currentPreferences.filter((g) => g !== genre)
 			} else {
-				return [...prevPreferences, genre]
+				return [...currentPreferences, genre]
 			}
 		})
 	}
 
 	const handleSavePreferences = useCallback(() => {
-		if (!user) {
-			console.log('No user found') // Debugging log
-			return
-		}
+		if (!user) return
 
-		const currentPreferences = user.preferences || []
+		const currentPreferences = Array.isArray(user.preferences)
+			? user.preferences
+			: []
+		const newPreferences = Array.isArray(selectedPreferences)
+			? selectedPreferences
+			: []
 
-		const preferencesChanged =
-			JSON.stringify(selectedPreferences) !==
-			JSON.stringify(currentPreferences)
-
-		if (!preferencesChanged) {
-			return
-		}
-
-		updateUserPreferences(selectedPreferences)
-			// .then(() => {
-			// 	console.log('Preferences saved') // Debugging log
-			// })
-			// .catch((error) => {
-			// 	console.error('Error saving preferences:', error)
-			// })
-		toggleMenuItem(1)
-	}, [selectedPreferences, updateUserPreferences, user])
-
-	const toggleMessage = (messageId) => {
-		markAsRead(messageId)
-		setOpenMessage(openMessage === messageId ? null : messageId)
-	}
+			if (JSON.stringify(newPreferences.sort()) !== JSON.stringify(currentPreferences.sort())) {
+        updateUserPreferences(newPreferences);
+        toggleMenuItem(1);
+    }
+	}, [selectedPreferences, updateUserPreferences, user]);
 
 	const handleLogout = () => {
 		queryClient.removeQueries('messages')
@@ -195,63 +184,9 @@ export default function Profile() {
 		)
 	}
 
-	const renderMessages = () => {
-		if (isMessagesLoading) {
-			return (
-				<MessagingContainer>
-					<Feedback>Loading messages...</Feedback>
-				</MessagingContainer>
-			)
-		}
-
-		if (isError) {
-			return (
-				<MessagingContainer>
-					<Feedback>
-						Error loading messages. Please try again later.
-					</Feedback>
-				</MessagingContainer>
-			)
-		}
-
-		if (!messages || messages.length === 0) {
-			return (
-				<MessagingContainer>
-					<Feedback>No messages to display.</Feedback>
-				</MessagingContainer>
-			)
-		}
-
-		return (
-			<MessagingContainer>
-				<DropdownHeader>
-					<h2>Messages</h2>
-					<SubmitButton
-						onClick={() => handlePageChange('Messages')}
-					>
-						View All
-					</SubmitButton>
-				</DropdownHeader>
-				{messages?.map((message, i) => (
-					<div key={message.id}>
-						{i === 0 && <hr />}
-						<Message
-							message={message}
-							isOpen={openMessage === message.id}
-							onToggle={() => toggleMessage(message.id)}
-						/>
-						{messages.length > 1 ? <hr /> : ''}
-					</div>
-				))}
-			</MessagingContainer>
-		)
-	}
-
-	const unreadMessagesCount =
-		messages?.filter((message) => !message.isRead).length || 0
-
 	return (
 		<ProfileContainer>
+			<Spacer />
 			<ProfileHeader>
 				<h1>{activePage}</h1>
 				<h2>Welcome {user.username}!</h2>
@@ -269,10 +204,17 @@ export default function Profile() {
 				<ProfileMenuItemContent $isVisible={activeMenuItem[0]}>
 					<MenuContentPanel>
 						<Form
-							onSubmit={handleSubmit}
-							method='post'
-							autoComplete='off'
+							onSubmit={handleFormSubmit}
+							method="post"
 						>
+							<div style={{ display: 'none' }}>
+								Form state:{' '}
+								{JSON.stringify(
+									{ values, touched, errors },
+									null,
+									2
+								)}
+							</div>
 							<input
 								autoComplete="off"
 								name="hidden"
@@ -280,12 +222,20 @@ export default function Profile() {
 								style={{ display: 'none' }}
 							/>
 							<InputGroup>
-								<Label htmlFor="username">Username</Label>
+								<Label htmlFor="profileUsername" >Username</Label>
 								<Input
+									id='profileUsername'
 									type="text"
 									name="username"
 									value={values.username || ''}
-									onChange={handleChange}
+									autoComplete='false'
+									onChange={(e) => {
+										console.log(
+											'Username changed:',
+											e.target.value
+										)
+										handleChange(e)
+									}}
 									onBlur={handleBlur}
 									className={
 										touched.password
@@ -296,15 +246,21 @@ export default function Profile() {
 									}
 								/>
 								<CheckContainer>
-									<Check isActive={touched.username && !errors.username} />
+									<Check
+										isActive={
+											touched.username && !errors.username
+										}
+									/>
 								</CheckContainer>
 							</InputGroup>
 							<InputGroup>
-								<Label htmlFor="email">Email</Label>
+								<Label htmlFor="profileEmail">Email</Label>
 								<Input
+									id='profileEmail'
 									type="email"
 									name="email"
 									value={values.email || ''}
+									autoComplete='false'
 									onChange={handleChange}
 									onBlur={handleBlur}
 									className={
@@ -316,12 +272,17 @@ export default function Profile() {
 									}
 								/>
 								<CheckContainer>
-									<Check isActive={touched.email && !errors.email} />
+									<Check
+										isActive={
+											touched.email && !errors.email
+										}
+									/>
 								</CheckContainer>
 							</InputGroup>
 							<InputGroup>
-								<Label htmlFor="postcode">Location</Label>
+								<Label htmlFor="profilePostcode">Location</Label>
 								<Input
+									id='profilePostcode'
 									type="text"
 									name="postcode"
 									value={values.postcode || ''}
@@ -336,10 +297,21 @@ export default function Profile() {
 									}
 								/>
 								<CheckContainer>
-									<Check isActive={touched.postcode && !errors.postcode} />
+									<Check
+										isActive={
+											touched.postcode && !errors.postcode
+										}
+									/>
 								</CheckContainer>
 							</InputGroup>
-							<SubmitButton type="submit">Update details</SubmitButton>
+							<SubmitButton
+								type="submit"
+								onClick={(e) => {
+									console.log('Submit button clicked')
+								}}
+							>
+								Update details
+							</SubmitButton>
 						</Form>
 					</MenuContentPanel>
 				</ProfileMenuItemContent>
@@ -350,7 +322,7 @@ export default function Profile() {
 					onClick={() => toggleMenuItem(1)}
 					$isVisible={activeMenuItem[1]}
 				>
-					<h4>Reading Preferences</h4>
+					<h4>{activeMenuItem[1] ? 'Save Preferences' : 'Reading Preferences'}</h4>
 					<Arrow isActive={activeMenuItem[1]} />
 				</ProfileMenuItemHeading>
 				<ProfileMenuItemContent $isVisible={activeMenuItem[1]}>
@@ -363,42 +335,13 @@ export default function Profile() {
 								onSelect={handleGenreSelect}
 							/>
 						))}
-						<SubmitButton type='button' onClick={handleSavePreferences}>
+						<SubmitButton
+							type="button"
+							onClick={handleSavePreferences}
+						>
 							Save Preferences
 						</SubmitButton>
 					</MenuContentPanel>
-				</ProfileMenuItemContent>
-			</ProfileMenuItem>
-
-			<ProfileMenuItem $isVisible={activeMenuItem[2]}>
-				<ProfileMenuItemHeading
-					onClick={() => toggleMenuItem(2)}
-					$isVisible={activeMenuItem[2]}
-				>
-					<h4>
-						{isMessagesLoading ? (
-							'Loading messages...'
-						) : isError ? (
-							'Error loading messages'
-						) : (
-							<>
-								You have&nbsp;
-								{unreadMessagesCount === 0 ? (
-									'no'
-								) : (
-									<span>{unreadMessagesCount}</span>
-								)}
-								&nbsp;unread&nbsp;
-								{unreadMessagesCount === 1
-									? 'message'
-									: 'messages'}
-							</>
-						)}
-					</h4>
-					<Arrow isActive={activeMenuItem[2]} />
-				</ProfileMenuItemHeading>
-				<ProfileMenuItemContent $isVisible={activeMenuItem[2]}>
-					{renderMessages()}
 				</ProfileMenuItemContent>
 			</ProfileMenuItem>
 
@@ -424,11 +367,7 @@ export default function Profile() {
 					<Arrow isActive={activeMenuItem[4]} />
 				</ProfileMenuItemHeading>
 				<ProfileMenuItemContent $isVisible={activeMenuItem[4]}>
-					{renderCarousel(
-						likedBooks,
-						'',
-						likedBooksLoading
-					)}
+					{renderCarousel(likedBooks, '', likedBooksLoading)}
 				</ProfileMenuItemContent>
 			</ProfileMenuItem>
 
@@ -441,11 +380,7 @@ export default function Profile() {
 					<Arrow isActive={activeMenuItem[5]} />
 				</ProfileMenuItemHeading>
 				<ProfileMenuItemContent $isVisible={activeMenuItem[5]}>
-					{renderCarousel(
-						recommendations,
-						'',
-						loading
-					)}
+					{renderCarousel(recommendations, '', loading)}
 				</ProfileMenuItemContent>
 			</ProfileMenuItem>
 

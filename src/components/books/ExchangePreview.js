@@ -10,7 +10,7 @@ export default function Thumbnail({ book }) {
 		<div>
 			<BookContainer>
 				<BookCover>
-					<img src={book?.coverImg} alt={book?.title} />
+					<img src={book?.cover_img} alt={book?.title} />
 				</BookCover>
 				<BookDetails>
 					<h3>{book?.title}</h3>

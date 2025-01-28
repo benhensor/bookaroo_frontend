@@ -1,17 +1,17 @@
 import styled from 'styled-components'
 
 export const ListingsContainer = styled.div`
-	height: calc(100svh - 15rem);
+	height: calc(-6rem + 100svh);
 	overflow-y: auto;
 `
 
 export const ListingsHeader = styled.div`
 	padding: var(--lg) 0;
 	@media only screen and (max-width: 999px) {
-		padding: var(--sm) var(--md);
+		padding: var(--md) 0;
 	}
 	@media only screen and (max-width: 450px) {
-		padding: var(--sm);
+		padding: var(--sm) 0;
 	}
 `
 
