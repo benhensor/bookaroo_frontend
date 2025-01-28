@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useQueryClient } from 'react-query'
 import { useWindowWidth } from '../../utils/useWindowWidth'
-import Logo from '../../assets/images/bookaroo_logo.webp'
+import LogoIcon from '../../icons/LogoIcon'
 import MenuIcon from '../../icons/MenuIcon'
 import {
 	Head,
@@ -44,7 +44,7 @@ export default function Header() {
 			<Container>
 				<LogoContainer>
 					<LogoImage>
-						<img src={Logo} alt="Bookaroo" />
+						<LogoIcon />
 					</LogoImage>
 					<p>Bookaroo</p>
 				</LogoContainer>
