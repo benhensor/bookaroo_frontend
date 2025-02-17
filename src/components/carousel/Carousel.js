@@ -32,12 +32,12 @@ export default function Carousel({ books = [], title }) {
 	}
 
 	// At the start of your Carousel component
-	console.log('Carousel props:', {
-		books,
-		title,
-		booksType: typeof books,
-		isArray: Array.isArray(books)
-	});
+	// console.log('Carousel props:', {
+	// 	books,
+	// 	title,
+	// 	booksType: typeof books,
+	// 	isArray: Array.isArray(books)
+	// });
 
 	const booksPerPage = getbooksPerPage()
 

@@ -29,10 +29,6 @@ export default function BookDetail({ book }) {
 	const [bookDescription, setBookDescription] = useState(null)
 
 	useEffect(() => {
-		console.log('BookDetail mounted', book)
-	}, [book])
-
-	useEffect(() => {
 		const fetchBookOwner = async () => {
 			try {
 				const owner = await getUserById(book.user_id)

@@ -62,21 +62,18 @@ export default function Profile() {
 				postcode: user?.postcode || '',
 			},
 			validationSchema: registerSchema,
-			onSubmit: async (formValues) => {
-				console.log('Formik onSubmit never reaches here')
-			},
 		})
 
 	const handleFormSubmit = async (e) => {
 		e.preventDefault()
 
 		if (!user) {
-			console.log('No user found')
+			// console.log('No user found')
 			return
 		}
 
 		if (errors.email || errors.username || errors.postcode) {
-			console.log('Validation errors:', errors)
+			// console.log('Validation errors:', errors)
 			return
 		}
 
@@ -230,10 +227,6 @@ export default function Profile() {
 									value={values.username || ''}
 									autoComplete='false'
 									onChange={(e) => {
-										console.log(
-											'Username changed:',
-											e.target.value
-										)
 										handleChange(e)
 									}}
 									onBlur={handleBlur}
@@ -306,9 +299,6 @@ export default function Profile() {
 							</InputGroup>
 							<SubmitButton
 								type="submit"
-								onClick={(e) => {
-									console.log('Submit button clicked')
-								}}
 							>
 								Update details
 							</SubmitButton>
